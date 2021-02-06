@@ -17,5 +17,6 @@ public class Rage {
     public void apply(Knight knight) {
         knight.strength = knight.strength * 2;
         knight.hp = knight.hp - 15;
+        knight.mana = knight.mana - spendsMana;
     }
 }

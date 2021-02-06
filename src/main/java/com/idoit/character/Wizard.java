@@ -6,15 +6,18 @@ import com.idoit.item.armor.Cuirass;
 import com.idoit.item.armor.Gloves;
 import com.idoit.item.armor.Helmet;
 import com.idoit.item.armor.Shield;
-import com.idoit.item.bijouterie.belt.StrengthBelt;
-import com.idoit.item.bijouterie.necklace.StrengthNecklace;
-import com.idoit.item.bijouterie.ring.StrengthRing;
+import com.idoit.item.bijouterie.belt.IntelligenceBelt;
+import com.idoit.item.bijouterie.necklace.IntelligenceNecklace;
+import com.idoit.item.bijouterie.ring.IntelligenceRing;
 import com.idoit.item.weapon.Staff;
+import com.idoit.quest.Quest;
+import com.idoit.skill.Heal;
 
 public class Wizard {
     public String name;
     public int hp = 100;
     public int mana = 100;
+    public int stamina = 100;
     public int intelligence = 7;
     public int strength;
     public int agility;
@@ -27,11 +30,13 @@ public class Wizard {
     public Gloves gloves;
     public Boots boots;
     public Shield shield;
-    public StrengthRing leftRing;
-    public StrengthRing rightRing;
-    public StrengthBelt belt;
-    public StrengthNecklace necklace;
+    public IntelligenceRing leftRing;
+    public IntelligenceRing rightRing;
+    public IntelligenceBelt belt;
+    public IntelligenceNecklace necklace;
     public Point point = new Point(0, 0);
+    public Quest activeQuest;
+    public Heal skill;
 
     public Wizard(String n) {
         name = n;
@@ -40,7 +45,12 @@ public class Wizard {
     public void hit(Knight enemy) {
         enemy.hp = enemy.hp - 10;
         staff.durability = staff.durability - 1;
+        stamina = stamina - 10;
         System.out.println(name + " нанес 10 урона " + enemy.name + ". Теперь у " + enemy.name + " " + enemy.hp + " хп.");
+    }
+
+    public void castSkill(Knight knight) {
+        skill.apply(this, knight);
     }
 
     public void go(int x, int y) {
@@ -71,19 +81,27 @@ public class Wizard {
         this.shield = shield;
     }
 
-    public void setLeftRing(StrengthRing leftRing) {
+    public void setLeftRing(IntelligenceRing leftRing) {
         this.leftRing = leftRing;
     }
 
-    public void setRightRing(StrengthRing rightRing) {
+    public void setRightRing(IntelligenceRing rightRing) {
         this.rightRing = rightRing;
     }
 
-    public void setBelt(StrengthBelt belt) {
+    public void setBelt(IntelligenceBelt belt) {
         this.belt = belt;
     }
 
-    public void setNecklace(StrengthNecklace necklace) {
+    public void setNecklace(IntelligenceNecklace necklace) {
         this.necklace = necklace;
+    }
+
+    public void setActiveQuest(Quest activeQuest) {
+        this.activeQuest = activeQuest;
+    }
+
+    public void setSkill(Heal skill) {
+        this.skill = skill;
     }
 }

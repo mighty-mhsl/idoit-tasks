@@ -17,5 +17,6 @@ public class AccurateShot {
 
     public void apply(Archer archer, Knight knight) {
         knight.hp = knight.hp - archer.bow.damage * 2;
+        archer.mana = archer.mana - spendsMana;
     }
 }

@@ -1,4 +1,4 @@
-package com.idoit.character.npc;
+package com.idoit.character.npc.seller;
 
 import com.idoit.item.weapon.Bow;
 
