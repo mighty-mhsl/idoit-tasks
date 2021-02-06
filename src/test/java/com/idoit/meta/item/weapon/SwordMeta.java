@@ -1,25 +1,40 @@
 package com.idoit.meta.item.weapon;
 
-import com.idoit.meta.Meta;
 import com.idoit.meta.item.stone.DamageStoneMeta;
 
 public class SwordMeta extends WeaponMeta {
-    public SwordMeta() throws ClassNotFoundException {
-        className = "Sword";
-        initFields();
-        initSetters();
-        initGetters();
+
+    private SwordLook look;
+
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return SwordLook.class;
     }
 
-    private void initFields() throws ClassNotFoundException {
-        fields.put("stone", Meta.getClassFromMeta(new DamageStoneMeta()));
+    @Override
+    public SwordLook getLook() {
+        if (look == null) {
+            look = new SwordLook("test", 1);
+        }
+        return look;
     }
 
-    private void initSetters() throws ClassNotFoundException {
-        addMethod(void.class, "setStone", Meta.getClassFromMeta(new DamageStoneMeta()));
-    }
+    public class SwordLook extends WeaponLook {
 
-    private void initGetters() throws ClassNotFoundException {
-        addMethod(Meta.getClassFromMeta(new DamageStoneMeta()), "getStone");
+        private DamageStoneMeta stone;
+
+        SwordLook(String n, int d) {
+            super(n, d);
+        }
+
+        public DamageStoneMeta getStone() {
+            Object originalStone = invokeOriginal();
+            return (DamageStoneMeta) getMetaFromOriginal(stone, originalStone);
+        }
+
+        public void setStone(DamageStoneMeta stone) {
+            invokeOriginal(stone);
+            this.stone = stone;
+        }
     }
 }

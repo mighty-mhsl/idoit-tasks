@@ -9,38 +9,88 @@ import com.idoit.meta.item.armor.ShieldMeta;
 import com.idoit.meta.item.common.BagMeta;
 
 public class InventoryMeta extends Meta {
-    public InventoryMeta() throws ClassNotFoundException {
-        packageName = BASE_PACKAGE + ".profile";
-        className = "Inventory";
-        initFields();
-        initSetters();
-        initGetters();
+
+    private InventoryLook look;
+
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return InventoryLook.class;
     }
 
-    private void initFields() throws ClassNotFoundException {
-        fields.put("helmet", new HelmetMeta().getClassFromMeta());
-        fields.put("cuirass", new CuirassMeta().getClassFromMeta());
-        fields.put("gloves", new GlovesMeta().getClassFromMeta());
-        fields.put("boots", new BootsMeta().getClassFromMeta());
-        fields.put("shield", new ShieldMeta().getClassFromMeta());
-        fields.put("bag", new BagMeta().getClassFromMeta());
+    @Override
+    public InventoryLook getLook() {
+        if (look == null) {
+            look = new InventoryLook();
+        }
+        return look;
     }
 
-    private void initSetters() throws ClassNotFoundException {
-        addMethod(void.class, "setHelmet", new HelmetMeta().getClassFromMeta());
-        addMethod(void.class, "setCuirass", new CuirassMeta().getClassFromMeta());
-        addMethod(void.class, "setGloves", new GlovesMeta().getClassFromMeta());
-        addMethod(void.class, "setBoots", new BootsMeta().getClassFromMeta());
-        addMethod(void.class, "setShield", new ShieldMeta().getClassFromMeta());
-        addMethod(void.class, "setBag", new BagMeta().getClassFromMeta());
-    }
+    public class InventoryLook extends Look {
+        private HelmetMeta helmet;
+        private CuirassMeta cuirass;
+        private GlovesMeta gloves;
+        private BootsMeta boots;
+        private ShieldMeta shield;
+        private BagMeta bag;
 
-    private void initGetters() throws ClassNotFoundException {
-        addMethod(new HelmetMeta().getClassFromMeta(), "getHelmet");
-        addMethod(new CuirassMeta().getClassFromMeta(), "getCuirass");
-        addMethod(new GlovesMeta().getClassFromMeta(), "getGloves");
-        addMethod(new BootsMeta().getClassFromMeta(), "getBoots");
-        addMethod(new ShieldMeta().getClassFromMeta(), "getShield");
-        addMethod(new BagMeta().getClassFromMeta(), "getBag");
+        public HelmetMeta getHelmet() {
+            Object originalHelmet = invokeOriginal();
+            return (HelmetMeta) getMetaFromOriginal(helmet, originalHelmet);
+        }
+
+        public void setHelmet(HelmetMeta helmet) {
+            invokeOriginal(helmet);
+            this.helmet = helmet;
+        }
+
+        public CuirassMeta getCuirass() {
+            Object originalCuirass = invokeOriginal();
+            return (CuirassMeta) getMetaFromOriginal(cuirass, originalCuirass);
+        }
+
+        public void setCuirass(CuirassMeta cuirass) {
+            invokeOriginal(cuirass);
+            this.cuirass = cuirass;
+        }
+
+        public GlovesMeta getGloves() {
+            Object originalGloves = invokeOriginal();
+            return (GlovesMeta) getMetaFromOriginal(gloves, originalGloves);
+        }
+
+        public void setGloves(GlovesMeta gloves) {
+            invokeOriginal(gloves);
+            this.gloves = gloves;
+        }
+
+        public BootsMeta getBoots() {
+            Object originalBoots = invokeOriginal();
+            return (BootsMeta) getMetaFromOriginal(boots, originalBoots);
+        }
+
+        public void setBoots(BootsMeta boots) {
+            invokeOriginal(boots);
+            this.boots = boots;
+        }
+
+        public ShieldMeta getShield() {
+            Object originalShield = invokeOriginal();
+            return (ShieldMeta) getMetaFromOriginal(shield, originalShield);
+        }
+
+        public void setShield(ShieldMeta shield) {
+            invokeOriginal(shield);
+            this.shield = shield;
+        }
+
+        public BagMeta getBag() {
+            Object originalBag = invokeOriginal();
+            return (BagMeta) getMetaFromOriginal(bag, originalBag);
+        }
+
+        public void setBag(BagMeta bag) {
+            invokeOriginal(bag);
+            this.bag = bag;
+        }
     }
 }

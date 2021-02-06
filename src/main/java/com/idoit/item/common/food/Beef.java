@@ -11,4 +11,12 @@ public class Beef {
     public int getPointsToRecover() {
         return pointsToRecover;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPointsToRecover(int pointsToRecover) {
+        this.pointsToRecover = pointsToRecover;
+    }
 }

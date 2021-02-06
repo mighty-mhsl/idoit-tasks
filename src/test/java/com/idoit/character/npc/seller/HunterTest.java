@@ -1,17 +1,25 @@
 package com.idoit.character.npc.seller;
 
+import com.idoit.AbstractTest;
+import com.idoit.meta.MetaContext;
 import com.idoit.meta.character.npc.seller.HunterMeta;
 import com.idoit.meta.item.weapon.BowMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @DisplayName("Тесты логики в классе Hunter")
-class HunterTest extends SellerTest {
+class HunterTest extends AbstractTest {
+
+    private HunterMeta.HunterLook seller;
 
     @BeforeEach
 	void setUp() {
         setMeta(HunterMeta.class);
+        HunterMeta meta = (HunterMeta) getMeta();
+        seller = meta.getLook();
     }
 
     @DisplayName("Тест, что класс Hunter находится в пакете com.idoit.character.npc.seller")
@@ -41,7 +49,15 @@ class HunterTest extends SellerTest {
 
     @DisplayName("Тест, что метод fix в классе Hunter восстанавливает прочность луков до 100")
     @Test
-    void testFixIncreasesSwordDurability() {
-        testFix(BowMeta.class, (bowMeta) -> bowMeta.instantiateObjectWithConstructor("bow", 10));
+    void testFixIncreasesBowDurability() {
+        int expectedDurability = 100;
+        BowMeta weapon = (BowMeta) MetaContext.getMeta(BowMeta.class);
+        weapon.getLook().setDurability(99);
+
+        seller.fix(weapon);
+
+        int actualDurability = weapon.getLook().getDurability();
+        String message = getFieldValueAssert(weapon.getClassName(), "fix", "durability", expectedDurability, actualDurability);
+        assertEquals(expectedDurability, actualDurability, message);
     }
 }

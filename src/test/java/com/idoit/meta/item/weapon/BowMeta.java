@@ -1,25 +1,38 @@
 package com.idoit.meta.item.weapon;
 
-import com.idoit.meta.Meta;
 import com.idoit.meta.item.stone.CriticalHitStoneMeta;
 
 public class BowMeta extends WeaponMeta {
-    public BowMeta() throws ClassNotFoundException {
-        className = "Bow";
-        initFields();
-        initSetters();
-        initGetters();
+
+    private BowLook look;
+
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return BowLook.class;
     }
 
-    private void initFields() throws ClassNotFoundException {
-        fields.put("stone", Meta.getClassFromMeta(new CriticalHitStoneMeta()));
+    @Override
+    public BowLook getLook() {
+        if (look == null) {
+            look = new BowLook("test", 1);
+        }
+        return look;
     }
 
-    private void initSetters() throws ClassNotFoundException {
-        addMethod(void.class, "setStone", Meta.getClassFromMeta(new CriticalHitStoneMeta()));
-    }
+    public class BowLook extends WeaponLook {
 
-    private void initGetters() throws ClassNotFoundException {
-        addMethod(Meta.getClassFromMeta(new CriticalHitStoneMeta()), "getStone");
+        private CriticalHitStoneMeta stone;
+
+        BowLook(String n, int d) {
+            super(n, d);
+        }
+
+        public CriticalHitStoneMeta getStone() {
+            return stone;
+        }
+
+        public void setStone(CriticalHitStoneMeta stone) {
+            this.stone = stone;
+        }
     }
 }

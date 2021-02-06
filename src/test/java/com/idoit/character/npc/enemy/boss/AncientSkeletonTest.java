@@ -1,19 +1,28 @@
 package com.idoit.character.npc.enemy.boss;
 
+import com.idoit.character.AbstractCharacterTest;
 import com.idoit.meta.MetaContext;
 import com.idoit.meta.battlefield.PointMeta;
+import com.idoit.meta.character.KnightMeta;
 import com.idoit.meta.character.npc.enemy.boss.AncientSkeletonMeta;
-import com.idoit.safe.Safer;
+import com.idoit.meta.character.npc.enemy.boss.BossMeta;
+import com.idoit.meta.profile.ProfileMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @DisplayName("Тесты логики в классе AncientSkeleton")
-class AncientSkeletonTest extends BossTest {
+class AncientSkeletonTest extends AbstractCharacterTest {
+
+    private BossMeta.BossLook boss;
     
     @BeforeEach
     void setUp() {
         setMeta(AncientSkeletonMeta.class);
+        AncientSkeletonMeta meta = (AncientSkeletonMeta) getMeta();
+        boss = meta.getLook();
     }
 
     @DisplayName("Тест, что класс AncientSkeleton находится в пакете com.idoit.character.npc.enemy.boss")
@@ -44,90 +53,144 @@ class AncientSkeletonTest extends BossTest {
     @DisplayName("Тест, что метод setName в классе AncientSkeleton сохраняет переданное имя в поле класса")
     @Test
     void testSetNameSavesNameToField() {
-        testSetter("test", "setName", "name", CONSTRUCTOR_PARAMS);
+        String expectedValue = "test";
+        boss.setName(expectedValue);
+        String message = getSetterAssertMessage("setName", "name", getMeta().getClassName());
+        assertEquals(expectedValue, boss.getName(), message);
     }
 
     @DisplayName("Тест, что метод setLevel в классе AncientSkeleton сохраняет переданный уровень в поле класса")
     @Test
     void testSetLevelSavesLevelToField() {
-        testSetter(3, "setLevel", "level", CONSTRUCTOR_PARAMS);
+        int expectedValue = 2;
+        boss.setLevel(expectedValue);
+        String message = getSetterAssertMessage("setLevel", "level", getMeta().getClassName());
+        assertEquals(expectedValue, boss.getLevel(), message);
     }
 
     @DisplayName("Тест, что метод setDamage в классе AncientSkeleton сохраняет переданный урон в поле класса")
     @Test
     void testSetDamageSavesDamageToField() {
-        testSetter(5, "setDamage", "damage", CONSTRUCTOR_PARAMS);
+        int expectedValue = 3;
+        boss.setDamage(expectedValue);
+        String message = getSetterAssertMessage("setDamage", "name", getMeta().getClassName());
+        assertEquals(expectedValue, boss.getDamage(), message);
     }
 
     @DisplayName("Тест, что метод setExpReward в классе AncientSkeleton сохраняет переданную награду в опыте в поле класса")
     @Test
     void testSetExpRewardSavesExpRewardToField() {
-        testSetter(1, "setExpReward", "expReward", CONSTRUCTOR_PARAMS);
+        int expectedValue = 3;
+        boss.setExpReward(expectedValue);
+        String message = getSetterAssertMessage("setExpReward", "name", getMeta().getClassName());
+        assertEquals(expectedValue, boss.getExpReward(), message);
     }
 
     @DisplayName("Тест, что метод setGoldReward в классе AncientSkeleton сохраняет переданную награду в золоте в поле класса")
     @Test
     void testSetGoldRewardSavesGoldRewardToField() {
-        testSetter(1, "setGoldReward", "goldReward", CONSTRUCTOR_PARAMS);
+        int expectedValue = 3;
+        boss.setGoldReward(expectedValue);
+        String message = getSetterAssertMessage("setGoldReward", "name", getMeta().getClassName());
+        assertEquals(expectedValue, boss.getGoldReward(), message);
     }
 
     @DisplayName("Тест, что метод setPoint в классе AncientSkeleton сохраняет переданную точку в поле класса")
     @Test
     void testSetPointSavesPointToField() {
-        Safer.runSafe(() -> {
-            Object point = MetaContext.getMeta(PointMeta.class).instantiateObjectWithConstructor(1, 2);
-            testSetter(point, "setPoint", "point", CONSTRUCTOR_PARAMS);
-        });
+        PointMeta expectedValue = (PointMeta) MetaContext.getMeta(PointMeta.class);
+        boss.setPoint(expectedValue);
+        String message = getSetterAssertMessage("setPoint", "name", getMeta().getClassName());
+        assertEquals(expectedValue, boss.getPoint(), message);
     }
 
     @DisplayName("Тест, что метод getName в классе AncientSkeleton возвращает имя босса")
     @Test
     void testGetName() {
-        testGetter("getName", "setName", "test", CONSTRUCTOR_PARAMS);
+        String expectedValue = "test";
+        boss.setName(expectedValue);
+        String actualValue = boss.getName();
+        String message = getMethodReturnResultAssertMessage("getName", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 
     @DisplayName("Тест, что метод getLevel в классе AncientSkeleton возвращает уровень босса")
     @Test
     void testGetLevel() {
-        testGetter("getLevel", "setLevel", 5, CONSTRUCTOR_PARAMS);
+        int expectedValue = 2;
+        boss.setLevel(expectedValue);
+        int actualValue = boss.getLevel();
+        String message = getMethodReturnResultAssertMessage("getLevel", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 
     @DisplayName("Тест, что метод getDamage в классе AncientSkeleton возвращает урон босса")
     @Test
     void testGetDamage() {
-        testGetter("getDamage", "setDamage", 5, CONSTRUCTOR_PARAMS);
+        int expectedValue = 2;
+        boss.setDamage(expectedValue);
+        int actualValue = boss.getDamage();
+        String message = getMethodReturnResultAssertMessage("getDamage", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 
     @DisplayName("Тест, что метод getExpReward в классе AncientSkeleton возвращает имя босса")
     @Test
     void testGetExpReward() {
-        testGetter("getExpReward", "setExpReward", 1, CONSTRUCTOR_PARAMS);
+        int expectedValue = 2;
+        boss.setExpReward(expectedValue);
+        int actualValue = boss.getExpReward();
+        String message = getMethodReturnResultAssertMessage("getExpReward", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 
     @DisplayName("Тест, что метод getGoldReward в классе AncientSkeleton возвращает имя босса")
     @Test
     void testGetGoldReward() {
-        testGetter("getGoldReward", "setGoldReward", 1, CONSTRUCTOR_PARAMS);
+        int expectedValue = 2;
+        boss.setGoldReward(expectedValue);
+        int actualValue = boss.getGoldReward();
+        String message = getMethodReturnResultAssertMessage("getGoldReward", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 
     @DisplayName("Тест, что метод getPoint в классе AncientSkeleton возвращает имя босса")
     @Test
     void testGetPoint() {
-        Safer.runSafe(() -> {
-            Object point = MetaContext.getMeta(PointMeta.class).instantiateObjectWithConstructor(1, 2);
-            testGetter("getPoint", "setPoint", point, CONSTRUCTOR_PARAMS);
-        });
+        PointMeta expectedValue = (PointMeta) MetaContext.getMeta(PointMeta.class);
+        boss.setPoint(expectedValue);
+        PointMeta actualValue = boss.getPoint();
+        String message = getMethodReturnResultAssertMessage("getPoint", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 
     @DisplayName("Тест, что метод hit в классе AncientSkeleton наносит урон переданному рыцарю")
     @Test
     void testHitDamagesKnight() {
-        testHit();
+        int expectedHp = 99;
+        KnightMeta knight = (KnightMeta) MetaContext.getMeta(KnightMeta.class);
+        ProfileMeta profile = (ProfileMeta) MetaContext.getMeta(ProfileMeta.class);
+        profile.getLook().setHp(100);
+        knight.getLook().setProfile(profile);
+
+        boss.hit(knight);
+
+        int actualHp = profile.getLook().getHp();
+        String message = getFieldValueAssert(knight.getClassName(), "hit", "hp", expectedHp, actualHp);
+        assertEquals(expectedHp, actualHp, message);
     }
 
     @DisplayName("Тест, что метод go в классе AncientSkeleton перемещает босса в точку с переданными координатами")
     @Test
     void testGoMovesBoss() {
-        testGo();
+        int expectedX = 5;
+        int expectedY = 6;
+
+        boss.go(expectedX, expectedY);
+
+        int actualX = boss.getPoint().getLook().getX();
+        int actualY = boss.getPoint().getLook().getY();
+        assertEquals(expectedX, actualX, getGoAssertMessage("x", expectedX, actualX));
+        assertEquals(expectedY, actualY, getGoAssertMessage("y", expectedY, actualY));
     }
 }

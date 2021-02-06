@@ -1,44 +1,122 @@
 package com.idoit.meta.character;
 
-import com.idoit.meta.Meta;
 import com.idoit.meta.item.bijouterie.belt.AgilityBeltMeta;
 import com.idoit.meta.item.bijouterie.necklace.AgilityNecklaceMeta;
 import com.idoit.meta.item.bijouterie.ring.AgilityRingMeta;
 import com.idoit.meta.item.weapon.BowMeta;
+import com.idoit.meta.skill.AccurateShotMeta;
 
 public class ArcherMeta extends CharacterMeta {
-    public ArcherMeta() throws ClassNotFoundException {
-        className = "Archer";
-        initFields();
-        initSetters();
-        initGetters();
-        addMethod(void.class, "castSkill", Class.forName(packageName + ".Knight")); //can't pass character meta to itself :(
+
+    private ArcherLook look;
+
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return ArcherLook.class;
     }
 
-    private void initFields() throws ClassNotFoundException {
-        fields.put("bow", Meta.getClassFromMeta(new BowMeta()));
-        fields.put("leftRing", Meta.getClassFromMeta(new AgilityRingMeta()));
-        fields.put("rightRing", Meta.getClassFromMeta(new AgilityRingMeta()));
-        fields.put("belt", Meta.getClassFromMeta(new AgilityBeltMeta()));
-        fields.put("necklace", Meta.getClassFromMeta(new AgilityNecklaceMeta()));
-        fields.put("skill", Class.forName("com.idoit.skill.AccurateShot")); // circular dependency :(
+    @Override
+    public ArcherLook getLook() {
+        if (look == null) {
+            look = new ArcherLook("test");
+        }
+        return look;
     }
 
-    private void initSetters() throws ClassNotFoundException {
-        addMethod(void.class, "setBow", Meta.getClassFromMeta(new BowMeta()));
-        addMethod(void.class, "setLeftRing", Meta.getClassFromMeta(new AgilityRingMeta()));
-        addMethod(void.class, "setRightRing", Meta.getClassFromMeta(new AgilityRingMeta()));
-        addMethod(void.class, "setBelt", Meta.getClassFromMeta(new AgilityBeltMeta()));
-        addMethod(void.class, "setNecklace", Meta.getClassFromMeta(new AgilityNecklaceMeta()));
-        addMethod(void.class, "setSkill", Class.forName("com.idoit.skill.AccurateShot")); //circular dependency :(
-    }
+    public class ArcherLook extends CharacterLook {
+        private BowMeta bow;
+        private AgilityRingMeta leftRing;
+        private AgilityRingMeta rightRing;
+        private AgilityBeltMeta belt;
+        private AgilityNecklaceMeta necklace;
+        private AccurateShotMeta skill;
 
-    private void initGetters() throws ClassNotFoundException {
-        addMethod(Meta.getClassFromMeta(new BowMeta()), "getBow");
-        addMethod(Meta.getClassFromMeta(new AgilityRingMeta()), "getLeftRing");
-        addMethod(Meta.getClassFromMeta(new AgilityRingMeta()), "getRightRing");
-        addMethod(Meta.getClassFromMeta(new AgilityBeltMeta()), "getBelt");
-        addMethod(Meta.getClassFromMeta(new AgilityNecklaceMeta()), "getNecklace");
-        addMethod(Class.forName("com.idoit.skill.AccurateShot"), "getSkill"); //circular dependency :(
+        ArcherLook(String name) {
+            super(name);
+        }
+
+        public void castSkill(KnightMeta knight) {
+            skill.getLook().apply(ArcherMeta.this, knight);
+        }
+
+        public BowMeta getBow() {
+            Object originalBow = invokeOriginal();
+            return (BowMeta) getMetaFromOriginal(bow, originalBow);
+        }
+
+        public void setBow(BowMeta bow) {
+            invokeOriginal(bow);
+            this.bow = bow;
+        }
+
+        public AgilityRingMeta getLeftRing() {
+            Object originalRing = invokeOriginal();
+            return (AgilityRingMeta) getMetaFromOriginal(leftRing, originalRing);
+        }
+
+        public void setLeftRing(AgilityRingMeta leftRing) {
+            invokeOriginal(leftRing);
+            this.leftRing = leftRing;
+        }
+
+        public AgilityRingMeta getRightRing() {
+            Object originalRing = invokeOriginal();
+            return (AgilityRingMeta) getMetaFromOriginal(rightRing, originalRing);
+        }
+
+        public void setRightRing(AgilityRingMeta rightRing) {
+            invokeOriginal(rightRing);
+            this.rightRing = rightRing;
+        }
+
+        public AgilityBeltMeta getBelt() {
+            Object originalBelt = invokeOriginal();
+            return (AgilityBeltMeta) getMetaFromOriginal(belt, originalBelt);
+        }
+
+        public void setBelt(AgilityBeltMeta belt) {
+            invokeOriginal(belt);
+            this.belt = belt;
+        }
+
+        public AgilityNecklaceMeta getNecklace() {
+            Object originalNecklace = invokeOriginal();
+            return (AgilityNecklaceMeta) getMetaFromOriginal(necklace, originalNecklace);
+        }
+
+        public void setNecklace(AgilityNecklaceMeta necklace) {
+            invokeOriginal(necklace);
+            this.necklace = necklace;
+        }
+
+        public AccurateShotMeta getSkill() {
+            Object originalSkill = invokeOriginal();
+            return (AccurateShotMeta) getMetaFromOriginal(skill, originalSkill);
+        }
+
+        public void setSkill(AccurateShotMeta skill) {
+            invokeOriginal(skill);
+            this.skill = skill;
+        }
+
+        public void takeOffLeftRing() {
+            invokeOriginal();
+            leftRing = null;
+        }
+
+        public void takeOffRightRing() {
+            invokeOriginal();
+            rightRing = null;
+        }
+
+        public void takeOffBelt() {
+            invokeOriginal();
+            belt = null;
+        }
+
+        public void takeOffNecklace() {
+            invokeOriginal();
+            necklace = null;
+        }
     }
 }

@@ -1,16 +1,23 @@
 package com.idoit.item.armor;
 
+import com.idoit.AbstractTest;
 import com.idoit.meta.item.armor.BootsMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @DisplayName("Тесты логики в классе Boots")
-class BootsTest extends ArmorTest {
+class BootsTest extends AbstractTest {
+
+    private BootsMeta.ArmorLook boots;
 
     @BeforeEach
 	void setUp() {
         setMeta(BootsMeta.class);
+        BootsMeta meta = (BootsMeta) getMeta();
+        boots = meta.getLook();
     }
 
     @DisplayName("Тест, что класс Boots находится в пакете com.idoit.item.armor")
@@ -41,6 +48,9 @@ class BootsTest extends ArmorTest {
     @DisplayName("Тест, что метод setDurability в классе Boots сохраняет переданный durability в поле класса")
     @Test
     void testSetDurabilitySavesDurabilityToField() {
-        testSetDurability();
+        int expectedValue = 5;
+        boots.setDurability(expectedValue);
+        String message = getSetterAssertMessage("setDurability", "durability", getMeta().getClassName());
+        assertEquals(expectedValue, boots.getDurability(), message);
     }
 }

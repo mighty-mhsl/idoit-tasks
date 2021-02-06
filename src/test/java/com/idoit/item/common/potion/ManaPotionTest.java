@@ -6,12 +6,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @DisplayName("Тесты логики в классе ManaPotion")
 class ManaPotionTest extends AbstractTest {
+
+    private ManaPotionMeta.PotionLook potion;
 
     @BeforeEach
 	void setUp() {
         setMeta(ManaPotionMeta.class);
+        ManaPotionMeta meta = (ManaPotionMeta) getMeta();
+        potion = meta.getLook();
     }
 
     @DisplayName("Тест, что класс ManaPotion находится в пакете com.idoit.item.common.potion")
@@ -42,12 +48,18 @@ class ManaPotionTest extends AbstractTest {
     @DisplayName("Тест, что метод getName в классе ManaPotion возвращает название зелья")
     @Test
     void testGetName() {
-        testGetter("getName", "setName", "test", "test", 10);
+        String expectedValue = "test";
+        String actualValue = potion.getName();
+        String message = getMethodReturnResultAssertMessage("getName", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 
-    @DisplayName("Тест, что метод getPointsToRecover в классе ManaPotion возвращает название зелья")
+    @DisplayName("Тест, что метод getPointsToRecover в классе ManaPotion возвращает очки восстановления зелья")
     @Test
     void testGetPointsToRecover() {
-        testGetter("getPointsToRecover", "setPointsToRecover", 10, "test", 10);
+        int expectedValue = 1;
+        int actualValue = potion.getPointsToRecover();
+        String message = getMethodReturnResultAssertMessage("getPointsToRecover", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 }

@@ -5,28 +5,60 @@ import com.idoit.meta.Meta;
 import java.util.Arrays;
 
 public class PointMeta extends Meta {
+
     public PointMeta() {
-        packageName = BASE_PACKAGE + ".battlefield";
-        className = "Point";
-        initFields();
-        addConstructorWithFieldsParams(Arrays.asList("x", "y"));
-        initSetters();
-        initGetters();
+        defaultConstructorParams = new Object[] {1, 2};
     }
 
-    private void initFields() {
-        fields.put("x", int.class);
-        fields.put("y", int.class);
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return PointLook.class;
     }
 
-    private void initSetters() {
-        addMethod(void.class, "setX", int.class);
-        addMethod(void.class, "setY", int.class);
-        addMethod(void.class, "setXY", int.class, int.class);
+    @Override
+    public PointLook getLook() {
+        return new PointLook(1, 2);
     }
 
-    private void initGetters() {
-        addMethod(int.class, "getX");
-        addMethod(int.class, "getY");
+    @Override
+    protected void initConstructors() {
+        /*Arrays.stream(PointLook.class.getConstructors())
+                .forEach(constructor -> {
+                    Map<String, Class<?>> params = new HashMap<>();
+                    Arrays.asList(constructor.getParameters())
+                            .forEach(parameter -> params.put(parameter.getName(), parameter.getType()));
+                    addConstructorWithParams(params);
+                });*/
+        addConstructorForFields(Arrays.asList("x", "y"));
+    }
+
+    public class PointLook extends Look {
+        private int x;
+        private int y;
+
+        PointLook(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return (int) invokeOriginal();
+        }
+
+        public void setX(int x) {
+            invokeOriginal(x);
+        }
+
+        public int getY() {
+            return (int) invokeOriginal();
+        }
+
+        public void setY(int y) {
+            invokeOriginal(y);
+        }
+
+        public void setXY(int x, int y) {
+            invokeOriginal(x, y);
+        }
     }
 }

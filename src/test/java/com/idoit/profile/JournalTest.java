@@ -1,21 +1,25 @@
 package com.idoit.profile;
 
 import com.idoit.AbstractTest;
-import com.idoit.meta.MetaContext;
 import com.idoit.meta.knowledge.KnowledgeMeta;
 import com.idoit.meta.profile.JournalMeta;
 import com.idoit.meta.quest.QuestMeta;
-import com.idoit.safe.Safer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @DisplayName("Тесты логики в классе Journal")
 class JournalTest extends AbstractTest {
+
+    private JournalMeta.JournalLook journal;
 
     @BeforeEach
     void setUp() {
         setMeta(JournalMeta.class);
+        JournalMeta meta = (JournalMeta) getMeta();
+        journal = meta.getLook();
     }
 
     @DisplayName("Тест, что класс Journal находится в пакете com.idoit.profile")
@@ -39,31 +43,38 @@ class JournalTest extends AbstractTest {
     @DisplayName("Тест, что метод setKnowledge в классе Journal сохраняет знание в поле класса")
     @Test
     void testSetKnowledge() {
-        testSetterWithMetaParam(KnowledgeMeta.class, new Object[]{}, "setKnowledge", "knowledge");
+        KnowledgeMeta expectedValue = new KnowledgeMeta();
+        journal.setKnowledge(expectedValue);
+        String message = getSetterAssertMessage("setKnowledge", "knowledge", getMeta().getClassName());
+        assertEquals(expectedValue, journal.getKnowledge(), message);
     }
 
     @DisplayName("Тест, что метод setQuest в классе Journal сохраняет задание в поле класса")
     @Test
     void testSetQuest() {
-        Object[] questConstructor = new Object[]{"test", "test", 1, 2, 3};
-        testSetterWithMetaParam(QuestMeta.class, questConstructor, "setQuest", "quest");
+        QuestMeta expectedValue = new QuestMeta();
+        journal.setQuest(expectedValue);
+        String message = getSetterAssertMessage("setQuest", "quest", getMeta().getClassName());
+        assertEquals(expectedValue, journal.getQuest(), message);
     }
 
     @DisplayName("Тест, что метод getKnowledge в классе Journal возвращает знание")
     @Test
     void testGetKnowledge() {
-        Safer.runSafe(() -> {
-            Object knowledge = MetaContext.getMeta(KnowledgeMeta.class).instantiateObjectWithConstructor();
-            testGetter("getKnowledge", "setKnowledge", knowledge);
-        });
+        KnowledgeMeta expectedValue = new KnowledgeMeta();
+        journal.setKnowledge(expectedValue);
+        KnowledgeMeta actualValue = journal.getKnowledge();
+        String message = getMethodReturnResultAssertMessage("getKnowledge", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 
     @DisplayName("Тест, что метод getQuest в классе Journal возвращает задание")
     @Test
     void testGetQuest() {
-        Safer.runSafe(() -> {
-            Object quest = MetaContext.getMeta(QuestMeta.class).instantiateObjectWithConstructor("test", "test", 1, 2, 3);
-            testGetter("getQuest", "setQuest", quest);
-        });
+        QuestMeta expectedValue = new QuestMeta();
+        journal.setQuest(expectedValue);
+        QuestMeta actualValue = journal.getQuest();
+        String message = getMethodReturnResultAssertMessage("getQuest", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 }

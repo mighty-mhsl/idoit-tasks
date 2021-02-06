@@ -8,40 +8,96 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public abstract class BossMeta extends Meta {
-    public BossMeta() throws ClassNotFoundException {
-        packageName = BASE_PACKAGE + ".character.npc.enemy.boss";
-        initFields();
-        addConstructorWithFieldsParams(Collections.unmodifiableList(Arrays.asList("level", "damage")));
-        initSetters();
-        initGetters();
-        addMethod(void.class, "hit", Meta.getClassFromMeta(new KnightMeta()));
-        addMethod(void.class, "go", int.class, int.class);
+
+    BossMeta() {
+        defaultConstructorParams = new Object[]{1, 1};
     }
 
-    private void initFields() throws ClassNotFoundException {
-        fields.put("name", String.class);
-        fields.put("level", int.class);
-        fields.put("damage", int.class);
-        fields.put("expReward", int.class);
-        fields.put("goldReward", int.class);
-        fields.put("point", Meta.getClassFromMeta(new PointMeta()));
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return BossLook.class;
     }
 
-    private void initSetters() throws ClassNotFoundException {
-        addMethod(void.class, "setName", String.class);
-        addMethod(void.class, "setLevel", int.class);
-        addMethod(void.class, "setDamage", int.class);
-        addMethod(void.class, "setExpReward", int.class);
-        addMethod(void.class, "setGoldReward", int.class);
-        addMethod(void.class, "setPoint", Meta.getClassFromMeta(new PointMeta()));
+    @Override
+    public BossLook getLook() {
+        return new BossLook(1, 1);
     }
 
-    private void initGetters() throws ClassNotFoundException {
-        addMethod(String.class, "getName");
-        addMethod(int.class, "getLevel");
-        addMethod(int.class, "getDamage");
-        addMethod(int.class, "getExpReward");
-        addMethod(int.class, "getGoldReward");
-        addMethod(Meta.getClassFromMeta(new PointMeta()), "getPoint");
+    @Override
+    protected void initConstructors() {
+        addConstructorForFields(Collections.unmodifiableList(Arrays.asList("level", "damage")));
+    }
+
+    public class BossLook extends Look {
+        private String name;
+        private int level;
+        private int damage;
+        private int expReward;
+        private int goldReward;
+        private PointMeta point;
+
+        BossLook(int level, int damage) {
+            this.level = level;
+            this.damage = damage;
+            point = (PointMeta) syncField(PointMeta.class, "point");
+        }
+
+        public void hit(KnightMeta knight) {
+            invokeOriginal(knight);
+        }
+
+        public void go(int x, int y) {
+            invokeOriginal(x, y);
+        }
+
+        public String getName() {
+            return (String) invokeOriginal();
+        }
+
+        public void setName(String name) {
+            invokeOriginal(name);
+        }
+
+        public int getLevel() {
+            return (int) invokeOriginal();
+        }
+
+        public void setLevel(int level) {
+            invokeOriginal(level);
+        }
+
+        public int getDamage() {
+            return (int) invokeOriginal();
+        }
+
+        public void setDamage(int damage) {
+            invokeOriginal(damage);
+        }
+
+        public int getExpReward() {
+            return (int) invokeOriginal();
+        }
+
+        public void setExpReward(int expReward) {
+            invokeOriginal(expReward);
+        }
+
+        public int getGoldReward() {
+            return (int) invokeOriginal();
+        }
+
+        public void setGoldReward(int goldReward) {
+            invokeOriginal(goldReward);
+        }
+
+        public PointMeta getPoint() {
+            Object originalPoint = invokeOriginal();
+            return (PointMeta) getMetaFromOriginal(point, originalPoint);
+        }
+
+        public void setPoint(PointMeta point) {
+            invokeOriginal(point);
+            this.point = point;
+        }
     }
 }

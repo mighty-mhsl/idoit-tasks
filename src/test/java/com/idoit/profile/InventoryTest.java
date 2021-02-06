@@ -1,7 +1,6 @@
 package com.idoit.profile;
 
 import com.idoit.AbstractTest;
-import com.idoit.meta.MetaContext;
 import com.idoit.meta.item.armor.BootsMeta;
 import com.idoit.meta.item.armor.CuirassMeta;
 import com.idoit.meta.item.armor.GlovesMeta;
@@ -9,17 +8,22 @@ import com.idoit.meta.item.armor.HelmetMeta;
 import com.idoit.meta.item.armor.ShieldMeta;
 import com.idoit.meta.item.common.BagMeta;
 import com.idoit.meta.profile.InventoryMeta;
-import com.idoit.safe.Safer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @DisplayName("Тесты логики в классе Inventory")
 class InventoryTest extends AbstractTest {
+
+    private InventoryMeta.InventoryLook inventory;
 
     @BeforeEach
     void setUp() {
         setMeta(InventoryMeta.class);
+        InventoryMeta meta = (InventoryMeta) getMeta();
+        inventory = meta.getLook();
     }
 
     @DisplayName("Тест, что класс Inventory находится в пакете com.idoit.profile")
@@ -43,96 +47,114 @@ class InventoryTest extends AbstractTest {
     @DisplayName("Тест, что метод setHelmet в классе Inventory сохраняет переданный шлем в поле класса")
     @Test
     void testSetHelmetSavesHelmetToField() {
-        Object[] armorConstructor = new Object[]{"test", 1, 2};
-        testSetterWithMetaParam(HelmetMeta.class, armorConstructor, "setHelmet", "helmet");
+        HelmetMeta expectedValue = new HelmetMeta();
+        inventory.setHelmet(expectedValue);
+        String message = getSetterAssertMessage("setHelmet", "helmet", getMeta().getClassName());
+        assertEquals(expectedValue, inventory.getHelmet(), message);
     }
 
     @DisplayName("Тест, что метод setCuirass в классе Inventory сохраняет переданную кирасу в поле класса")
     @Test
     void testSetCuirassSavesCuirassToField() {
-        Object[] armorConstructor = new Object[]{"test", 1, 2};
-        testSetterWithMetaParam(CuirassMeta.class, armorConstructor, "setCuirass", "cuirass");
+        CuirassMeta expectedValue = new CuirassMeta();
+        inventory.setCuirass(expectedValue);
+        String message = getSetterAssertMessage("setCuirass", "cuirass", getMeta().getClassName());
+        assertEquals(expectedValue, inventory.getCuirass(), message);
     }
 
     @DisplayName("Тест, что метод setGloves в классе Inventory сохраняет переданные перчатки в поле класса")
     @Test
     void testSetGlovesSavesGlovesToField() {
-        Object[] armorConstructor = new Object[]{"test", 1, 2};
-        testSetterWithMetaParam(GlovesMeta.class, armorConstructor, "setGloves", "gloves");
+        GlovesMeta expectedValue = new GlovesMeta();
+        inventory.setGloves(expectedValue);
+        String message = getSetterAssertMessage("setGloves", "gloves", getMeta().getClassName());
+        assertEquals(expectedValue, inventory.getGloves(), message);
     }
 
     @DisplayName("Тест, что метод setBoots в классе Inventory сохраняет переданные сапоги в поле класса")
     @Test
     void testSetBootsSavesBootsToField() {
-        Object[] armorConstructor = new Object[]{"test", 1, 2};
-        testSetterWithMetaParam(BootsMeta.class, armorConstructor, "setBoots", "boots");
+        BootsMeta expectedValue = new BootsMeta();
+        inventory.setBoots(expectedValue);
+        String message = getSetterAssertMessage("setBoots", "boots", getMeta().getClassName());
+        assertEquals(expectedValue, inventory.getBoots(), message);
     }
 
     @DisplayName("Тест, что метод setShield в классе Inventory сохраняет переданный щит в поле класса")
     @Test
     void testSetShieldSavesShieldToField() {
-        Object[] armorConstructor = new Object[]{"test", 1, 2};
-        testSetterWithMetaParam(ShieldMeta.class, armorConstructor, "setShield", "shield");
+        ShieldMeta expectedValue = new ShieldMeta();
+        inventory.setShield(expectedValue);
+        String message = getSetterAssertMessage("setShield", "helmet", getMeta().getClassName());
+        assertEquals(expectedValue, inventory.getShield(), message);
     }
 
     @DisplayName("Тест, что метод setBag в классе Inventory сохраняет переданнную сумку в поле класса")
     @Test
     void testSetBagSavesBagToField() {
-        Object[] bagConstructor = new Object[]{"test"};
-        testSetterWithMetaParam(BagMeta.class, bagConstructor, "setBag", "bag");
+        BagMeta expectedValue = new BagMeta();
+        inventory.setBag(expectedValue);
+        String message = getSetterAssertMessage("setBag", "bag", getMeta().getClassName());
+        assertEquals(expectedValue, inventory.getBag(), message);
     }
 
     @DisplayName("Тест, что метод getHelmet в классе Inventory возвращает шлем")
     @Test
     void testGetHelmet() {
-        Safer.runSafe(() -> {
-            Object param = MetaContext.getMeta(HelmetMeta.class).instantiateObjectWithConstructor("test", 1, 2);
-            testGetter("getHelmet", "setHelmet", param);
-        });
+        HelmetMeta expectedValue = new HelmetMeta();
+        inventory.setHelmet(expectedValue);
+        HelmetMeta actualValue = inventory.getHelmet();
+        String message = getMethodReturnResultAssertMessage("getHelmet", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 
     @DisplayName("Тест, что метод getCuirass в классе Inventory возвращает кирасу")
     @Test
     void testGetCuirass() {
-        Safer.runSafe(() -> {
-            Object param = MetaContext.getMeta(CuirassMeta.class).instantiateObjectWithConstructor("test", 1, 2);
-            testGetter("getCuirass", "setCuirass", param);
-        });
+        CuirassMeta expectedValue = new CuirassMeta();
+        inventory.setCuirass(expectedValue);
+        CuirassMeta actualValue = inventory.getCuirass();
+        String message = getMethodReturnResultAssertMessage("getCuirass", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 
     @DisplayName("Тест, что метод getGloves в классе Inventory возвращает перчатки")
     @Test
     void testGetGloves() {
-        Safer.runSafe(() -> {
-            Object param = MetaContext.getMeta(GlovesMeta.class).instantiateObjectWithConstructor("test", 1, 2);
-            testGetter("getGloves", "setGloves", param);
-        });
+        GlovesMeta expectedValue = new GlovesMeta();
+        inventory.setGloves(expectedValue);
+        GlovesMeta actualValue = inventory.getGloves();
+        String message = getMethodReturnResultAssertMessage("getGloves", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
     
     @DisplayName("Тест, что метод getBoots в классе Inventory возвращает сапоги")
     @Test
     void testGetBoots() {
-        Safer.runSafe(() -> {
-            Object param = MetaContext.getMeta(BootsMeta.class).instantiateObjectWithConstructor("test", 1, 2);
-            testGetter("getBoots", "setBoots", param);
-        });
+        BootsMeta expectedValue = new BootsMeta();
+        inventory.setBoots(expectedValue);
+        BootsMeta actualValue = inventory.getBoots();
+        String message = getMethodReturnResultAssertMessage("getBoots", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
     
     @DisplayName("Тест, что метод getShield в классе Inventory возвращает щит")
     @Test
     void testGetShield() {
-        Safer.runSafe(() -> {
-            Object param = MetaContext.getMeta(ShieldMeta.class).instantiateObjectWithConstructor("test", 1, 2);
-            testGetter("getShield", "setShield", param);
-        });
+        ShieldMeta expectedValue = new ShieldMeta();
+        inventory.setShield(expectedValue);
+        ShieldMeta actualValue = inventory.getShield();
+        String message = getMethodReturnResultAssertMessage("getShield", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 
     @DisplayName("Тест, что метод getBag в классе Inventory возвращает щит")
     @Test
     void testGetBag() {
-        Safer.runSafe(() -> {
-            Object param = MetaContext.getMeta(BagMeta.class).instantiateObjectWithConstructor("test");
-            testGetter("getBag", "setBag", param);
-        });
+        BagMeta expectedValue = new BagMeta();
+        inventory.setBag(expectedValue);
+        BagMeta actualValue = inventory.getBag();
+        String message = getMethodReturnResultAssertMessage("getHelmet", expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 }

@@ -1,17 +1,25 @@
 package com.idoit.item.weapon;
 
+import com.idoit.AbstractTest;
+import com.idoit.meta.MetaContext;
 import com.idoit.meta.item.stone.HealStoneMeta;
 import com.idoit.meta.item.weapon.StaffMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @DisplayName("Тесты логики в классе Staff")
-class StaffTest extends WeaponTest {
+class StaffTest extends AbstractTest {
+
+    private StaffMeta.StaffLook staff;
 
     @BeforeEach
 	void setUp() {
         setMeta(StaffMeta.class);
+        StaffMeta meta = (StaffMeta) getMeta();
+        staff = meta.getLook();
     }
 
     @DisplayName("Тест, что класс Staff находится в пакете com.idoit.item.weapon")
@@ -42,18 +50,28 @@ class StaffTest extends WeaponTest {
     @DisplayName("Тест, что метод setDurability в классе Staff сохраняет переданный x в поле класса")
     @Test
     void testSetDurabilitySavesDurabilityToField() {
-        testSetDurability();
+        int expectedValue = 5;
+        staff.setDurability(expectedValue);
+        String message = getSetterAssertMessage("setDurability", "durability", getMeta().getClassName());
+        assertEquals(expectedValue, staff.getDurability(), message);
     }
 
     @DisplayName("Тест, что метод setStone в классе Staff сохраняет полученный DamageStone в поле класса")
     @Test
     void testSetStoneSavesStoneToField() {
-        testSetStone(HealStoneMeta.class);
+        HealStoneMeta stone = (HealStoneMeta) MetaContext.getMeta(HealStoneMeta.class);
+        staff.setStone(stone);
+        String message = getSetterAssertMessage("setStone", stone.getClassName(), getMeta().getClassName());
+        assertEquals(stone, staff.getStone(), message);
     }
 
     @DisplayName("Тест, что метод getStone в классе Staff возвращает камень зачаровывания оружия")
     @Test
     void testGetStone() {
-        testGetStone(HealStoneMeta.class);
+        HealStoneMeta stone = (HealStoneMeta) MetaContext.getMeta(HealStoneMeta.class);
+        staff.setStone(stone);
+        HealStoneMeta actualValue = staff.getStone();
+        String message = getMethodReturnResultAssertMessage("getStone", stone, actualValue);
+        assertEquals(stone, actualValue, message);
     }
 }

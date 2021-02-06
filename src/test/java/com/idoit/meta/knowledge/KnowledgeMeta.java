@@ -3,26 +3,37 @@ package com.idoit.meta.knowledge;
 import com.idoit.meta.Meta;
 
 public class KnowledgeMeta extends Meta {
-    public KnowledgeMeta() {
-        packageName = BASE_PACKAGE + ".knowledge";
-        className = "Knowledge";
-        initFields();
-        initSetters();
-        initGetters();
+
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return KnowledgeLook.class;
     }
 
-    private void initFields() {
-        fields.put("description", String.class);
-        fields.put("person", String.class);
+    @Override
+    public KnowledgeLook getLook() {
+        return new KnowledgeLook();
     }
 
-    private void initSetters() {
-        addMethod(void.class, "setDescription", String.class);
-        addMethod(void.class, "setPerson", String.class);
-    }
+    public class KnowledgeLook extends Look {
+        private String description;
+        private String person;
 
-    private void initGetters() {
-        addMethod(String.class, "getDescription");
-        addMethod(String.class, "getPerson");
+        public String getDescription() {
+            return (String) invokeOriginal();
+        }
+
+        public void setDescription(String description) {
+            invokeOriginal(description);
+            this.description = description;
+        }
+
+        public String getPerson() {
+            return (String) invokeOriginal();
+        }
+
+        public void setPerson(String person) {
+            invokeOriginal(person);
+            this.person = person;
+        }
     }
 }

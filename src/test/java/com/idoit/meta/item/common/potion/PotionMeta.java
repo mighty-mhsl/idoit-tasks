@@ -5,20 +5,41 @@ import com.idoit.meta.Meta;
 import java.util.Arrays;
 
 public abstract class PotionMeta extends Meta {
+
     public PotionMeta() {
-        packageName = BASE_PACKAGE + ".item.common.potion";
-        initFields();
-        addConstructorWithFieldsParams(Arrays.asList("name", "pointsToRecover"));
-        initGetters();
+        defaultConstructorParams = new Object[]{"test", 1};
     }
 
-    private void initFields() {
-        fields.put("name", String.class);
-        fields.put("pointsToRecover", int.class);
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return PotionLook.class;
     }
 
-    private void initGetters() {
-        addMethod(String.class, "getName");
-        addMethod(int.class, "getPointsToRecover");
+    @Override
+    public PotionLook getLook() {
+        return new PotionLook("test", 1);
+    }
+
+    @Override
+    protected void initConstructors() {
+        addConstructorForFields(Arrays.asList("name", "pointsToRecover"));
+    }
+
+    public class PotionLook extends Look {
+        private String name;
+        private int pointsToRecover;
+
+        PotionLook(String n, int pTR) {
+            name = n;
+            pointsToRecover = pTR;
+        }
+
+        public String getName() {
+            return (String) invokeOriginal();
+        }
+
+        public int getPointsToRecover() {
+            return (int) invokeOriginal();
+        }
     }
 }

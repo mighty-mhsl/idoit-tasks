@@ -1,17 +1,25 @@
 package com.idoit.item.weapon;
 
+import com.idoit.AbstractTest;
+import com.idoit.meta.MetaContext;
 import com.idoit.meta.item.stone.CriticalHitStoneMeta;
 import com.idoit.meta.item.weapon.BowMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @DisplayName("Тесты логики в классе Bow")
-class BowTest extends WeaponTest {
+class BowTest extends AbstractTest {
+
+    private BowMeta.BowLook bow;
 
     @BeforeEach
 	void setUp() {
         setMeta(BowMeta.class);
+        BowMeta meta = (BowMeta) getMeta();
+        bow = meta.getLook();
     }
 
     @DisplayName("Тест, что класс Bow находится в пакете com.idoit.item.weapon")
@@ -42,18 +50,28 @@ class BowTest extends WeaponTest {
     @DisplayName("Тест, что метод setDurability в классе Bow сохраняет переданный x в поле класса")
     @Test
     void testSetDurabilitySavesDurabilityToField() {
-        testSetDurability();
+        int expectedValue = 5;
+        bow.setDurability(expectedValue);
+        String message = getSetterAssertMessage("setDurability", "durability", getMeta().getClassName());
+        assertEquals(expectedValue, bow.getDurability(), message);
     }
 
     @DisplayName("Тест, что метод setStone в классе Bow сохраняет полученный DamageStone в поле класса")
     @Test
     void testSetStoneSavesStoneToField() {
-        testSetStone(CriticalHitStoneMeta.class);
+        CriticalHitStoneMeta stone = (CriticalHitStoneMeta) MetaContext.getMeta(CriticalHitStoneMeta.class);
+        bow.setStone(stone);
+        String message = getSetterAssertMessage("setStone", stone.getClassName(), getMeta().getClassName());
+        assertEquals(stone, bow.getStone(), message);
     }
 
     @DisplayName("Тест, что метод getStone в классе Bow возвращает камень зачаровывания оружия")
     @Test
     void testGetStone() {
-        testGetStone(CriticalHitStoneMeta.class);
+        CriticalHitStoneMeta stone = (CriticalHitStoneMeta) MetaContext.getMeta(CriticalHitStoneMeta.class);
+        bow.setStone(stone);
+        CriticalHitStoneMeta actualValue = bow.getStone();
+        String message = getMethodReturnResultAssertMessage("getStone", stone, actualValue);
+        assertEquals(stone, actualValue, message);
     }
 }

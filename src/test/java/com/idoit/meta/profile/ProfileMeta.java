@@ -3,59 +3,141 @@ package com.idoit.meta.profile;
 import com.idoit.meta.Meta;
 
 public class ProfileMeta extends Meta {
-    public ProfileMeta() throws ClassNotFoundException {
-        packageName = BASE_PACKAGE + ".profile";
-        className = "Profile";
-        initFields();
-        initSetters();
-        initGetters();
+
+    private ProfileLook look;
+
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return ProfileLook.class;
     }
 
-    private void initFields() throws ClassNotFoundException {
-        fields.put("name", String.class);
-        fields.put("strength", int.class);
-        fields.put("agility", int.class);
-        fields.put("intelligence", int.class);
-        fields.put("hp", int.class);
-        fields.put("mana", int.class);
-        fields.put("stamina", int.class);
-        fields.put("level", int.class);
-        fields.put("experience", int.class);
-        fields.put("gold", int.class);
-        fields.put("physicalDefence", int.class);
-        fields.put("magicDefence", int.class);
-        fields.put("inventory", new InventoryMeta().getClassFromMeta());
+    @Override
+    public ProfileLook getLook() {
+        if (look == null) {
+            look = new ProfileLook();
+        }
+        return look;
     }
 
-    private void initSetters() throws ClassNotFoundException {
-        addMethod(void.class, "setName", String.class);
-        addMethod(void.class, "setStrength", int.class);
-        addMethod(void.class, "setAgility", int.class);
-        addMethod(void.class, "setIntelligence", int.class);
-        addMethod(void.class, "setHp", int.class);
-        addMethod(void.class, "setMana", int.class);
-        addMethod(void.class, "setStamina", int.class);
-        addMethod(void.class, "setLevel", int.class);
-        addMethod(void.class, "setExperience", int.class);
-        addMethod(void.class, "setGold", int.class);
-        addMethod(void.class, "setPhysicalDefence", int.class);
-        addMethod(void.class, "setMagicDefence", int.class);
-        addMethod(void.class, "setInventory", new InventoryMeta().getClassFromMeta());
-    }
+    public class ProfileLook extends Look {
+        private String name;
+        private int strength;
+        private int agility;
+        private int intelligence;
+        private int hp = 100;
+        private int mana = 100;
+        private int stamina = 100;
+        private int level = 1;
+        private int experience = 0;
+        private int gold = 100;
+        private int physicalDefence;
+        private int magicDefence;
+        private InventoryMeta inventory;
 
-    private void initGetters() throws ClassNotFoundException {
-        addMethod(String.class, "getName");
-        addMethod(int.class, "getStrength");
-        addMethod(int.class, "getAgility");
-        addMethod(int.class, "getIntelligence");
-        addMethod(int.class, "getHp");
-        addMethod(int.class, "getMana");
-        addMethod(int.class, "getStamina");
-        addMethod(int.class, "getLevel");
-        addMethod(int.class, "getExperience");
-        addMethod(int.class, "getGold");
-        addMethod(int.class, "getPhysicalDefence");
-        addMethod(int.class, "getMagicDefence");
-        addMethod(new InventoryMeta().getClassFromMeta(), "getInventory");
+        public String getName() {
+            return (String) invokeOriginal();
+        }
+
+        public void setName(String name) {
+            invokeOriginal(name);
+        }
+
+        public int getStrength() {
+            return (int) invokeOriginal();
+        }
+
+        public void setStrength(int strength) {
+            invokeOriginal(strength);
+        }
+
+        public int getAgility() {
+            return (int) invokeOriginal();
+        }
+
+        public void setAgility(int agility) {
+            invokeOriginal(agility);
+        }
+
+        public int getIntelligence() {
+            return (int) invokeOriginal();
+        }
+
+        public void setIntelligence(int intelligence) {
+            invokeOriginal(intelligence);
+        }
+
+        public int getHp() {
+            return (int) invokeOriginal();
+        }
+
+        public void setHp(int hp) {
+            invokeOriginal(hp);
+        }
+
+        public int getMana() {
+            return (int) invokeOriginal();
+        }
+
+        public void setMana(int mana) {
+            invokeOriginal(mana);
+        }
+
+        public int getStamina() {
+            return (int) invokeOriginal();
+        }
+
+        public void setStamina(int stamina) {
+            invokeOriginal(stamina);
+        }
+
+        public int getLevel() {
+            return (int) invokeOriginal();
+        }
+
+        public void setLevel(int level) {
+            invokeOriginal(level);
+        }
+
+        public int getExperience() {
+            return (int) invokeOriginal();
+        }
+
+        public void setExperience(int experience) {
+            invokeOriginal(experience);
+        }
+
+        public int getGold() {
+            return (int) invokeOriginal();
+        }
+
+        public void setGold(int gold) {
+            invokeOriginal(gold);
+        }
+
+        public int getPhysicalDefence() {
+            return (int) invokeOriginal();
+        }
+
+        public void setPhysicalDefence(int physicalDefence) {
+            invokeOriginal(physicalDefence);
+        }
+
+        public int getMagicDefence() {
+            return (int) invokeOriginal();
+        }
+
+        public void setMagicDefence(int magicDefence) {
+            invokeOriginal(magicDefence);
+        }
+
+        public InventoryMeta getInventory() {
+            Object originalInventory = invokeOriginal();
+            return (InventoryMeta) getMetaFromOriginal(inventory, originalInventory);
+        }
+
+        public void setInventory(InventoryMeta inventory) {
+            invokeOriginal(inventory);
+            this.inventory = inventory;
+        }
     }
 }

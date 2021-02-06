@@ -1,7 +1,6 @@
 package com.idoit.meta.item.bijouterie.ring;
 
-public class IntelligenceRingMeta extends RingMeta {
-    public IntelligenceRingMeta() {
-        className = "IntelligenceRing";
-    }
+import com.idoit.meta.item.bijouterie.BijouterieMeta;
+
+public class IntelligenceRingMeta extends BijouterieMeta {
 }

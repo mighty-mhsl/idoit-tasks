@@ -2,28 +2,26 @@ package com.idoit.character.npc;
 
 import com.idoit.AbstractTest;
 import com.idoit.MessageUtil;
-import com.idoit.meta.Meta;
 import com.idoit.meta.MetaContext;
 import com.idoit.meta.character.KnightMeta;
-import com.idoit.meta.character.npc.NpcMeta;
+import com.idoit.meta.character.npc.NPCMeta;
 import com.idoit.meta.quest.QuestMeta;
-import com.idoit.safe.Safer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.function.BiConsumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Тесты логики в классе NPC")
 class NpcTest extends AbstractTest {
 
-    private static final Object[] CONSTRUCTOR_PARAMS = new Object[] {"test", 1};
+    private NPCMeta.NPCLook npc;
 
     @BeforeEach
     void setUp() {
-        setMeta(NpcMeta.class);
+        setMeta(NPCMeta.class);
+        NPCMeta meta = (NPCMeta) getMeta();
+        npc = meta.getLook();
     }
 
     @DisplayName("Тест, что класс NPC находится в пакете com.idoit.character.npc")
@@ -54,29 +52,24 @@ class NpcTest extends AbstractTest {
     @DisplayName("Тест, что метод setQuest в классе NPC сохраняет переданный Quest в поле класса")
     @Test
     void testSetQuestSavesQuestToField() {
-        Object[] questConstructor = new Object[] {"test1", "test2", 1, 2, 3};
-        testSetterWithMetaParam(QuestMeta.class, questConstructor, "setQuest", "quest", CONSTRUCTOR_PARAMS);
+        QuestMeta expectedValue = (QuestMeta) MetaContext.getMeta(QuestMeta.class);
+        npc.setQuest(expectedValue);
+        String message = getSetterAssertMessage("setQuest", "quest", getMeta().getClassName());
+        assertEquals(expectedValue, npc.getQuest(), message);
     }
 
     @DisplayName("Тест, что метод giveQuest в классе NPC добавляет активное задание переданному Knight")
     @Test
     void testGiveQuest() {
-        Safer.runSafe(() -> {
-            Object npc = getMeta().instantiateObjectWithConstructor(CONSTRUCTOR_PARAMS);
-            Object quest = setFieldForObjectAndGet(npc, "setQuest", QuestMeta.class, "name", "desc", 1, 2, 3);
+        KnightMeta knight = (KnightMeta) MetaContext.getMeta(KnightMeta.class);
+        QuestMeta expectedValue = (QuestMeta) MetaContext.getMeta(QuestMeta.class);
+        npc.setQuest(expectedValue);
 
-            BiConsumer<Object, Object[]> giveQuestAssert = (obj, params) -> {
-                Object knight = params[0];
-                Safer.runSafe(() -> {
-                    Object activeQuest = getFieldValue(knight, "activeQuest");
-                    assertEquals(quest, activeQuest, getGiveQuestAssertMessage(quest, activeQuest));
-                });
-            };
+        npc.giveQuest(knight);
 
-            Meta knightMeta = MetaContext.getMeta(KnightMeta.class);
-            Object knight = knightMeta.instantiateObjectWithConstructor("test");
-            testClassMethod(giveQuestAssert, npc, "giveQuest", knight);
-        });
+        QuestMeta actualValue = knight.getLook().getActiveQuest();
+        String message = getGiveQuestAssertMessage(expectedValue, actualValue);
+        assertEquals(expectedValue, actualValue, message);
     }
 
     private String getGiveQuestAssertMessage(Object expectedValue, Object actualValue) {

@@ -1,7 +1,6 @@
 package com.idoit.meta.item.bijouterie.necklace;
 
-public class AgilityNecklaceMeta extends NecklaceMeta {
-    public AgilityNecklaceMeta() {
-        className = "AgilityNecklace";
-    }
+import com.idoit.meta.item.bijouterie.BijouterieMeta;
+
+public class AgilityNecklaceMeta extends BijouterieMeta {
 }

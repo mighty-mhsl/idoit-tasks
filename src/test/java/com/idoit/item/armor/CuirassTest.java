@@ -1,16 +1,23 @@
 package com.idoit.item.armor;
 
+import com.idoit.AbstractTest;
 import com.idoit.meta.item.armor.CuirassMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @DisplayName("Тесты логики в классе Cuirass")
-class CuirassTest extends ArmorTest {
+class CuirassTest extends AbstractTest {
+
+    private CuirassMeta.ArmorLook cuirass;
 
     @BeforeEach
 	void setUp() {
         setMeta(CuirassMeta.class);
+        CuirassMeta meta = (CuirassMeta) getMeta();
+        cuirass = meta.getLook();
     }
 
     @DisplayName("Тест, что класс Cuirass находится в пакете com.idoit.item.armor")
@@ -41,6 +48,9 @@ class CuirassTest extends ArmorTest {
     @DisplayName("Тест, что метод setDurability в классе Cuirass сохраняет переданный durability в поле класса")
     @Test
     void testSetDurabilitySavesDurabilityToField() {
-        testSetDurability();
+        int expectedValue = 5;
+        cuirass.setDurability(expectedValue);
+        String message = getSetterAssertMessage("setDurability", "durability", getMeta().getClassName());
+        assertEquals(expectedValue, cuirass.getDurability(), message);
     }
 }

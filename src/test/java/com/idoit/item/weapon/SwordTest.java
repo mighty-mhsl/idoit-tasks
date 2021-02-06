@@ -1,17 +1,25 @@
 package com.idoit.item.weapon;
 
+import com.idoit.AbstractTest;
+import com.idoit.meta.MetaContext;
 import com.idoit.meta.item.stone.DamageStoneMeta;
 import com.idoit.meta.item.weapon.SwordMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @DisplayName("Тесты логики в классе Sword")
-class SwordTest extends WeaponTest {
+class SwordTest extends AbstractTest {
+
+    private SwordMeta.SwordLook sword;
 
     @BeforeEach
 	void setUp() {
         setMeta(SwordMeta.class);
+        SwordMeta meta = (SwordMeta) getMeta();
+        sword = meta.getLook();
     }
 
     @DisplayName("Тест, что класс Sword находится в пакете com.idoit.item.weapon")
@@ -42,18 +50,28 @@ class SwordTest extends WeaponTest {
     @DisplayName("Тест, что метод setDurability в классе Sword сохраняет переданный x в поле класса")
     @Test
     void testSetDurabilitySavesDurabilityToField() {
-        testSetDurability();
+        int expectedValue = 5;
+        sword.setDurability(expectedValue);
+        String message = getSetterAssertMessage("setDurability", "durability", getMeta().getClassName());
+        assertEquals(expectedValue, sword.getDurability(), message);
     }
 
     @DisplayName("Тест, что метод setStone в классе Sword сохраняет полученный DamageStone в поле класса")
     @Test
     void testSetStoneSavesStoneToField() {
-        testSetStone(DamageStoneMeta.class);
+        DamageStoneMeta damageStone = (DamageStoneMeta) MetaContext.getMeta(DamageStoneMeta.class);
+        sword.setStone(damageStone);
+        String message = getSetterAssertMessage("setStone", damageStone.getClassName(), getMeta().getClassName());
+        assertEquals(damageStone, sword.getStone(), message);
     }
 
     @DisplayName("Тест, что метод getStone в классе Sword возвращает камень зачаровывания оружия")
     @Test
     void testGetStone() {
-        testGetStone(DamageStoneMeta.class);
+        DamageStoneMeta damageStone = (DamageStoneMeta) MetaContext.getMeta(DamageStoneMeta.class);
+        sword.setStone(damageStone);
+        DamageStoneMeta actualValue = sword.getStone();
+        String message = getMethodReturnResultAssertMessage("getStone", damageStone, actualValue);
+        assertEquals(damageStone, actualValue, message);
     }
 }

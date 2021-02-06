@@ -1,54 +1,175 @@
 package com.idoit.meta.character;
 
-import com.idoit.meta.Meta;
 import com.idoit.meta.battlefield.PointMeta;
+import com.idoit.meta.character.npc.NPCMeta;
+import com.idoit.meta.character.npc.seller.BlacksmithMeta;
 import com.idoit.meta.item.bijouterie.belt.StrengthBeltMeta;
 import com.idoit.meta.item.bijouterie.necklace.StrengthNecklaceMeta;
 import com.idoit.meta.item.bijouterie.ring.StrengthRingMeta;
 import com.idoit.meta.item.common.potion.HpPotionMeta;
 import com.idoit.meta.item.weapon.SwordMeta;
+import com.idoit.meta.quest.QuestMeta;
+import com.idoit.meta.skill.RageMeta;
 
 public class KnightMeta extends CharacterMeta {
-    public KnightMeta() throws ClassNotFoundException {
-        className = "Knight";
-        initFields();
-        initSetters();
-        initGetters();
-        addMethod(void.class, "addGold", int.class);
-        addMethod(void.class, "addExperience", int.class);
-        addMethod(void.class, "calculatePhysicalDefence");
-        addMethod(void.class, "calculateMagicDefence");
-        addMethod(void.class, "talkTo", Class.forName("com.idoit.character.npc.NPC")); //circular dependency in meta context :(
-        addMethod(void.class, "talkTo", Class.forName("com.idoit.character.npc.seller.Blacksmith")); // circular dependency :(
-        addMethod(void.class, "castSkill");
-        addMethod(void.class, "drinkHpPotion", Meta.getClassFromMeta(new HpPotionMeta()));
-        addMethod(double.class, "calculateDistance", Meta.getClassFromMeta(new PointMeta()));
+
+    private KnightLook look;
+
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return KnightLook.class;
     }
 
-    private void initFields() throws ClassNotFoundException {
-        fields.put("sword", Meta.getClassFromMeta(new SwordMeta()));
-        fields.put("leftRing", Meta.getClassFromMeta(new StrengthRingMeta()));
-        fields.put("rightRing", Meta.getClassFromMeta(new StrengthRingMeta()));
-        fields.put("belt", Meta.getClassFromMeta(new StrengthBeltMeta()));
-        fields.put("necklace", Meta.getClassFromMeta(new StrengthNecklaceMeta()));
-        fields.put("skill", Class.forName("com.idoit.skill.Rage")); //circular dependency :(
+    @Override
+    public KnightLook getLook() {
+        if (look == null) {
+            look = new KnightLook("test");
+        }
+        return look;
     }
 
-    private void initSetters() throws ClassNotFoundException {
-        addMethod(void.class, "setSword", Meta.getClassFromMeta(new SwordMeta()));
-        addMethod(void.class, "setLeftRing", Meta.getClassFromMeta(new StrengthRingMeta()));
-        addMethod(void.class, "setRightRing", Meta.getClassFromMeta(new StrengthRingMeta()));
-        addMethod(void.class, "setBelt", Meta.getClassFromMeta(new StrengthBeltMeta()));
-        addMethod(void.class, "setNecklace", Meta.getClassFromMeta(new StrengthNecklaceMeta()));
-        addMethod(void.class, "setSkill", Class.forName("com.idoit.skill.Rage")); //circular dependency :(
+    public void setLook(KnightLook look) {
+        this.look = look;
     }
 
-    private void initGetters() throws ClassNotFoundException {
-        addMethod(Meta.getClassFromMeta(new SwordMeta()), "getSword");
-        addMethod(Meta.getClassFromMeta(new StrengthRingMeta()), "getLeftRing");
-        addMethod(Meta.getClassFromMeta(new StrengthRingMeta()), "getRightRing");
-        addMethod(Meta.getClassFromMeta(new StrengthBeltMeta()), "getBelt");
-        addMethod(Meta.getClassFromMeta(new StrengthNecklaceMeta()), "getNecklace");
-        addMethod(Class.forName("com.idoit.skill.Rage"), "getSkill"); //circular dependency :(
+    public class KnightLook extends CharacterLook {
+        private SwordMeta sword;
+        private StrengthRingMeta leftRing;
+        private StrengthRingMeta rightRing;
+        private StrengthBeltMeta belt;
+        private StrengthNecklaceMeta necklace;
+        private RageMeta skill;
+        private QuestMeta activeQuest;
+
+        KnightLook(String name) {
+            super(name);
+        }
+
+        public void castSkill() {
+            skill.getLook().apply(KnightMeta.this);
+        }
+
+        public void addGold(int gold) {
+            invokeOriginal(gold);
+        }
+
+        public void addExperience(int exp) {
+            invokeOriginal(exp);
+        }
+
+        public void talkTo(NPCMeta npc) {
+            invokeOriginal(npc);
+            setFieldWithoutOriginalCall("activeQuest", npc.getLook().getQuest());
+        }
+
+        public void talkTo(BlacksmithMeta blacksmith) {
+            invokeOriginal(blacksmith);
+        }
+
+        public void drinkHpPotion(HpPotionMeta potion) {
+            invokeOriginal(potion);
+        }
+
+        public void calculatePhysicalDefence() {
+            invokeOriginal();
+        }
+
+        public void calculateMagicDefence() {
+            invokeOriginal();
+        }
+
+        public double calculateDistance(PointMeta point) {
+            return (double) invokeOriginal(point);
+        }
+
+        public SwordMeta getSword() {
+            Object originalSword = invokeOriginal();
+            return (SwordMeta) getMetaFromOriginal(sword, originalSword);
+        }
+
+        public void setSword(SwordMeta sword) {
+            invokeOriginal(sword);
+            this.sword = sword;
+        }
+
+        public StrengthRingMeta getLeftRing() {
+            Object originalRing = invokeOriginal();
+            return (StrengthRingMeta) getMetaFromOriginal(leftRing, originalRing);
+        }
+
+        public void setLeftRing(StrengthRingMeta leftRing) {
+            invokeOriginal(leftRing);
+            this.leftRing = leftRing;
+        }
+
+        public StrengthRingMeta getRightRing() {
+            Object originalRing = invokeOriginal();
+            return (StrengthRingMeta) getMetaFromOriginal(rightRing, originalRing);
+        }
+
+        public void setRightRing(StrengthRingMeta rightRing) {
+            invokeOriginal(rightRing);
+            this.rightRing = rightRing;
+        }
+
+        public StrengthBeltMeta getBelt() {
+            Object originalBelt = invokeOriginal();
+            return (StrengthBeltMeta) getMetaFromOriginal(belt, originalBelt);
+        }
+
+        public void setBelt(StrengthBeltMeta belt) {
+            invokeOriginal(belt);
+            this.belt = belt;
+        }
+
+        public StrengthNecklaceMeta getNecklace() {
+            Object originalNecklace = invokeOriginal();
+            return (StrengthNecklaceMeta) getMetaFromOriginal(necklace, originalNecklace);
+        }
+
+        public void setNecklace(StrengthNecklaceMeta necklace) {
+            invokeOriginal(necklace);
+            this.necklace = necklace;
+        }
+
+        public RageMeta getSkill() {
+            Object originalSkill = invokeOriginal();
+            return (RageMeta) getMetaFromOriginal(skill, originalSkill);
+        }
+
+        public void setSkill(RageMeta skill) {
+            invokeOriginal(skill);
+            this.skill = skill;
+        }
+
+        public QuestMeta getActiveQuest() {
+            Object originalQuest = invokeOriginal();
+            return (QuestMeta) getMetaFromOriginal(activeQuest, originalQuest);
+        }
+
+        public void setActiveQuest(QuestMeta activeQuest) {
+            invokeOriginal(activeQuest);
+            this.activeQuest = activeQuest;
+        }
+
+        public void takeOffLeftRing() {
+            invokeOriginal();
+            leftRing = null;
+        }
+
+        public void takeOffRightRing() {
+            invokeOriginal();
+            rightRing = null;
+        }
+
+        public void takeOffBelt() {
+            invokeOriginal();
+            belt = null;
+        }
+
+        public void takeOffNecklace() {
+            invokeOriginal();
+            necklace = null;
+        }
     }
 }

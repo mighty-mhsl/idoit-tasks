@@ -2,25 +2,26 @@ package com.idoit.quest;
 
 import com.idoit.AbstractTest;
 import com.idoit.MessageUtil;
-import com.idoit.meta.Meta;
 import com.idoit.meta.MetaContext;
 import com.idoit.meta.character.KnightMeta;
+import com.idoit.meta.profile.ProfileMeta;
 import com.idoit.meta.quest.QuestMeta;
-import com.idoit.safe.Safer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.function.BiConsumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Тесты логики в классе Quest")
 class QuestTest extends AbstractTest {
 
+    private QuestMeta.QuestLook quest;
+
     @BeforeEach
     void setUp() {
         setMeta(QuestMeta.class);
+        QuestMeta meta = (QuestMeta) getMeta();
+        quest = meta.getLook();
     }
 
     @DisplayName("Тест, что класс Quest находится в пакете com.character.quest")
@@ -48,33 +49,32 @@ class QuestTest extends AbstractTest {
         testClassHasAllMethods();
     }
 
-    @DisplayName("Тест, что метод complete в классе Quest добавляет переданному Knight золото и опыт в награду")
+    @DisplayName("Тест, что метод complete в классе Quest добавляет переданному Knight золото в награду")
     @Test
-    void testComplete() {
-        Safer.runSafe(() -> {
-            int goldReward = 10;
-            int expReward = 15;
-            Object quest = getMeta().instantiateObjectWithConstructor("test", "test-desc", expReward, goldReward, 1);
+    void testCompleteAddsGold() {
+        int expectedGold = 102;
+        ProfileMeta profile = createProfile();
+        KnightMeta knight = createKnightWith(profile);
 
-            BiConsumer<Object, Object[]> completeAssert = (obj, params) -> {
-                Object knight = params[0];
-                Safer.runSafe(() -> {
-                    Object profile = getFieldValue(knight, "profile");
-                    String goldField = "gold";
-                    String expField = "experience";
-                    int goldValue = (int) getFieldValue(profile, goldField);
-                    int expValue = (int) getFieldValue(profile, expField);
-                    String goldMessage = getCompleteAssertMessage(goldField, goldReward, goldValue);
-                    String expMessage = getCompleteAssertMessage(expField, expReward, expValue);
-                    assertEquals(100 + goldReward, goldValue, goldMessage);
-                    assertEquals(expReward, expValue, expMessage);
-                });
-            };
+        quest.complete(knight);
 
-            Meta knightMeta = MetaContext.getMeta(KnightMeta.class);
-            Object knight = knightMeta.instantiateObjectWithConstructor("test");
-            testClassMethod(completeAssert, quest, "complete", knight);
-        });
+        int actualGold = profile.getLook().getGold();
+        String message = getCompleteAssertMessage("gold", expectedGold, actualGold);
+        assertEquals(expectedGold, actualGold, message);
+    }
+
+    @DisplayName("Тест, что метод complete в классе Quest добавляет переданному Knight опыт в награду")
+    @Test
+    void testCompleteAddsExperience() {
+        int expectedExperience = 101;
+        ProfileMeta profile = createProfile();
+        KnightMeta knight = createKnightWith(profile);
+
+        quest.complete(knight);
+
+        int actualExperience = profile.getLook().getExperience();
+        String message = getCompleteAssertMessage("experience", expectedExperience, actualExperience);
+        assertEquals(expectedExperience, actualExperience, message);
     }
 
     private String getCompleteAssertMessage(String fieldName, int expectedValue, int actualValue) {
@@ -82,5 +82,20 @@ class QuestTest extends AbstractTest {
                 String.format("После вызова метода complete в классе Quest, переданный Knight должен иметь %d в поле %s", expectedValue, fieldName),
                 String.format("После вызова метода complete в классе Quest, переданный Knight имеет %d в поле %s", actualValue, fieldName)
         );
+    }
+
+    private ProfileMeta createProfile() {
+        ProfileMeta profile = (ProfileMeta) MetaContext.getMeta(ProfileMeta.class);
+        ProfileMeta.ProfileLook profileLook = profile.getLook();
+        profileLook.setExperience(100);
+        profileLook.setGold(100);
+        return profile;
+    }
+
+    private KnightMeta createKnightWith(ProfileMeta profile) {
+        KnightMeta knight = (KnightMeta) MetaContext.getMeta(KnightMeta.class);
+        KnightMeta.KnightLook knightLook = knight.getLook();
+        knightLook.setProfile(profile);
+        return knight;
     }
 }

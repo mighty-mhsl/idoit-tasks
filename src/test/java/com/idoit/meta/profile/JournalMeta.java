@@ -5,26 +5,39 @@ import com.idoit.meta.knowledge.KnowledgeMeta;
 import com.idoit.meta.quest.QuestMeta;
 
 public class JournalMeta extends Meta {
-    public JournalMeta() throws ClassNotFoundException {
-        packageName = BASE_PACKAGE + ".profile";
-        className = "Journal";
-        initFields();
-        initSetters();
-        initGetters();
+
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return JournalLook.class;
     }
 
-    private void initFields() throws ClassNotFoundException {
-        fields.put("knowledge", new KnowledgeMeta().getClassFromMeta());
-        fields.put("quest", new QuestMeta().getClassFromMeta());
+    @Override
+    public JournalLook getLook() {
+        return new JournalLook();
     }
 
-    private void initSetters() throws ClassNotFoundException {
-        addMethod(void.class, "setKnowledge", new KnowledgeMeta().getClassFromMeta());
-        addMethod(void.class, "setQuest", new QuestMeta().getClassFromMeta());
-    }
+    public class JournalLook extends Look {
+        private QuestMeta quest;
+        private KnowledgeMeta knowledge;
 
-    private void initGetters() throws ClassNotFoundException {
-        addMethod(new KnowledgeMeta().getClassFromMeta(), "getKnowledge");
-        addMethod(new QuestMeta().getClassFromMeta(), "getQuest");
+        public QuestMeta getQuest() {
+            Object originalQuest = invokeOriginal();
+            return (QuestMeta) getMetaFromOriginal(quest, originalQuest);
+        }
+
+        public void setQuest(QuestMeta quest) {
+            invokeOriginal(quest);
+            this.quest = quest;
+        }
+
+        public KnowledgeMeta getKnowledge() {
+            Object originalKnowledge = invokeOriginal();
+            return (KnowledgeMeta) getMetaFromOriginal(knowledge, originalKnowledge);
+        }
+
+        public void setKnowledge(KnowledgeMeta knowledge) {
+            invokeOriginal(knowledge);
+            this.knowledge = knowledge;
+        }
     }
 }

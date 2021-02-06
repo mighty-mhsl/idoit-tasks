@@ -17,6 +17,11 @@ public class MetaContext {
     static {
         Reflections reflections = TestUtil.getBaseReflections("com.idoit.meta");
         Set<Class<? extends Meta>> allClasses = reflections.getSubTypesOf(Meta.class);
+        instantiateMeta(allClasses);
+        initializeMeta();
+    }
+
+    private static void instantiateMeta(Set<Class<? extends Meta>> allClasses) {
         allClasses.stream()
                 .filter(clazz -> !Modifier.isAbstract(clazz.getModifiers()))
                 .forEach(clazz -> {
@@ -29,7 +34,17 @@ public class MetaContext {
                 });
     }
 
-    public static Meta getMeta(Class<? extends Meta> clazz) {
+    private static void initializeMeta() {
+        META.forEach((clazz, meta) -> {
+            try {
+                meta.init();
+            } catch (ClassNotFoundException e) {
+                fail("Ошибка при создании объектов мета-даты для классов, т.к. не все поля/методы/конструкторы определены", e);
+            }
+        });
+    }
+
+    public static Meta getMeta(Class<?> clazz) {
         return META.get(clazz);
     }
 }

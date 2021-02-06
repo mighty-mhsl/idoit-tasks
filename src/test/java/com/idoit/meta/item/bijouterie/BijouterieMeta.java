@@ -4,14 +4,34 @@ import com.idoit.meta.Meta;
 
 import java.util.Arrays;
 
-public class BijouterieMeta extends Meta {
+public abstract class BijouterieMeta extends Meta {
+
     public BijouterieMeta() {
-        initFields();
-        addConstructorWithFieldsParams(Arrays.asList("name", "pointsToAdd"));
+        defaultConstructorParams = new Object[]{"test", 1};
     }
 
-    private void initFields() {
-        fields.put("name", String.class);
-        fields.put("pointsToAdd", int.class);
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return BijouterieLook.class;
+    }
+
+    @Override
+    public BijouterieLook getLook() {
+        return new BijouterieLook("", 1);
+    }
+
+    @Override
+    protected void initConstructors() {
+        addConstructorForFields(Arrays.asList("name", "pointsToAdd"));
+    }
+
+    public class BijouterieLook extends Look {
+        private String name;
+        private int pointsToAdd;
+
+        BijouterieLook(String n, int pTA) {
+            name = n;
+            pointsToAdd = pTA;
+        }
     }
 }

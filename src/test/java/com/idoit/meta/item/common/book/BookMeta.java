@@ -5,14 +5,32 @@ import com.idoit.meta.Meta;
 import java.util.Arrays;
 
 public abstract class BookMeta extends Meta {
-    public BookMeta() {
-        packageName = BASE_PACKAGE + ".item.common.book";
-        initFields();
-        addConstructorWithFieldsParams(Arrays.asList("name", "minLevel"));
+
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return BookLook.class;
     }
 
-    private void initFields() {
-        fields.put("name", String.class);
-        fields.put("minLevel", int.class);
+    @Override
+    protected void initConstructors() {
+        addConstructorForFields(Arrays.asList("name", "minLevel"));
+    }
+
+    public class BookLook extends Look {
+        private String name;
+        private int minLevel;
+
+        BookLook(String name, int minLevel) {
+            this.name = name;
+            this.minLevel = minLevel;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getMinLevel() {
+            return minLevel;
+        }
     }
 }

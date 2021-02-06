@@ -2,28 +2,28 @@ package com.idoit.skill;
 
 import com.idoit.AbstractTest;
 import com.idoit.MessageUtil;
-import com.idoit.meta.Meta;
 import com.idoit.meta.MetaContext;
 import com.idoit.meta.character.ArcherMeta;
 import com.idoit.meta.character.KnightMeta;
 import com.idoit.meta.item.weapon.BowMeta;
+import com.idoit.meta.profile.ProfileMeta;
 import com.idoit.meta.skill.AccurateShotMeta;
-import com.idoit.safe.Safer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.Method;
-import java.util.function.BiConsumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Тесты логики в классе AccurateShot")
 class AccurateShotTest extends AbstractTest {
 
+    private AccurateShotMeta.AccurateShotLook accurateShot;
+
     @BeforeEach
 	void setUp() {
         setMeta(AccurateShotMeta.class);
+        AccurateShotMeta meta = (AccurateShotMeta) getMeta();
+        accurateShot = meta.getLook();
     }
 
     @DisplayName("Тест, что класс AccurateShot находится в пакете com.idoit.skill")
@@ -54,31 +54,60 @@ class AccurateShotTest extends AbstractTest {
     @DisplayName("Тест, что метод apply в классе AccurateShot отнимает хп цели в двойном размере")
     @Test
     void testApplyDamagesTargetTwiceMore() {
-        Safer.runSafe(() -> {
-            Object shot = getMeta().instantiateObjectWithConstructor("test", 5, 5);
+        int expectedValue = 98;
+        ArcherMeta archer = (ArcherMeta) MetaContext.getMeta(ArcherMeta.class);
+        BowMeta bow = (BowMeta) MetaContext.getMeta(BowMeta.class);
+        archer.getLook().setBow(bow);
+        ProfileMeta profile = createProfile();
+        KnightMeta knight = createKnightWith(profile);
 
-            BiConsumer<Object, Object[]> healAssert = (obj, params) -> {
-                Object target = params[1];
-                Safer.runSafe(() -> {
-                    Object profile = getFieldValue(target, "profile");
-                    Object targetHpValue = getFieldValue(profile, "hp");
-                    int expectedHp = 90;
-                    String message = MessageUtil.formatAssertMessage(
-                            String.format("После вызова метода apply, переданная цель должен иметь %d хп", expectedHp),
-                            String.format("После вызова метода apply, переданная цель имеет %d хп", targetHpValue)
-                    );
-                    assertEquals(expectedHp, targetHpValue, message);
-                });
-            };
+        accurateShot.apply(archer, knight);
 
-            Meta meta = MetaContext.getMeta(ArcherMeta.class);
-            Meta weaponMeta = MetaContext.getMeta(BowMeta.class);
-            Object shooter = meta.instantiateObjectWithConstructor("Max");
-            Method weaponSetter = meta.getMethodFromMeta("setBow", weaponMeta.getClassFromMeta());
-            weaponSetter.invoke(shooter, weaponMeta.instantiateObjectWithConstructor("test", 5));
-            Object target = MetaContext.getMeta(KnightMeta.class).instantiateObjectWithConstructor("Eugene");
+        int actualValue = profile.getLook().getHp();
+        String message = MessageUtil.formatAssertMessage(
+                String.format("После вызова метода apply, переданная цель должна иметь %d хп", expectedValue),
+                String.format("После вызова метода apply, переданная цель имеет %d хп", actualValue)
+        );
+        assertEquals(expectedValue, actualValue, message);
+    }
 
-            testClassMethod(healAssert, shot, "apply", shooter, target);
-        });
+    @DisplayName("Тест, что метод apply в классе AccurateShot отнимает ману лучника в необходимом количестве")
+    @Test
+    void testApplySpendsMana() {
+        int expectedValue = 99;
+        ProfileMeta profile = createProfile();
+        ArcherMeta archer = createArcherWith(profile);
+        BowMeta bow = (BowMeta) MetaContext.getMeta(BowMeta.class);
+        archer.getLook().setBow(bow);
+        KnightMeta knight = createKnightWith(profile);
+
+        accurateShot.apply(archer, knight);
+
+        int actualValue = profile.getLook().getMana();
+        String message = MessageUtil.formatAssertMessage(
+                String.format("После вызова метода apply, переданная цель должна иметь %d хп", expectedValue),
+                String.format("После вызова метода apply, переданная цель имеет %d хп", actualValue)
+        );
+        assertEquals(expectedValue, actualValue, message);
+    }
+
+    private ProfileMeta createProfile() {
+        ProfileMeta profile = (ProfileMeta) MetaContext.getMeta(ProfileMeta.class);
+        ProfileMeta.ProfileLook profileLook = profile.getLook();
+        profileLook.setHp(100);
+        profileLook.setMana(100);
+        return profile;
+    }
+
+    private KnightMeta createKnightWith(ProfileMeta profile) {
+        KnightMeta knight = (KnightMeta) MetaContext.getMeta(KnightMeta.class);
+        knight.getLook().setProfile(profile);
+        return knight;
+    }
+
+    private ArcherMeta createArcherWith(ProfileMeta profile) {
+        ArcherMeta archer = (ArcherMeta) MetaContext.getMeta(ArcherMeta.class);
+        archer.getLook().setProfile(profile);
+        return archer;
     }
 }

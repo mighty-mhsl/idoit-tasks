@@ -1,7 +1,5 @@
 package com.idoit;
 
-import com.idoit.meta.Meta;
-import com.idoit.safe.ClassSafeSupplier;
 import org.reflections8.Reflections;
 import org.reflections8.scanners.SubTypesScanner;
 import org.reflections8.util.ClasspathHelper;
@@ -14,8 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class TestUtil {
 
@@ -48,14 +44,5 @@ public class TestUtil {
                 .setScanners(new SubTypesScanner(false))
                 .setUrls(ClasspathHelper.forClassLoader(CLASS_LOADERS.toArray(new ClassLoader[0])))
                 .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(packageName))));
-    }
-
-    static Meta supplyMetaSafe(ClassSafeSupplier<Meta> supplier) {
-        try {
-            return supplier.supply();
-        } catch (Exception e) {
-            fail("Не найдены все требуемые классы для данного теста.", e);
-            return null;
-        }
     }
 }

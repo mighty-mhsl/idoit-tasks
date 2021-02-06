@@ -5,16 +5,51 @@ import com.idoit.meta.Meta;
 import java.util.Arrays;
 
 public abstract class WeaponMeta extends Meta {
-    public WeaponMeta() {
-        packageName = BASE_PACKAGE + ".item.weapon";
-        initFields();
-        addConstructorWithFieldsParams(Arrays.asList("name", "damage"));
-        addMethod(void.class, "setDurability", int.class);
+
+    WeaponMeta() {
+        defaultConstructorParams = new Object[]{"test", 1};
     }
 
-    private void initFields() {
-        fields.put("name", String.class);
-        fields.put("damage", int.class);
-        fields.put("durability", int.class);
+    @Override
+    protected Class<? extends Look> getLookClass() {
+        return WeaponLook.class;
+    }
+
+    @Override
+    public Look getLook() {
+        return new WeaponLook("test", 1);
+    }
+
+    @Override
+    protected void initConstructors() {
+        addConstructorForFields(Arrays.asList("name", "damage"));
+    }
+
+    public class WeaponLook extends Look {
+        private String name;
+        private int damage;
+        private int durability;
+
+        WeaponLook(String n, int d) {
+            name = n;
+            damage = d;
+        }
+
+        public void setDurability(int durability) {
+            invokeOriginal(durability);
+            this.durability = durability;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getDamage() {
+            return damage;
+        }
+
+        public int getDurability() {
+            return (int) invokeOriginal();
+        }
     }
 }
