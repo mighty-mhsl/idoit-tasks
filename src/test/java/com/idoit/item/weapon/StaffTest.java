@@ -25,4 +25,11 @@ class StaffTest extends AbstractTest {
     void testStaffHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе Staff есть конструктор принимающий название и урон оружия")
+    @Test
+    void testStaffHasConstructorWithNameAndDamageParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 5});
+    }
 }

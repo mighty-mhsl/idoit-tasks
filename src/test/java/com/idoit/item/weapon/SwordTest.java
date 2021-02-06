@@ -25,4 +25,11 @@ class SwordTest extends AbstractTest {
     void testSwordHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе Sword есть конструктор принимающий название и урон оружия")
+    @Test
+    void testSwordHasConstructorWithNameAndDamageParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 5});
+    }
 }

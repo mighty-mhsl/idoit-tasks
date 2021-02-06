@@ -3,6 +3,10 @@ package com.idoit;
 import com.idoit.meta.Meta;
 import com.idoit.meta.character.ArcherMeta;
 import com.idoit.meta.character.WizardMeta;
+import com.idoit.meta.character.npc.BlacksmithMeta;
+import com.idoit.meta.item.armor.HelmetMeta;
+import com.idoit.meta.item.bijouterie.ring.StrengthRingMeta;
+import com.idoit.meta.item.common.potion.HpPotionMeta;
 import com.idoit.meta.item.weapon.BowMeta;
 import com.idoit.meta.item.weapon.StaffMeta;
 import com.idoit.meta.item.weapon.SwordMeta;
@@ -12,13 +16,9 @@ import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
 import org.reflections8.Reflections;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Objects;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -55,7 +55,31 @@ class AppTest {
         testObjectIsCreatedInMain(new BowMeta());
     }
 
-    @DisplayName("В методе main должно выводиться на экран: 100 100 7 7 0 0 0")
+    @DisplayName("Тест, что объект Blacksmith создается в методе main")
+    @Test
+    void testBlacksmithIsCreatedInMain() {
+        testObjectIsCreatedInMain(new BlacksmithMeta());
+    }
+
+    @DisplayName("Тест, что объект Helmet создается в методе main")
+    @Test
+    void testHelmetIsCreatedInMain() {
+        testObjectIsCreatedInMain(new HelmetMeta());
+    }
+
+    @DisplayName("Тест, что объект HpPotion создается в методе main")
+    @Test
+    void testHpPotionIsCreatedInMain() {
+        testObjectIsCreatedInMain(new HpPotionMeta());
+    }
+
+    @DisplayName("Тест, что объект StrengthRing создается в методе main")
+    @Test
+    void testStrengthRingIsCreatedInMain() {
+        testObjectIsCreatedInMain(new StrengthRingMeta());
+    }
+
+    /*@DisplayName("В методе main должно выводиться на экран: 100 100 7 7 0 0 0")
     @Test
     void testMainPrints() throws IOException {
         ByteArrayOutputStream bo = new ByteArrayOutputStream();
@@ -63,12 +87,12 @@ class AppTest {
 
         App.main(new String[]{});
         bo.flush();
-        String actualLines = bo.toString().trim();
+        String actualLines = new String(bo.toByteArray()).trim();
 
         String expectedLines = MessageUtil.getExpectedPrint("100", "100", "7", "7", "0", "0", "0");
         String message = MessageUtil.formatAssertMessagePrint(expectedLines, actualLines);
         assertEquals(expectedLines, actualLines, message);
-    }
+    }*/
 
     private void testObjectIsCreatedInMain(Meta meta) {
         Reflections reflections = TestUtil.getBaseReflections(meta.getPackageName());

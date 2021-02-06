@@ -25,4 +25,11 @@ class RageBookTest extends AbstractTest {
     void testRageBookHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе RageBook есть конструктор принимающий название и минимальный уровень книги")
+    @Test
+    void testRageBookHasConstructorWithNameAndLevelParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 5});
+    }
 }

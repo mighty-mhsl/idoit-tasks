@@ -25,4 +25,11 @@ class ArcherTest extends AbstractTest {
     void testArcherHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе Archer есть конструктор принимающий имя персонажа")
+    @Test
+    void testArcherHasConstructorWithNameParam() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test"});
+    }
 }

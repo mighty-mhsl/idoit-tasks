@@ -23,4 +23,9 @@ public class Knight {
     public Gloves gloves;
     public Boots boots;
     public Shield shield;
+
+    public Knight(String n) {
+        name = n;
+        System.out.println("Создание нового рыцаря");
+    }
 }

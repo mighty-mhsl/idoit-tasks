@@ -25,4 +25,11 @@ class HunterTest extends AbstractTest {
     void testHunterHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе Hunter есть конструктор принимающий название и уровень нпс")
+    @Test
+    void testHunterHasConstructorWithNameAndBothDefenceParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3});
+    }
 }

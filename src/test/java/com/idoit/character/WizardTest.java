@@ -25,4 +25,11 @@ class WizardTest extends AbstractTest {
     void testWizardHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе Wizard есть конструктор принимающий имя персонажа")
+    @Test
+    void testWizardHasConstructorWithNameParam() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test"});
+    }
 }

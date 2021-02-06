@@ -25,4 +25,11 @@ class AccurateShotBookTest extends AbstractTest {
     void testAccurateShotBookHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе AccurateShotBook есть конструктор принимающий название и минимальный уровень книги")
+    @Test
+    void testAccurateShotBookHasConstructorWithNameAndLevelParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 5});
+    }
 }

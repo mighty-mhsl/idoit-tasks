@@ -25,4 +25,11 @@ class ShieldTest extends AbstractTest {
     void testShieldHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе Shield есть конструктор принимающий название и показатели защиты брони")
+    @Test
+    void testShieldHasConstructorWithNameAndBothDefenceParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3, 4});
+    }
 }

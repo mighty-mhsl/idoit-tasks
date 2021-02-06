@@ -25,4 +25,11 @@ class BlacksmithTest extends AbstractTest {
     void testBlacksmithHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе Blacksmith есть конструктор принимающий название и уровень нпс")
+    @Test
+    void testBlacksmithHasConstructorWithNameAndBothDefenceParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3});
+    }
 }

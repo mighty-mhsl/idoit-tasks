@@ -10,10 +10,10 @@ import com.idoit.item.weapon.Sword;
 public class App {
 
     public static void main(String[] args) {
-        Knight knight1 = new Knight();
-        Knight knight2 = new Knight();
-        System.out.println(knight1.hp);
-        System.out.println(knight2.hp);
+        Knight knight1 = new Knight("Max");
+        Knight knight2 = new Knight("Eugene");
+        System.out.println(knight1.name);
+        System.out.println(knight2.name);
 
         Wizard wizard = new Wizard();
         Archer archer = new Archer();

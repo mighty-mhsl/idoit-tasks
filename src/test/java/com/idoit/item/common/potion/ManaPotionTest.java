@@ -25,4 +25,11 @@ class ManaPotionTest extends AbstractTest {
     void testManaPotionHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе ManaPotion есть конструктор принимающий название и очки восстановления зелья")
+    @Test
+    void testManaPotionHasConstructorWithNameAndPointsParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3});
+    }
 }

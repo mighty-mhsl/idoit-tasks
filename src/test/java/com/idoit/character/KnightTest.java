@@ -25,4 +25,11 @@ class KnightTest extends AbstractTest {
     void testKnightHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе Knight есть конструктор принимающий имя персонажа")
+    @Test
+    void testKnightHasConstructorWithNameParam() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test"});
+    }
 }

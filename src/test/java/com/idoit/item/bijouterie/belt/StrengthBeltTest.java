@@ -25,4 +25,11 @@ class StrengthBeltTest extends AbstractTest {
     void testStrengthBeltHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе StrengthBelt есть конструктор принимающий название и добавляемые ремнем очки")
+    @Test
+    void testStrengthBeltHasConstructorWithNameAndPointsParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3});
+    }
 }

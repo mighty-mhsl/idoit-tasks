@@ -25,4 +25,11 @@ class CuirassTest extends AbstractTest {
     void testCuirassHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе Cuirass есть конструктор принимающий название и показатели защиты брони")
+    @Test
+    void testCuirassHasConstructorWithNameAndBothDefenceParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3, 4});
+    }
 }

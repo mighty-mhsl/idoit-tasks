@@ -25,4 +25,11 @@ class StaminaPotionTest extends AbstractTest {
     void testStaminaPotionHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе StaminaPotion есть конструктор принимающий название и очки восстановления зелья")
+    @Test
+    void testStaminaPotionHasConstructorWithNameAndPointsParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3});
+    }
 }

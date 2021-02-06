@@ -25,4 +25,11 @@ class StrengthRingTest extends AbstractTest {
     void testStrengthRingHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе StrengthRing есть конструктор принимающий название и добавляемые кольцом очки")
+    @Test
+    void testStrengthRingHasConstructorWithNameAndPointsParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3});
+    }
 }

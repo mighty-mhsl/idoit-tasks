@@ -25,4 +25,11 @@ class BootsTest extends AbstractTest {
     void testBootsHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе Boots есть конструктор принимающий название и показатели защиты брони")
+    @Test
+    void testBootsHasConstructorWithNameAndBothDefenceParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3, 4});
+    }
 }

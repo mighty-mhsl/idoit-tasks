@@ -25,4 +25,11 @@ class BagTest extends AbstractTest {
     void testBagHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе Bag есть конструктор принимающий название сумки")
+    @Test
+    void testBagHasConstructorWithNameAndPointsParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test"});
+    }
 }

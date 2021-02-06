@@ -7,9 +7,16 @@ import com.idoit.meta.item.armor.GlovesMeta;
 import com.idoit.meta.item.armor.HelmetMeta;
 import com.idoit.meta.item.armor.ShieldMeta;
 
+import java.util.Collections;
+
 abstract class CharacterMeta extends Meta {
     CharacterMeta() throws ClassNotFoundException {
         packageName = BASE_PACKAGE + ".character";
+        initFields();
+        addConstructorWithFieldsParams(Collections.singletonList("name"));
+    }
+
+    private void initFields() throws ClassNotFoundException {
         fields.put("name", String.class);
         fields.put("hp", int.class);
         fields.put("mana", int.class);

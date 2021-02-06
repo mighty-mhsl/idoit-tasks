@@ -25,4 +25,11 @@ class HpPotionTest extends AbstractTest {
     void testHpPotionHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе HpPotion есть конструктор принимающий название и очки восстановления зелья")
+    @Test
+    void testHpPotionHasConstructorWithNameAndPointsParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3});
+    }
 }

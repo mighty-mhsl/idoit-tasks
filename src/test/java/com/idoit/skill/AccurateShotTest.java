@@ -25,4 +25,11 @@ class AccurateShotTest extends AbstractTest {
     void testAccurateShotHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе AccurateShot есть конструктор принимающий название, количетсво расходуемой маны и минимальный уровень навыка")
+    @Test
+    void testAccurateShotHasConstructorWithNameAndManaAndMinLevelParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 20, 5});
+    }
 }

@@ -25,4 +25,11 @@ class HealTest extends AbstractTest {
     void testHealHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе Heal есть конструктор принимающий название, количетсво расходуемой маны и минимальный уровень навыка")
+    @Test
+    void testHealHasConstructorWithNameAndManaAndMinLevelParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 20, 5});
+    }
 }

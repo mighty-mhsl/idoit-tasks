@@ -25,4 +25,11 @@ class AgilityBeltTest extends AbstractTest {
     void testAgilityBeltHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе AgilityBelt есть конструктор принимающий название и добавляемые ремнем очки")
+    @Test
+    void testAgilityBeltHasConstructorWithNameAndPointsParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3});
+    }
 }

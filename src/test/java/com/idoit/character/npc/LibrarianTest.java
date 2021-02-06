@@ -25,4 +25,11 @@ class LibrarianTest extends AbstractTest {
     void testLibrarianHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе Librarian есть конструктор принимающий название и уровень нпс")
+    @Test
+    void testLibrarianHasConstructorWithNameAndBothDefenceParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3});
+    }
 }

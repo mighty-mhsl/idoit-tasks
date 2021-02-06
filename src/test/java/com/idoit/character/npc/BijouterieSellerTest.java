@@ -25,4 +25,11 @@ class BijouterieSellerTest extends AbstractTest {
     void testBijouterieSellerHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе BijouterieSeller есть конструктор принимающий название и уровень нпс")
+    @Test
+    void testBijouterieSellerHasConstructorWithNameAndBothDefenceParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3});
+    }
 }

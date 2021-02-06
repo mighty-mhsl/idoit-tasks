@@ -25,4 +25,11 @@ class StrengthNecklaceTest extends AbstractTest {
     void testStrengthNecklaceHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе StrengthNecklace есть конструктор принимающий название и добавляемые ожерельем очки")
+    @Test
+    void testStrengthNecklaceHasConstructorWithNameAndPointsParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3});
+    }
 }

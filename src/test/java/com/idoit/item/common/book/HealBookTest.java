@@ -25,4 +25,11 @@ class HealBookTest extends AbstractTest {
     void testHealBookHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе HealBook есть конструктор принимающий название и минимальный уровень книги")
+    @Test
+    void testHealBookHasConstructorWithNameAndLevelParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 5});
+    }
 }

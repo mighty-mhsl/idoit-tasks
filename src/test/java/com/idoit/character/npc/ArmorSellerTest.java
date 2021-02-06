@@ -25,4 +25,11 @@ class ArmorSellerTest extends AbstractTest {
     void testArmorSellerHasAllFields() {
         testClassHasFields();
     }
+
+    @DisplayName("Тест, что в классе ArmorSeller есть конструктор принимающий название и уровень нпс")
+    @Test
+    void testArmorSellerHasConstructorWithNameAndBothDefenceParams() {
+        testClassHasConstructors();
+        testConstructorSetsValueToFields(new Object[]{"test", 3});
+    }
 }
