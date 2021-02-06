@@ -9,10 +9,16 @@ public abstract class PotionMeta extends Meta {
         packageName = BASE_PACKAGE + ".item.common.potion";
         initFields();
         addConstructorWithFieldsParams(Arrays.asList("name", "pointsToRecover"));
+        initGetters();
     }
 
     private void initFields() {
         fields.put("name", String.class);
         fields.put("pointsToRecover", int.class);
+    }
+
+    private void initGetters() {
+        addMethod(String.class, "getName");
+        addMethod(int.class, "getPointsToRecover");
     }
 }

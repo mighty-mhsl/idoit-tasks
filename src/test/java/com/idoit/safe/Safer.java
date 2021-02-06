@@ -25,4 +25,19 @@ public class Safer {
             fail("Ошибка при выполнении теста", e);
         }
     }
+
+    public static Object runSafe(SafeSupplier<Object> safeSupplier) {
+        try {
+            return safeSupplier.supply();
+        } catch (ClassNotFoundException e) {
+            fail("Не найдены все требуемые классы для полей класса для выполнения данного теста", e);
+        } catch (NoSuchMethodException e) {
+            fail("Не найден требуемый метод класса для выполнения данного теста", e);
+        } catch (NoSuchFieldException e) {
+            fail("Не найдено требуемое поле класса для выполнения данного теста", e);
+        } catch (Exception e) {
+            fail("Ошибка при выполнении теста", e);
+        }
+        return null;
+    }
 }

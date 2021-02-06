@@ -18,13 +18,10 @@ public abstract class CharacterMeta extends Meta {
         packageName = BASE_PACKAGE + ".character";
         initFields();
         addConstructorWithFieldsParams(Collections.singletonList("name"));
+        initSetters();
+        initGetters();
         addMethod(void.class, "hit", Class.forName(packageName + ".Knight")); //can't pass character meta to itself :(
         addMethod(void.class, "go", int.class, int.class);
-        addMethod(void.class, "setHelmet", Meta.getClassFromMeta(new HelmetMeta()));
-        addMethod(void.class, "setCuirass", Meta.getClassFromMeta(new CuirassMeta()));
-        addMethod(void.class, "setGloves", Meta.getClassFromMeta(new GlovesMeta()));
-        addMethod(void.class, "setBoots", Meta.getClassFromMeta(new BootsMeta()));
-        addMethod(void.class, "setShield", Meta.getClassFromMeta(new ShieldMeta()));
         addMethod(void.class, "setActiveQuest", Class.forName("com.idoit.quest.Quest")); //circular dependency in meta context :(
     }
 
@@ -50,5 +47,33 @@ public abstract class CharacterMeta extends Meta {
         fields.put("necklace", Meta.getClassFromMeta(new StrengthNecklaceMeta()));
         fields.put("point", Meta.getClassFromMeta(new PointMeta()));
         fields.put("activeQuest", Class.forName("com.idoit.quest.Quest")); //circular dependency in meta context :(
+    }
+
+    private void initSetters() throws ClassNotFoundException {
+        addMethod(void.class, "setHelmet", Meta.getClassFromMeta(new HelmetMeta()));
+        addMethod(void.class, "setCuirass", Meta.getClassFromMeta(new CuirassMeta()));
+        addMethod(void.class, "setGloves", Meta.getClassFromMeta(new GlovesMeta()));
+        addMethod(void.class, "setBoots", Meta.getClassFromMeta(new BootsMeta()));
+        addMethod(void.class, "setShield", Meta.getClassFromMeta(new ShieldMeta()));
+    }
+
+    private void initGetters() throws ClassNotFoundException {
+        addMethod(String.class, "getName");
+        addMethod(int.class, "getStrength");
+        addMethod(int.class, "getAgility");
+        addMethod(int.class, "getIntelligence");
+        addMethod(int.class, "getHp");
+        addMethod(int.class, "getMana");
+        addMethod(int.class, "getStamina");
+        addMethod(int.class, "getLevel");
+        addMethod(int.class, "getExperience");
+        addMethod(int.class, "getGold");
+        addMethod(Meta.getClassFromMeta(new HelmetMeta()), "getHelmet");
+        addMethod(Meta.getClassFromMeta(new CuirassMeta()), "getCuirass");
+        addMethod(Meta.getClassFromMeta(new GlovesMeta()), "getGloves");
+        addMethod(Meta.getClassFromMeta(new BootsMeta()), "getBoots");
+        addMethod(Meta.getClassFromMeta(new ShieldMeta()), "getShield");
+        addMethod(Meta.getClassFromMeta(new PointMeta()), "getPoint");
+        addMethod(Class.forName("com.idoit.quest.Quest"), "getActiveQuest"); //circular dependency :(
     }
 }

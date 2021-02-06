@@ -77,18 +77,24 @@ public abstract class AbstractTest {
         Safer.runSafe(() -> {
             Class<?>[] paramTypes = TestUtil.getTypesForParams(params);
             Method method = meta.getMethodFromMeta(methodName, paramTypes);
+            method.setAccessible(true);
             method.invoke(caller, params);
             whatShouldHappen.accept(caller, params);
+        });
+    }
+
+    protected Object callClassMethodAndReturnResult(Object caller, String methodName, Object... params) {
+        return Safer.runSafe(() -> {
+            Class<?>[] paramTypes = TestUtil.getTypesForParams(params);
+            Method method = meta.getMethodFromMeta(methodName, paramTypes);
+            method.setAccessible(true);
+            return method.invoke(caller, params);
         });
     }
 
     protected Object getFieldValue(Object instance, String fieldName) throws NoSuchFieldException, IllegalAccessException {
         Field targetHpField = instance.getClass().getField(fieldName);
         return targetHpField.get(instance);
-    }
-
-    protected void testSetterWithMetaParam(Class<? extends Meta> paramMetaClass, String methodName, String fieldName, Object... constructorParams) {
-        testSetterWithMetaParam(paramMetaClass, new Object[]{}, methodName, fieldName, constructorParams);
     }
 
     protected void testSetterWithMetaParam(Class<? extends Meta> paramMetaClass, Object[] paramConstructorArgs,
@@ -124,9 +130,56 @@ public abstract class AbstractTest {
                                            Object... paramConstructorArgs) throws Exception {
         Meta meta = MetaContext.getMeta(paramMeta);
         Object param = meta.instantiateObjectWithConstructor(paramConstructorArgs);
-        Method setter = obj.getClass().getDeclaredMethod(setterName, meta.getClassFromMeta());
-        setter.invoke(obj, param);
+        setValue(obj, setterName, param);
         return param;
+    }
+
+    protected void testGetter(String getterName, String setterName, Object expectedValue, Object... constructorParams) {
+        Safer.runSafe(() -> {
+            Object obj = meta.instantiateObjectWithConstructor(constructorParams);
+            setValue(obj, setterName, expectedValue);
+            Method getter = obj.getClass().getDeclaredMethod(getterName);
+            Object actualValue = getter.invoke(obj);
+            String message = getGetterAssertMessage(obj.getClass(), getterName, expectedValue, actualValue);
+            assertEquals(expectedValue, actualValue, message);
+        });
+    }
+
+    protected String getMethodReturnResultAssertMessage(String methodName, Object expectedResult, Object actualResult) {
+        return MessageUtil.formatAssertMessage(
+                String.format("Метод %s в классе %s должен возвращать %s", methodName, getMeta().getClassName(), expectedResult),
+                String.format("Метод %s в классе %s возвращает %s", methodName, getMeta().getClassName(), actualResult)
+        );
+    }
+
+    protected String getFieldValueAssert(String className, String methodName, String fieldName, Object expectedValue, Object actualValue) {
+        return MessageUtil.formatAssertMessage(
+                String.format("После вызова метода %s в классе %s поле %s должно иметь значение %s", methodName, className, fieldName, expectedValue),
+                String.format("После вызова метода %s в классе %s поле %s имеет значение %s", methodName, className, fieldName, actualValue)
+        );
+    }
+
+    private void setValue(Object obj, String setterName, Object value) throws Exception {
+        try {
+            Method setter = obj.getClass().getDeclaredMethod(setterName, meta.getClassFromMeta());
+            setter.invoke(obj, value);
+        } catch (NoSuchMethodException | SecurityException e) {
+            String fieldName = getFieldNameFromSetter(setterName);
+            Field field = obj.getClass().getField(fieldName);
+            field.set(obj, value);
+        }
+    }
+
+    private String getFieldNameFromSetter(String setterName) {
+        String fieldName = setterName.replaceFirst("set", "");
+        return fieldName.substring(0,1).toLowerCase() + fieldName.substring(1);
+    }
+
+    private String getGetterAssertMessage(Class<?> clazz, String getterName, Object expectedValue, Object actualValue) {
+        return MessageUtil.formatAssertMessage(
+                String.format("Метод %s в классе %s должен возвращать %s", getterName, clazz.getName(), expectedValue),
+                String.format("Метод %s в классе %s возвращает %s", getterName, clazz.getName(), actualValue)
+        );
     }
 
     private BiConsumer<Object, Object[]> getSetterAssert(String fieldName, String assertMessage) {

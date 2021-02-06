@@ -32,4 +32,22 @@ class StaminaPotionTest extends AbstractTest {
         testClassHasConstructors();
         testConstructorSetsValueToFields("test", 3);
     }
+
+    @DisplayName("Тест, что в классе StaminaPotion есть все необходимые методы")
+    @Test
+    void testStaminaPotionHasAllMethods() {
+        testClassHasAllMethods();
+    }
+
+    @DisplayName("Тест, что метод getName в классе StaminaPotion возвращает название зелья")
+    @Test
+    void testGetName() {
+        testGetter("getName", "setName", "test", "test", 10);
+    }
+
+    @DisplayName("Тест, что метод getPointsToRecover в классе StaminaPotion возвращает название зелья")
+    @Test
+    void testGetPointsToRecover() {
+        testGetter("getPointsToRecover", "setPointsToRecover", 10, "test", 10);
+    }
 }

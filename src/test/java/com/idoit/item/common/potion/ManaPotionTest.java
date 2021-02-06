@@ -32,4 +32,22 @@ class ManaPotionTest extends AbstractTest {
         testClassHasConstructors();
         testConstructorSetsValueToFields("test", 3);
     }
+
+    @DisplayName("Тест, что в классе ManaPotion есть все необходимые методы")
+    @Test
+    void testManaPotionHasAllMethods() {
+        testClassHasAllMethods();
+    }
+
+    @DisplayName("Тест, что метод getName в классе ManaPotion возвращает название зелья")
+    @Test
+    void testGetName() {
+        testGetter("getName", "setName", "test", "test", 10);
+    }
+
+    @DisplayName("Тест, что метод getPointsToRecover в классе ManaPotion возвращает название зелья")
+    @Test
+    void testGetPointsToRecover() {
+        testGetter("getPointsToRecover", "setPointsToRecover", 10, "test", 10);
+    }
 }

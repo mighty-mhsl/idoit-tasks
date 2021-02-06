@@ -1,5 +1,6 @@
 package com.idoit.item.weapon;
 
+import com.idoit.meta.item.stone.DamageStoneMeta;
 import com.idoit.meta.item.weapon.SwordMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,5 +43,17 @@ class SwordTest extends WeaponTest {
     @Test
     void testSetDurabilitySavesDurabilityToField() {
         testSetDurability();
+    }
+
+    @DisplayName("Тест, что метод setStone в классе Sword сохраняет полученный DamageStone в поле класса")
+    @Test
+    void testSetStoneSavesStoneToField() {
+        testSetStone(DamageStoneMeta.class);
+    }
+
+    @DisplayName("Тест, что метод getStone в классе Sword возвращает камень зачаровывания оружия")
+    @Test
+    void testGetStone() {
+        testGetStone(DamageStoneMeta.class);
     }
 }

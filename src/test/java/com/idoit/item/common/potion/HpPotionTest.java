@@ -32,4 +32,22 @@ class HpPotionTest extends AbstractTest {
         testClassHasConstructors();
         testConstructorSetsValueToFields("test", 3);
     }
+
+    @DisplayName("Тест, что в классе HpPotion есть все необходимые методы")
+    @Test
+    void testHpPotionHasAllMethods() {
+        testClassHasAllMethods();
+    }
+
+    @DisplayName("Тест, что метод getName в классе HpPotion возвращает название зелья")
+    @Test
+    void testGetName() {
+        testGetter("getName", "setName", "test", "test", 10);
+    }
+
+    @DisplayName("Тест, что метод getPointsToRecover в классе HpPotion возвращает название зелья")
+    @Test
+    void testGetPointsToRecover() {
+        testGetter("getPointsToRecover", "setPointsToRecover", 10, "test", 10);
+    }
 }

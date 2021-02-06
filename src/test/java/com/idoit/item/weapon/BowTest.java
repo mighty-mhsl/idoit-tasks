@@ -1,5 +1,6 @@
 package com.idoit.item.weapon;
 
+import com.idoit.meta.item.stone.CriticalHitStoneMeta;
 import com.idoit.meta.item.weapon.BowMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,5 +43,17 @@ class BowTest extends WeaponTest {
     @Test
     void testSetDurabilitySavesDurabilityToField() {
         testSetDurability();
+    }
+
+    @DisplayName("Тест, что метод setStone в классе Bow сохраняет полученный DamageStone в поле класса")
+    @Test
+    void testSetStoneSavesStoneToField() {
+        testSetStone(CriticalHitStoneMeta.class);
+    }
+
+    @DisplayName("Тест, что метод getStone в классе Bow возвращает камень зачаровывания оружия")
+    @Test
+    void testGetStone() {
+        testGetStone(CriticalHitStoneMeta.class);
     }
 }

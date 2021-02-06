@@ -1,5 +1,6 @@
 package com.idoit.item.weapon;
 
+import com.idoit.meta.item.stone.HealStoneMeta;
 import com.idoit.meta.item.weapon.StaffMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,5 +43,17 @@ class StaffTest extends WeaponTest {
     @Test
     void testSetDurabilitySavesDurabilityToField() {
         testSetDurability();
+    }
+
+    @DisplayName("Тест, что метод setStone в классе Staff сохраняет полученный DamageStone в поле класса")
+    @Test
+    void testSetStoneSavesStoneToField() {
+        testSetStone(HealStoneMeta.class);
+    }
+
+    @DisplayName("Тест, что метод getStone в классе Staff возвращает камень зачаровывания оружия")
+    @Test
+    void testGetStone() {
+        testGetStone(HealStoneMeta.class);
     }
 }

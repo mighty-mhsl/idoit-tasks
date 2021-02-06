@@ -1,38 +1,11 @@
 package com.idoit;
 
-import com.idoit.meta.Meta;
-import com.idoit.meta.MetaContext;
-import com.idoit.meta.character.ArcherMeta;
-import com.idoit.meta.character.KnightMeta;
-import com.idoit.meta.character.WizardMeta;
-import com.idoit.meta.character.npc.seller.BlacksmithMeta;
-import com.idoit.meta.item.armor.HelmetMeta;
-import com.idoit.meta.item.bijouterie.ring.StrengthRingMeta;
-import com.idoit.meta.item.common.potion.HpPotionMeta;
-import com.idoit.meta.item.weapon.BowMeta;
-import com.idoit.meta.item.weapon.StaffMeta;
-import com.idoit.meta.item.weapon.SwordMeta;
-import com.idoit.safe.Safer;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.MockedConstruction;
-import org.mockito.Mockito;
-import org.mockito.stubbing.Answer;
-import org.reflections8.Reflections;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 @DisplayName("Тест логики в классе App")
 class AppTest {
 
-    @DisplayName("Тест, что объект Wizard создается в методе main")
+    /*@DisplayName("Тест, что объект Wizard создается в методе main")
     @Test
     void testWizardIsCreatedInMain() {
         testObjectIsCreatedInMain(MetaContext.getMeta(WizardMeta.class));
@@ -134,7 +107,7 @@ class AppTest {
         });
     }
 
-    /*@DisplayName("В методе main должно выводиться на экран: 100 100 7 7 0 0 0")
+    @DisplayName("В методе main должно выводиться на экран: 100 100 7 7 0 0 0")
     @Test
     void testMainPrints() throws IOException {
         ByteArrayOutputStream bo = new ByteArrayOutputStream();
@@ -147,7 +120,7 @@ class AppTest {
         String expectedLines = MessageUtil.getExpectedPrint("100", "100", "7", "7", "0", "0", "0");
         String message = MessageUtil.formatAssertMessagePrint(expectedLines, actualLines);
         assertEquals(expectedLines, actualLines, message);
-    }*/
+    }
 
     private void testObjectIsCreatedInMain(Meta meta) {
         Reflections reflections = TestUtil.getBaseReflections(meta.getPackageName());
@@ -175,5 +148,5 @@ class AppTest {
         return reflections.getSubTypesOf(Object.class).stream()
                 .filter(clazz -> meta.getFullClassName().equals(clazz.getName()))
                 .findFirst();
-    }
+    }*/
 }

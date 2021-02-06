@@ -1,7 +1,7 @@
 package com.idoit;
 
 import com.idoit.meta.Meta;
-import com.idoit.safe.SafeSupplier;
+import com.idoit.safe.ClassSafeSupplier;
 import org.reflections8.Reflections;
 import org.reflections8.scanners.SubTypesScanner;
 import org.reflections8.util.ClasspathHelper;
@@ -50,7 +50,7 @@ public class TestUtil {
                 .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(packageName))));
     }
 
-    static Meta supplyMetaSafe(SafeSupplier<Meta> supplier) {
+    static Meta supplyMetaSafe(ClassSafeSupplier<Meta> supplier) {
         try {
             return supplier.supply();
         } catch (Exception e) {

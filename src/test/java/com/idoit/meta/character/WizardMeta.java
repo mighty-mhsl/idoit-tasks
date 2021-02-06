@@ -10,12 +10,8 @@ public class WizardMeta extends CharacterMeta {
     public WizardMeta() throws ClassNotFoundException {
         className = "Wizard";
         initFields();
-        addMethod(void.class, "setStaff", Meta.getClassFromMeta(new StaffMeta()));
-        addMethod(void.class, "setLeftRing", Meta.getClassFromMeta(new IntelligenceRingMeta()));
-        addMethod(void.class, "setRightRing", Meta.getClassFromMeta(new IntelligenceRingMeta()));
-        addMethod(void.class, "setBelt", Meta.getClassFromMeta(new IntelligenceBeltMeta()));
-        addMethod(void.class, "setNecklace", Meta.getClassFromMeta(new IntelligenceNecklaceMeta()));
-        addMethod(void.class, "setSkill", Class.forName("com.idoit.skill.Heal")); //circular dependency :(
+        initSetters();
+        initGetters();
         addMethod(void.class, "castSkill", Class.forName(packageName + ".Knight")); //can't pass character meta to itself :(
     }
 
@@ -26,5 +22,23 @@ public class WizardMeta extends CharacterMeta {
         fields.put("belt", Meta.getClassFromMeta(new IntelligenceBeltMeta()));
         fields.put("necklace", Meta.getClassFromMeta(new IntelligenceNecklaceMeta()));
         fields.put("skill", Class.forName("com.idoit.skill.Heal")); //circular dependency :(
+    }
+
+    private void initSetters() throws ClassNotFoundException {
+        addMethod(void.class, "setStaff", Meta.getClassFromMeta(new StaffMeta()));
+        addMethod(void.class, "setLeftRing", Meta.getClassFromMeta(new IntelligenceRingMeta()));
+        addMethod(void.class, "setRightRing", Meta.getClassFromMeta(new IntelligenceRingMeta()));
+        addMethod(void.class, "setBelt", Meta.getClassFromMeta(new IntelligenceBeltMeta()));
+        addMethod(void.class, "setNecklace", Meta.getClassFromMeta(new IntelligenceNecklaceMeta()));
+        addMethod(void.class, "setSkill", Class.forName("com.idoit.skill.Heal")); //circular dependency :(
+    }
+
+    private void initGetters() throws ClassNotFoundException {
+        addMethod(Meta.getClassFromMeta(new StaffMeta()), "getStaff");
+        addMethod(Meta.getClassFromMeta(new IntelligenceRingMeta()), "getLeftRing");
+        addMethod(Meta.getClassFromMeta(new IntelligenceRingMeta()), "getRightRing");
+        addMethod(Meta.getClassFromMeta(new IntelligenceBeltMeta()), "getBelt");
+        addMethod(Meta.getClassFromMeta(new IntelligenceNecklaceMeta()), "getNecklace");
+        addMethod(Class.forName("com.idoit.skill.Heal"), "getSkill"); //circular dependency :(
     }
 }

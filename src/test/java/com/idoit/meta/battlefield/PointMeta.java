@@ -10,13 +10,23 @@ public class PointMeta extends Meta {
         className = "Point";
         initFields();
         addConstructorWithFieldsParams(Arrays.asList("x", "y"));
-        addMethod(void.class, "setX", int.class);
-        addMethod(void.class, "setY", int.class);
-        addMethod(void.class, "setXY", int.class, int.class);
+        initSetters();
+        initGetters();
     }
 
     private void initFields() {
         fields.put("x", int.class);
         fields.put("y", int.class);
+    }
+
+    private void initSetters() {
+        addMethod(void.class, "setX", int.class);
+        addMethod(void.class, "setY", int.class);
+        addMethod(void.class, "setXY", int.class, int.class);
+    }
+
+    private void initGetters() {
+        addMethod(int.class, "getX");
+        addMethod(int.class, "getY");
     }
 }

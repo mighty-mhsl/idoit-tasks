@@ -7,6 +7,7 @@ import com.idoit.meta.item.armor.CuirassMeta;
 import com.idoit.meta.item.armor.GlovesMeta;
 import com.idoit.meta.item.armor.HelmetMeta;
 import com.idoit.meta.item.armor.ShieldMeta;
+import com.idoit.meta.item.special.InitialStoneMeta;
 import com.idoit.safe.SafeFunction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -73,6 +74,12 @@ class ArmorSellerTest extends SellerTest {
     @Test
     void testFixIncreasesShieldDurability() {
         testFix(ShieldMeta.class, getArmorCreator());
+    }
+
+    @DisplayName("Тест, что метод accept в классе ArmorSeller увеличивает уровень кузнеца на 1")
+    @Test
+    void testAccept() {
+        testAccept(InitialStoneMeta.class);
     }
 
     private SafeFunction<Meta, Object> getArmorCreator() {

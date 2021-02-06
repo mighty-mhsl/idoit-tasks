@@ -2,8 +2,10 @@ package com.idoit.character;
 
 import com.idoit.meta.Meta;
 import com.idoit.meta.MetaContext;
+import com.idoit.meta.battlefield.PointMeta;
 import com.idoit.meta.character.KnightMeta;
 import com.idoit.meta.character.npc.NpcMeta;
+import com.idoit.meta.character.npc.seller.BlacksmithMeta;
 import com.idoit.meta.item.armor.BootsMeta;
 import com.idoit.meta.item.armor.CuirassMeta;
 import com.idoit.meta.item.armor.GlovesMeta;
@@ -12,6 +14,7 @@ import com.idoit.meta.item.armor.ShieldMeta;
 import com.idoit.meta.item.bijouterie.belt.StrengthBeltMeta;
 import com.idoit.meta.item.bijouterie.necklace.StrengthNecklaceMeta;
 import com.idoit.meta.item.bijouterie.ring.StrengthRingMeta;
+import com.idoit.meta.item.common.potion.HpPotionMeta;
 import com.idoit.meta.item.weapon.SwordMeta;
 import com.idoit.meta.quest.QuestMeta;
 import com.idoit.meta.skill.RageMeta;
@@ -147,6 +150,12 @@ class KnightTest extends CharacterTest {
         testSetBijouterie(valueMeta, methodName, "leftRing", message);
     }
 
+    @DisplayName("Тест, что метод setLeftRing в классе Knight добавляет очки кольца к соответствующей характеристике персонажа")
+    @Test
+    void testSetLeftRingAddsPoints() {
+        testBijouterieAddsPoints("setLeftRing", "strength", StrengthRingMeta.class);
+    }
+
     @DisplayName("Тест, что метод setRightRing в классе Knight сохраняет полученный StrengthRing в поле класса")
     @Test
     void testSetRightRingSavesStrengthRingToField() {
@@ -154,6 +163,12 @@ class KnightTest extends CharacterTest {
         Meta valueMeta = MetaContext.getMeta(StrengthRingMeta.class);
         String message = getSetterAssertMessage(methodName, valueMeta.getClassName(), getMeta().getClassName());
         testSetBijouterie(valueMeta, methodName, "rightRing", message);
+    }
+
+    @DisplayName("Тест, что метод setRightRing в классе Knight добавляет очки кольца к соответствующей характеристике персонажа")
+    @Test
+    void testSetRightRingAddsPoints() {
+        testBijouterieAddsPoints("setRightRing", "strength", StrengthRingMeta.class);
     }
 
     @DisplayName("Тест, что метод setBelt в классе Knight сохраняет полученный StrengthBelt в поле класса")
@@ -165,6 +180,12 @@ class KnightTest extends CharacterTest {
         testSetBijouterie(valueMeta, methodName, "belt", message);
     }
 
+    @DisplayName("Тест, что метод setBelt в классе Knight добавляет очки кольца к соответствующей характеристике персонажа")
+    @Test
+    void testSetBeltAddsPoints() {
+        testBijouterieAddsPoints("setBelt", "strength", StrengthBeltMeta.class);
+    }
+
     @DisplayName("Тест, что метод setNecklace в классе Knight сохраняет полученный StrengthNecklace в поле класса")
     @Test
     void testSetNecklaceSavesStrengthNecklaceToField() {
@@ -172,6 +193,12 @@ class KnightTest extends CharacterTest {
         Meta valueMeta = MetaContext.getMeta(StrengthNecklaceMeta.class);
         String message = getSetterAssertMessage(methodName, valueMeta.getClassName(), getMeta().getClassName());
         testSetBijouterie(valueMeta, methodName, "necklace", message);
+    }
+
+    @DisplayName("Тест, что метод setNecklace в классе Knight добавляет очки кольца к соответствующей характеристике персонажа")
+    @Test
+    void testSetNecklaceAddsPoints() {
+        testBijouterieAddsPoints("setNecklace", "strength", StrengthNecklaceMeta.class);
     }
 
     @DisplayName("Тест, что метод setActiveQuest в классе Knight сохраняет переданный Quest в поле класса")
@@ -186,6 +213,237 @@ class KnightTest extends CharacterTest {
     void testSetSkillSavesSkillToField() {
         Object[] rageConstructor = new Object[]{"test", 1, 1};
         testSetterWithMetaParam(RageMeta.class, rageConstructor, "setSkill", "skill", "test");
+    }
+
+    @DisplayName("Тест, что метод takeOffLeftRing в классе Knight снимает левое кольцо")
+    @Test
+    void testTakeOffLeftRing() {
+        testTakeOffRemovesBijouterie("takeOffLeftRing", "setLeftRing", "leftRing", StrengthRingMeta.class);
+    }
+
+    @DisplayName("Тест, что метод takeOffLeftRing в классе Knight отнимает от соответствующей характиристике количество очков предмета")
+    @Test
+    void testTakeOffLeftRingDecreasesCharacteristic() {
+        testTakeOffDecreasesCharacteristic("takeOffLeftRing", "setLeftRing", "strength", StrengthRingMeta.class);
+    }
+
+    @DisplayName("Тест, что метод takeOffRightRing в классе Knight снимает левое кольцо")
+    @Test
+    void testTakeOffRightRing() {
+        testTakeOffRemovesBijouterie("takeOffRightRing", "setRightRing", "rightRing", StrengthRingMeta.class);
+    }
+
+    @DisplayName("Тест, что метод takeOffRightRing в классе Knight отнимает от соответствующей характиристике количество очков предмета")
+    @Test
+    void testTakeOffRightRingDecreasesCharacteristic() {
+        testTakeOffDecreasesCharacteristic("takeOffRightRing", "setRightRing", "strength", StrengthRingMeta.class);
+    }
+
+    @DisplayName("Тест, что метод takeOffBelt в классе Knight снимает левое кольцо")
+    @Test
+    void testTakeOffBelt() {
+        testTakeOffRemovesBijouterie("takeOffBelt", "setBelt", "belt", StrengthBeltMeta.class);
+    }
+
+    @DisplayName("Тест, что метод takeOffBelt в классе Knight отнимает от соответствующей характиристике количество очков предмета")
+    @Test
+    void testTakeOffBeltDecreasesCharacteristic() {
+        testTakeOffDecreasesCharacteristic("takeOffBelt", "setBelt", "strength", StrengthBeltMeta.class);
+    }
+
+    @DisplayName("Тест, что метод takeOffNecklace в классе Knight снимает левое кольцо")
+    @Test
+    void testTakeOffNecklace() {
+        testTakeOffRemovesBijouterie("takeOffNecklace", "setNecklace", "necklace", StrengthNecklaceMeta.class);
+    }
+
+    @DisplayName("Тест, что метод takeOffNecklace в классе Knight отнимает от соответствующей характиристике количество очков предмета")
+    @Test
+    void testTakeOffNecklaceDecreasesCharacteristic() {
+        testTakeOffDecreasesCharacteristic("takeOffNecklace", "setNecklace", "strength", StrengthNecklaceMeta.class);
+    }
+
+    @DisplayName("Тест, что метод getName в классе Knight возвращает имя персонажа")
+    @Test
+    void testGetName() {
+        testGetter("getName", "setName", "test", CONSTRUCTOR_PARAM);
+    }
+
+    @DisplayName("Тест, что метод getStrength в классе Knight возвращает силу персонажа")
+    @Test
+    void testGetStrength() {
+        testGetter("getStrength", "setStrength", 8, CONSTRUCTOR_PARAM);
+    }
+
+    @DisplayName("Тест, что метод getAgility в классе Knight возвращает ловкость персонажа")
+    @Test
+    void testGetAgility() {
+        testGetter("getAgility", "setAgility", 8, CONSTRUCTOR_PARAM);
+    }
+
+    @DisplayName("Тест, что метод getIntelligence в классе Knight возвращает интеллект персонажа")
+    @Test
+    void testGetIntelligence() {
+        testGetter("getIntelligence", "setIntelligence", 8, CONSTRUCTOR_PARAM);
+    }
+
+    @DisplayName("Тест, что метод getHp в классе Knight возвращает здоровье персонажа")
+    @Test
+    void testGetHp() {
+        testGetter("getHp", "setHp", 8, CONSTRUCTOR_PARAM);
+    }
+
+    @DisplayName("Тест, что метод getMana в классе Knight возвращает ману персонажа")
+    @Test
+    void testGetMana() {
+        testGetter("getMana", "setMana", 8, CONSTRUCTOR_PARAM);
+    }
+
+    @DisplayName("Тест, что метод getStamina в классе Knight возвращает выносливость персонажа")
+    @Test
+    void testGetStamina() {
+        testGetter("getStamina", "setStamina", 8, CONSTRUCTOR_PARAM);
+    }
+
+    @DisplayName("Тест, что метод getLevel в классе Knight возвращает уровень персонажа")
+    @Test
+    void testGetLevel() {
+        testGetter("getLevel", "setLevel", 8, CONSTRUCTOR_PARAM);
+    }
+
+    @DisplayName("Тест, что метод getExperience в классе Knight возвращает опыт персонажа")
+    @Test
+    void testGetExperience() {
+        testGetter("getExperience", "setExperience", 8, CONSTRUCTOR_PARAM);
+    }
+
+    @DisplayName("Тест, что метод getPhysicalDefence в классе Knight возвращает физическую защиту персонажа")
+    @Test
+    void testGetPhysicalDefence() {
+        testGetter("getPhysicalDefence", "setPhysicalDefence", 8, CONSTRUCTOR_PARAM);
+    }
+
+    @DisplayName("Тест, что метод getMagicDefence в классе Knight возвращает магическую защиту персонажа")
+    @Test
+    void testGetMagicDefence() {
+        testGetter("getMagicDefence", "setMagicDefence", 8, CONSTRUCTOR_PARAM);
+    }
+
+    @DisplayName("Тест, что метод getHelmet в классе Knight возвращает шлем персонажа")
+    @Test
+    void testGetHelmet() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(HelmetMeta.class).instantiateObjectWithConstructor("test", 1, 2);
+            testGetter("getHelmet", "setHelmet", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
+    @DisplayName("Тест, что метод getCuirass в классе Knight возвращает кирасу персонажа")
+    @Test
+    void testGetCuirass() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(CuirassMeta.class).instantiateObjectWithConstructor("test", 1, 2);
+            testGetter("getCuirass", "setCuirass", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
+    @DisplayName("Тест, что метод getGloves в классе Knight возвращает перчатки персонажа")
+    @Test
+    void testGetGloves() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(GlovesMeta.class).instantiateObjectWithConstructor("test", 1, 2);
+            testGetter("getGloves", "setGloves", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
+    @DisplayName("Тест, что метод getBoots в классе Knight возвращает сапоги персонажа")
+    @Test
+    void testGetBoots() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(BootsMeta.class).instantiateObjectWithConstructor("test", 1, 2);
+            testGetter("getBoots", "setBoots", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
+    @DisplayName("Тест, что метод getShield в классе Knight возвращает щит персонажа")
+    @Test
+    void testGetShield() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(ShieldMeta.class).instantiateObjectWithConstructor("test", 1, 2);
+            testGetter("getShield", "setShield", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
+    @DisplayName("Тест, что метод getPoint в классе Knight возвращает точку персонажа")
+    @Test
+    void testGetPoint() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(PointMeta.class).instantiateObjectWithConstructor(1, 2);
+            testGetter("getPoint", "setPoint", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
+    @DisplayName("Тест, что метод getActiveQuest в классе Knight возвращает задание персонажа")
+    @Test
+    void testGetActiveQuest() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(QuestMeta.class).instantiateObjectWithConstructor("t", "u", 1, 2, 3);
+            testGetter("getActiveQuest", "setActiveQuest", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
+    @DisplayName("Тест, что метод getSword в классе Knight возвращает оружие персонажа")
+    @Test
+    void testGetSword() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(SwordMeta.class).instantiateObjectWithConstructor("test", 1);
+            testGetter("getSword", "setSword", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
+    @DisplayName("Тест, что метод getLeftRing в классе Knight возвращает левое кольцо персонажа")
+    @Test
+    void testGetLeftRing() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(StrengthRingMeta.class).instantiateObjectWithConstructor("test", 1);
+            testGetter("getLeftRing", "setLeftRing", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
+    @DisplayName("Тест, что метод getRightRing в классе Knight возвращает правое кольцо персонажа")
+    @Test
+    void testGetRightRing() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(StrengthRingMeta.class).instantiateObjectWithConstructor("test", 1);
+            testGetter("getRightRing", "setRightRing", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
+    @DisplayName("Тест, что метод getBelt в классе Knight возвращает ремень персонажа")
+    @Test
+    void testGetBelt() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(StrengthBeltMeta.class).instantiateObjectWithConstructor("test", 1);
+            testGetter("getBelt", "setBelt", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
+    @DisplayName("Тест, что метод getNecklace в классе Knight возвращает ожерелье персонажа")
+    @Test
+    void testGetNecklace() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(StrengthNecklaceMeta.class).instantiateObjectWithConstructor("test", 1);
+            testGetter("getNecklace", "setNecklace", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
+    @DisplayName("Тест, что метод getSkill в классе Knight возвращает навык персонажа")
+    @Test
+    void testGetSkill() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(RageMeta.class).instantiateObjectWithConstructor("test", 1, 2);
+            testGetter("getSkill", "setSkill", param, CONSTRUCTOR_PARAM);
+        });
     }
 
     @DisplayName("Тест, что метод addGold в классе Knight добавляет переданное количество золота к текущему")
@@ -262,6 +520,72 @@ class KnightTest extends CharacterTest {
             });
 
             testClassMethod(castAssert, knight, "castSkill");
+        });
+    }
+
+    @DisplayName("Тест, что метод calculateDistance в классе Knight вычисляет расстояние между персонажем и переданной точкой")
+    @Test
+    void testCalculateDistance() {
+        Safer.runSafe(() -> {
+            String methodName = "calculateDistance";
+            Object knight = getMeta().instantiateObjectWithConstructor(CONSTRUCTOR_PARAM);
+            Meta pointMeta = MetaContext.getMeta(PointMeta.class);
+            int x = 3, y = 3;
+            double expectedDistance = Math.sqrt(x * x + y * y);
+            Object point = pointMeta.instantiateObjectWithConstructor(x, y);
+            Object actualDistance = callClassMethodAndReturnResult(knight, methodName, point);
+            String message = getMethodReturnResultAssertMessage(methodName, expectedDistance, actualDistance);
+            assertEquals(expectedDistance, actualDistance, message);
+        });
+    }
+
+    @DisplayName("Тест, что метод drinkHpPotion в классе Knight добавляет к здоровью персонажа количество очков переданного зелья")
+    @Test
+    void testDrinkHpPotion() {
+        Safer.runSafe(() -> {
+            String methodName = "drinkHpPotion";
+            Object knight = getMeta().instantiateObjectWithConstructor(CONSTRUCTOR_PARAM);
+            int pointsToRecover = 10;
+
+            BiConsumer<Object, Object[]> drinkAssert = (obj, params) -> Safer.runSafe(() -> {
+                String fieldName = "hp";
+                int expectedHp = 100 + pointsToRecover;
+                Object actualHp = getFieldValue(obj, fieldName);
+                String message = getFieldValueAssert(getMeta().getClassName(), methodName, fieldName, expectedHp, actualHp);
+                assertEquals(expectedHp, actualHp, message);
+            });
+
+            Meta potionMeta = MetaContext.getMeta(HpPotionMeta.class);
+            Object potion = potionMeta.instantiateObjectWithConstructor("test", pointsToRecover);
+            testClassMethod(drinkAssert, knight, methodName, potion);
+        });
+    }
+
+    @DisplayName("Тест, что метод talkTo в классе Knight отдает оружие рыцаря на починку кузнецу")
+    @Test
+    void testTalkToBlacksmith() {
+        Safer.runSafe(() -> {
+            String methodName = "talkTo";
+            Object knight = getMeta().instantiateObjectWithConstructor(CONSTRUCTOR_PARAM);
+            setFieldForObjectAndGet(knight, "setSword", SwordMeta.class, "sword", 10);
+
+            BiConsumer<Object, Object[]> talkToAssert = (obj, params) -> Safer.runSafe(() -> {
+                Object sword = getFieldValue(obj, "sword");
+                String durabilityFieldName = "durability";
+                Object actualDurability = getFieldValue(sword, durabilityFieldName);
+                String durabilityMessage = getFieldValueAssert(getMeta().getClassName(), methodName, durabilityFieldName, 100, actualDurability);
+                assertEquals(100, actualDurability, durabilityMessage);
+
+                int expectedGold = 80;
+                String goldFieldName = "gold";
+                Object actualGold = getFieldValue(obj, goldFieldName);
+                String goldMessage = getFieldValueAssert(getMeta().getClassName(), methodName, goldFieldName, expectedGold, actualGold);
+                assertEquals(expectedGold, actualGold, goldMessage);
+            });
+
+            Meta blacksmithMeta = MetaContext.getMeta(BlacksmithMeta.class);
+            Object blacksmith = blacksmithMeta.instantiateObjectWithConstructor("test", 1);
+            testClassMethod(talkToAssert, knight, "talkTo", blacksmith);
         });
     }
 

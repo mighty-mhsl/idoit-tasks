@@ -4,12 +4,14 @@ import com.idoit.MessageUtil;
 import com.idoit.meta.Meta;
 import com.idoit.meta.MetaContext;
 import com.idoit.meta.character.KnightMeta;
+import com.idoit.meta.item.bijouterie.BijouterieMeta;
 import com.idoit.safe.Safer;
 
 import java.lang.reflect.Method;
 import java.util.function.BiConsumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 abstract class CharacterTest extends AbstractCharacterTest {
 
@@ -69,11 +71,56 @@ abstract class CharacterTest extends AbstractCharacterTest {
         });
     }
 
-    String getFieldValueAssert(String className, String methodName, String fieldName, Object expectedValue, Object actualValue) {
-        return MessageUtil.formatAssertMessage(
-                String.format("После вызова метода %s в классе %s поле %s должно иметь значение %s", methodName, className, fieldName, expectedValue),
-                String.format("После вызова метода %s в классе %s поле %s имеет значение %s", methodName, className, fieldName, actualValue)
-        );
+    void testBijouterieAddsPoints(String methodName, String fieldName, Class<? extends BijouterieMeta> bijouterieMeta) {
+        Safer.runSafe(() -> {
+            Object character = getMeta().instantiateObjectWithConstructor(CONSTRUCTOR_PARAM);
+            int pointsToAdd = 1;
+
+            BiConsumer<Object, Object[]> addPointsAssert = (obj, params) -> Safer.runSafe(() -> {
+                int expectedValue = 7 + pointsToAdd;
+                Object actualValue = getFieldValue(obj, fieldName);
+                String message = getFieldValueAssert(getMeta().getClassName(), methodName, fieldName, expectedValue, actualValue);
+                assertEquals(expectedValue, actualValue, message);
+            });
+
+            Meta ringMeta = MetaContext.getMeta(bijouterieMeta);
+            Object ring = ringMeta.instantiateObjectWithConstructor("test", pointsToAdd);
+            testClassMethod(addPointsAssert, character, methodName, ring);
+        });
+    }
+
+    void testTakeOffRemovesBijouterie(String methodName, String setterName, String fieldName,
+                                      Class<? extends BijouterieMeta> metaClass) {
+        Safer.runSafe(() -> {
+            Object knight = getMeta().instantiateObjectWithConstructor(CONSTRUCTOR_PARAM);
+            setFieldForObjectAndGet(knight, setterName, metaClass, "test", 1);
+
+            BiConsumer<Object, Object[]> takeOffAssert = (obj, params) -> Safer.runSafe(() -> {
+                Object actualValue = getFieldValue(obj, fieldName);
+                String message = getFieldValueAssert(getMeta().getClassName(), methodName, fieldName, null, actualValue);
+                assertNull(actualValue, message);
+            });
+
+            testClassMethod(takeOffAssert, knight, methodName);
+        });
+    }
+
+    void testTakeOffDecreasesCharacteristic(String methodName, String setterName, String fieldName,
+                                            Class<? extends BijouterieMeta> metaClass) {
+        Safer.runSafe(() -> {
+            Object knight = getMeta().instantiateObjectWithConstructor(CONSTRUCTOR_PARAM);
+            int pointsToAdd = 1;
+            setFieldForObjectAndGet(knight, setterName, metaClass, "test", pointsToAdd);
+
+            BiConsumer<Object, Object[]> takeOffAssert = (obj, params) -> Safer.runSafe(() -> {
+                int expectedValue = 7 - pointsToAdd;
+                Object actualValue = getFieldValue(obj, fieldName);
+                String message = getFieldValueAssert(getMeta().getClassName(), methodName, fieldName, expectedValue, actualValue);
+                assertEquals(expectedValue, actualValue, message);
+            });
+
+            testClassMethod(takeOffAssert, knight, methodName);
+        });
     }
 
     private void testHit(Object hitter, Meta weaponMeta, String weaponSetterName, BiConsumer<Object, Object[]> assertConsumer) throws Exception {

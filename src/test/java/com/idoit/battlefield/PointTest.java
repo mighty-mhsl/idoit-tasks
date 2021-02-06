@@ -81,4 +81,16 @@ class PointTest extends AbstractTest {
             testClassMethod(xyAssert, point, methodName, 1, 2);
         });
     }
+
+    @DisplayName("Тест, что метод getX в классе Point возвращает координату х точки")
+    @Test
+    void testGetX() {
+        testGetter("getX", "setX", 1, 0, 0);
+    }
+
+    @DisplayName("Тест, что метод getY в классе Point возвращает координату х точки")
+    @Test
+    void testGetY() {
+        testGetter("getY", "setY", 1, 0, 0);
+    }
 }
