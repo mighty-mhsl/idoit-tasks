@@ -1,7 +1,9 @@
 package com.idoit.meta.item.bijouterie.necklace;
 
-import com.idoit.meta.Meta;
+import com.idoit.meta.item.bijouterie.BijouterieMeta;
 
-public abstract class NecklaceMeta extends Meta {
-    public static final String PACKAGE_NAME = BASE_PACKAGE + ".item.bijouterie.necklace";
+abstract class NecklaceMeta extends BijouterieMeta {
+    NecklaceMeta() {
+        packageName = BASE_PACKAGE + ".item.bijouterie.necklace";
+    }
 }

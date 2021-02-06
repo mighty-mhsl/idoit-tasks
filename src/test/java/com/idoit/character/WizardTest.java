@@ -1,15 +1,28 @@
 package com.idoit.character;
 
+import com.idoit.AbstractTest;
 import com.idoit.meta.character.WizardMeta;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Тесты логики в классе Wizard")
-class WizardTest extends CharacterTest {
+class WizardTest extends AbstractTest {
+
+    @BeforeEach
+    void setUp() {
+        setMetaSafe(WizardMeta::new);
+    }
 
     @DisplayName("Тест, что класс Wizard находится в пакете com.idoit.character")
     @Test
     void testWizardIsInCharacterPackage() {
-        testCharacterInPackage(WizardMeta.CLASS_NAME);
+        testClassIsInPackage();
+    }
+
+    @DisplayName("Тест, что класс Wizard имеет все необходимые поля")
+    @Test
+    void testWizardHasAllFields() {
+        testClassHasFields();
     }
 }

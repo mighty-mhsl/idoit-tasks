@@ -1,15 +1,28 @@
 package com.idoit.skill;
 
+import com.idoit.AbstractTest;
 import com.idoit.meta.skill.RageMeta;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Тесты логики в классе Rage")
-class RageTest extends SkillTest {
+class RageTest extends AbstractTest {
+
+    @BeforeEach
+    void setUp() {
+        setMeta(new RageMeta());
+    }
 
     @DisplayName("Тест, что класс Rage находится в пакете com.idoit.skill")
     @Test
     void testRageIsInSkillPackage() {
-        testSkillIsInPackage(RageMeta.CLASS_NAME);
+        testClassIsInPackage();
+    }
+
+    @DisplayName("Тест, что класс Rage имеет все необходимые поля")
+    @Test
+    void testRageHasAllFields() {
+        testClassHasFields();
     }
 }

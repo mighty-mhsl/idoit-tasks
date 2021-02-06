@@ -2,16 +2,23 @@ package com.idoit;
 
 import com.idoit.meta.Meta;
 import com.idoit.meta.character.ArcherMeta;
-import com.idoit.meta.character.CharacterMeta;
 import com.idoit.meta.character.WizardMeta;
+import com.idoit.meta.item.weapon.BowMeta;
+import com.idoit.meta.item.weapon.StaffMeta;
+import com.idoit.meta.item.weapon.SwordMeta;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
 import org.reflections8.Reflections;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Objects;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -21,23 +28,56 @@ class AppTest {
     @DisplayName("Тест, что объект Wizard создается в методе main")
     @Test
     void testWizardIsCreatedInMain() {
-        testCharacterIsCreatedInMain(WizardMeta.CLASS_NAME, WizardMeta.PACKAGE_NAME);
+        testObjectIsCreatedInMain(Objects.requireNonNull(TestUtil.supplyMetaSafe(WizardMeta::new)));
     }
 
     @DisplayName("Тест, что объект Archer создается в методе main")
     @Test
     void testArcherIsCreatedInMain() {
-        testCharacterIsCreatedInMain(ArcherMeta.CLASS_NAME, ArcherMeta.PACKAGE_NAME);
+        testObjectIsCreatedInMain(Objects.requireNonNull(TestUtil.supplyMetaSafe(ArcherMeta::new)));
     }
 
-    private void testCharacterIsCreatedInMain(String className, String packageName) {
-        Reflections reflections = TestUtil.getBaseReflections(packageName);
-        Optional<Class<?>> archerClassOptional = getClassFromPackage(reflections, className, packageName);
-        if (archerClassOptional.isPresent()) {
-            Class<?> archerClass = archerClassOptional.get();
-            checkObjectConstruction(archerClass, className);
+    @DisplayName("Тест, что объект Sword создается в методе main")
+    @Test
+    void testSwordIsCreatedInMain() {
+        testObjectIsCreatedInMain(new SwordMeta());
+    }
+
+    @DisplayName("Тест, что объект Staff создается в методе main")
+    @Test
+    void testStaffIsCreatedInMain() {
+        testObjectIsCreatedInMain(new StaffMeta());
+    }
+
+    @DisplayName("Тест, что объект Bow создается в методе main")
+    @Test
+    void testBowIsCreatedInMain() {
+        testObjectIsCreatedInMain(new BowMeta());
+    }
+
+    @DisplayName("В методе main должно выводиться на экран: 100 100 7 7 0 0 0")
+    @Test
+    void testMainPrints() throws IOException {
+        ByteArrayOutputStream bo = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(bo));
+
+        App.main(new String[]{});
+        bo.flush();
+        String actualLines = bo.toString().trim();
+
+        String expectedLines = MessageUtil.getExpectedPrint("100", "100", "7", "7", "0", "0", "0");
+        String message = MessageUtil.formatAssertMessagePrint(expectedLines, actualLines);
+        assertEquals(expectedLines, actualLines, message);
+    }
+
+    private void testObjectIsCreatedInMain(Meta meta) {
+        Reflections reflections = TestUtil.getBaseReflections(meta.getPackageName());
+        Optional<Class<?>> objectClassOptional = getClassFromPackage(reflections, meta);
+        if (objectClassOptional.isPresent()) {
+            Class<?> archerClass = objectClassOptional.get();
+            checkObjectConstruction(archerClass, meta.getClassName());
         } else {
-            fail(String.format("Класс %s не найден в пакете %s", className, CharacterMeta.PACKAGE_NAME));
+            fail(String.format("Класс %s не найден в пакете %s", meta.getClassName(), meta.getPackageName()));
         }
     }
 
@@ -52,9 +92,9 @@ class AppTest {
         }
     }
 
-    private Optional<Class<?>> getClassFromPackage(Reflections reflections, String className, String packageName) {
+    private Optional<Class<?>> getClassFromPackage(Reflections reflections, Meta meta) {
         return reflections.getSubTypesOf(Object.class).stream()
-                .filter(clazz -> Meta.getFullClassName(className, packageName).equals(clazz.getName()))
+                .filter(clazz -> meta.getFullClassName().equals(clazz.getName()))
                 .findFirst();
     }
 }

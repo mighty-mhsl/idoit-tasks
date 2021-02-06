@@ -2,6 +2,12 @@ package com.idoit.meta.item.armor;
 
 import com.idoit.meta.Meta;
 
-public abstract class ArmorMeta extends Meta {
-    public static final String PACKAGE_NAME = BASE_PACKAGE + ".item.armor";
+abstract class ArmorMeta extends Meta {
+    ArmorMeta() {
+        packageName = BASE_PACKAGE + ".item.armor";
+        fields.put("name", String.class);
+        fields.put("type", String.class);
+        fields.put("physicalDefence", int.class);
+        fields.put("magicDefence", int.class);
+    }
 }
