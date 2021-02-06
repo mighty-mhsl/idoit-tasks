@@ -24,4 +24,32 @@ public class Rouge {
     public void go(int x, int y) {
         point.setXY(x, y);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int getExpReward() {
+        return expReward;
+    }
+
+    public int getGoldReward() {
+        return goldReward;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public Point getPoint() {
+        return point;
+    }
 }

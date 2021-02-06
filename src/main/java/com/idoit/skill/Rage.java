@@ -19,4 +19,20 @@ public class Rage {
         knight.hp = knight.hp - 15;
         knight.mana = knight.mana - spendsMana;
     }
+
+    public int getSpendsMana() {
+        return spendsMana;
+    }
+
+    public int getMinLevel() {
+        return minLevel;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCharacterClass() {
+        return characterClass;
+    }
 }

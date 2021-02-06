@@ -20,4 +20,20 @@ public class Heal {
         wizard.mana = wizard.mana - spendsMana;
         System.out.println(knight.name + "was healed and now has " + knight.hp + " hp");
     }
+
+    public int getSpendsMana() {
+        return spendsMana;
+    }
+
+    public int getMinLevel() {
+        return minLevel;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCharacterClass() {
+        return characterClass;
+    }
 }

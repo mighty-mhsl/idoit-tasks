@@ -8,4 +8,12 @@ public class StaminaPotion {
         name = n;
         pointsToRecover = pTR;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPointsToRecover() {
+        return pointsToRecover;
+    }
 }
