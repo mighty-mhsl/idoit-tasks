@@ -14,6 +14,7 @@ import com.idoit.meta.item.bijouterie.belt.IntelligenceBeltMeta;
 import com.idoit.meta.item.bijouterie.necklace.IntelligenceNecklaceMeta;
 import com.idoit.meta.item.bijouterie.ring.IntelligenceRingMeta;
 import com.idoit.meta.item.weapon.StaffMeta;
+import com.idoit.meta.profile.ProfileMeta;
 import com.idoit.meta.quest.QuestMeta;
 import com.idoit.meta.skill.HealMeta;
 import com.idoit.safe.Safer;
@@ -49,7 +50,7 @@ class WizardTest extends CharacterTest {
     @Test
     void testWizardHasConstructorWithNameParam() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields("test");
+        testConstructorSetsValuesToProfile();
     }
 
     @DisplayName("Тест, что в классе Wizard есть все необходимые методы")
@@ -99,8 +100,7 @@ class WizardTest extends CharacterTest {
     void testSetHelmetSavesHelmetToField() {
         String methodName = "setHelmet";
         Meta valueMeta = MetaContext.getMeta(HelmetMeta.class);
-        String message = getSetterAssertMessage(methodName, valueMeta.getClassName(), getMeta().getClassName());
-        testSetArmor(valueMeta, methodName, "helmet", message);
+        testSetArmor(valueMeta, methodName, "helmet");
     }
 
     @DisplayName("Тест, что метод setCuirass в классе Wizard сохраняет полученный Cuirass в поле класса")
@@ -108,8 +108,7 @@ class WizardTest extends CharacterTest {
     void testSetCuirassSavesCuirassToField() {
         String methodName = "setCuirass";
         Meta valueMeta = MetaContext.getMeta(CuirassMeta.class);
-        String message = getSetterAssertMessage(methodName, valueMeta.getClassName(), getMeta().getClassName());
-        testSetArmor(valueMeta, methodName, "cuirass", message);
+        testSetArmor(valueMeta, methodName, "cuirass");
     }
 
     @DisplayName("Тест, что метод setGloves в классе Wizard сохраняет полученный Gloves в поле класса")
@@ -117,8 +116,7 @@ class WizardTest extends CharacterTest {
     void testSetGlovesSavesGlovesToField() {
         String methodName = "setGloves";
         Meta valueMeta = MetaContext.getMeta(GlovesMeta.class);
-        String message = getSetterAssertMessage(methodName, valueMeta.getClassName(), getMeta().getClassName());
-        testSetArmor(valueMeta, methodName, "gloves", message);
+        testSetArmor(valueMeta, methodName, "gloves");
     }
 
     @DisplayName("Тест, что метод setBoots в классе Wizard сохраняет полученный Boots в поле класса")
@@ -126,8 +124,7 @@ class WizardTest extends CharacterTest {
     void testSetBootsSavesBootsToField() {
         String methodName = "setBoots";
         Meta valueMeta = MetaContext.getMeta(BootsMeta.class);
-        String message = getSetterAssertMessage(methodName, valueMeta.getClassName(), getMeta().getClassName());
-        testSetArmor(valueMeta, methodName, "boots", message);
+        testSetArmor(valueMeta, methodName, "boots");
     }
 
     @DisplayName("Тест, что метод setShield в классе Wizard сохраняет полученный Shield в поле класса")
@@ -135,8 +132,7 @@ class WizardTest extends CharacterTest {
     void testSetShieldSavesShieldToField() {
         String methodName = "setShield";
         Meta valueMeta = MetaContext.getMeta(ShieldMeta.class);
-        String message = getSetterAssertMessage(methodName, valueMeta.getClassName(), getMeta().getClassName());
-        testSetArmor(valueMeta, methodName, "shield", message);
+        testSetArmor(valueMeta, methodName, "shield");
     }
 
     @DisplayName("Тест, что метод setLeftRing в классе Wizard сохраняет полученный IntelligenceRing в поле класса")
@@ -261,60 +257,6 @@ class WizardTest extends CharacterTest {
         testTakeOffDecreasesCharacteristic("takeOffNecklace", "setNecklace", "intelligence", IntelligenceNecklaceMeta.class);
     }
 
-    @DisplayName("Тест, что метод getName в классе Wizard возвращает имя персонажа")
-    @Test
-    void testGetName() {
-        testGetter("getName", "setName", "test", CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getStrength в классе Wizard возвращает силу персонажа")
-    @Test
-    void testGetStrength() {
-        testGetter("getStrength", "setStrength", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getAgility в классе Wizard возвращает ловкость персонажа")
-    @Test
-    void testGetAgility() {
-        testGetter("getAgility", "setAgility", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getIntelligence в классе Wizard возвращает интеллект персонажа")
-    @Test
-    void testGetIntelligence() {
-        testGetter("getIntelligence", "setIntelligence", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getHp в классе Wizard возвращает здоровье персонажа")
-    @Test
-    void testGetHp() {
-        testGetter("getHp", "setHp", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getMana в классе Wizard возвращает ману персонажа")
-    @Test
-    void testGetMana() {
-        testGetter("getMana", "setMana", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getStamina в классе Wizard возвращает выносливость персонажа")
-    @Test
-    void testGetStamina() {
-        testGetter("getStamina", "setStamina", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getLevel в классе Wizard возвращает уровень персонажа")
-    @Test
-    void testGetLevel() {
-        testGetter("getLevel", "setLevel", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getExperience в классе Wizard возвращает опыт персонажа")
-    @Test
-    void testGetExperience() {
-        testGetter("getExperience", "setExperience", 8, CONSTRUCTOR_PARAM);
-    }
-
     @DisplayName("Тест, что метод getHelmet в классе Wizard возвращает шлем персонажа")
     @Test
     void testGetHelmet() {
@@ -432,6 +374,21 @@ class WizardTest extends CharacterTest {
         });
     }
 
+    @DisplayName("Тест, что метод setProfile в классе Wizard сохраняет профиль персонажа в поле класса")
+    @Test
+    void testSetProfile() {
+        testSetterWithMetaParam(ProfileMeta.class, new Object[]{}, "setProfile", "profile", CONSTRUCTOR_PARAM);
+    }
+
+    @DisplayName("Тест, что метод getProfile в классе Wizard возвращает профиль персонажа")
+    @Test
+    void testGetProfile() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(ProfileMeta.class).instantiateObjectWithConstructor();
+            testGetter("getProfile", "setProfile", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
     @DisplayName("Тест, что метод castSkill в классе Wizard применяет Heal к переданному Wizard")
     @Test
     void testCastSkill() {
@@ -441,15 +398,17 @@ class WizardTest extends CharacterTest {
             setFieldForObjectAndGet(wizard, "setSkill", HealMeta.class, "test", 15, 1);
 
             BiConsumer<Object, Object[]> castAssert = (obj, params) -> {
-                Object Wizard = params[0];
+                Object patient = params[0];
                 Safer.runSafe(() -> {
                     String className = getMeta().getClassName();
                     int expectedHp = 110;
                     int expectedMana = 85;
                     String hpFieldName = "hp";
                     String manaFieldName = "mana";
-                    Object actualHp = getFieldValue(Wizard, hpFieldName);
-                    Object actualMana = getFieldValue(wizard, manaFieldName);
+                    Object patientProfile = getFieldValue(patient, "profile");
+                    Object wizardProfile = getFieldValue(wizard, "profile");
+                    Object actualHp = getFieldValue(patientProfile, hpFieldName);
+                    Object actualMana = getFieldValue(wizardProfile, manaFieldName);
                     String hpMessage = getFieldValueAssert(className, methodName, hpFieldName, expectedHp, actualHp);
                     String manaMessage = getFieldValueAssert(className, methodName, manaFieldName, expectedMana, actualMana);
                     assertEquals(expectedHp, actualHp, hpMessage);
@@ -460,5 +419,11 @@ class WizardTest extends CharacterTest {
             Object knight = Meta.instantiateObjectFromMeta(KnightMeta.class, CONSTRUCTOR_PARAM);
             testClassMethod(castAssert, wizard, methodName, knight);
         });
+    }
+
+    @DisplayName("Тест, что метод eat в классе Wizard добавляет здоровье в количестве очков восстановления яблока")
+    @Test
+    void testEatMethod() {
+        testEat();
     }
 }

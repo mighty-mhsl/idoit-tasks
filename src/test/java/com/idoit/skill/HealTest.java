@@ -57,7 +57,8 @@ class HealTest extends AbstractTest {
             BiConsumer<Object, Object[]> healAssert = (obj, params) -> {
                 Object patient = params[1];
                 Safer.runSafe(() -> {
-                    Object patientHpValue = getFieldValue(patient, "hp");
+                    Object profile = getFieldValue(patient, "profile");
+                    Object patientHpValue = getFieldValue(profile, "hp");
                     int expectedHp = 110;
                     String message = MessageUtil.formatAssertMessage(
                             String.format("После вызова метода apply, переданная цель должна иметь %d хп", expectedHp),
@@ -82,7 +83,8 @@ class HealTest extends AbstractTest {
             BiConsumer<Object, Object[]> healAssert = (obj, params) -> {
                 Object wizard = params[0];
                 Safer.runSafe(() -> {
-                    Object actualMana = getFieldValue(wizard, "mana");
+                    Object profile = getFieldValue(wizard, "profile");
+                    Object actualMana = getFieldValue(profile, "mana");
                     int expectedMana = 95;
                     String message = MessageUtil.formatAssertMessage(
                             String.format("После вызова метода apply, маг должен иметь %d маны", expectedMana),

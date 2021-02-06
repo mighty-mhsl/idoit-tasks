@@ -58,9 +58,10 @@ class AccurateShotTest extends AbstractTest {
             Object shot = getMeta().instantiateObjectWithConstructor("test", 5, 5);
 
             BiConsumer<Object, Object[]> healAssert = (obj, params) -> {
-                Object shooter = params[1];
+                Object target = params[1];
                 Safer.runSafe(() -> {
-                    Object targetHpValue = getFieldValue(shooter, "hp");
+                    Object profile = getFieldValue(target, "profile");
+                    Object targetHpValue = getFieldValue(profile, "hp");
                     int expectedHp = 90;
                     String message = MessageUtil.formatAssertMessage(
                             String.format("После вызова метода apply, переданная цель должен иметь %d хп", expectedHp),

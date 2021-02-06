@@ -86,7 +86,7 @@ public class Knight {
         physicalDefence = physicalDefence + helmet.physicalDefence + cuirass.physicalDefence + gloves.physicalDefence + boots.physicalDefence + shield.physicalDefence;
     }
 
-    public void calculateMagicDefence() {
+    private void calculateMagicDefence() {
         magicDefence = magicDefence + helmet.magicDefence + cuirass.magicDefence + gloves.magicDefence + boots.magicDefence + shield.magicDefence;
     }
 
@@ -166,10 +166,6 @@ public class Knight {
 
     public void setActiveQuest(Quest activeQuest) {
         this.activeQuest = activeQuest;
-    }
-
-    public void setSkill(Rage skill) {
-        this.skill = skill;
     }
 
     public String getName() {

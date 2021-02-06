@@ -16,6 +16,7 @@ import com.idoit.meta.item.bijouterie.necklace.StrengthNecklaceMeta;
 import com.idoit.meta.item.bijouterie.ring.StrengthRingMeta;
 import com.idoit.meta.item.common.potion.HpPotionMeta;
 import com.idoit.meta.item.weapon.SwordMeta;
+import com.idoit.meta.profile.ProfileMeta;
 import com.idoit.meta.quest.QuestMeta;
 import com.idoit.meta.skill.RageMeta;
 import com.idoit.safe.Safer;
@@ -51,7 +52,7 @@ class KnightTest extends CharacterTest {
     @Test
     void testKnightHasConstructorWithNameParam() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields("test");
+        testConstructorSetsValuesToProfile();
     }
 
     @DisplayName("Тест, что в классе Knight есть все необходимые методы")
@@ -96,49 +97,44 @@ class KnightTest extends CharacterTest {
         testSetWeapon(valueMeta, methodName, "sword", message);
     }
 
-    @DisplayName("Тест, что метод setHelmet в классе Knight сохраняет полученный Helmet в поле класса")
+    @DisplayName("Тест, что метод setHelmet в классе Knight сохраняет полученный Helmet в инвентарь")
     @Test
-    void testSetHelmetSavesHelmetToField() {
+    void testSetHelmetSavesHelmetToInventory() {
         String methodName = "setHelmet";
         Meta valueMeta = MetaContext.getMeta(HelmetMeta.class);
-        String message = getSetterAssertMessage(methodName, valueMeta.getClassName(), getMeta().getClassName());
-        testSetArmor(valueMeta, methodName, "helmet", message);
+        testSetArmor(valueMeta, methodName, "helmet");
     }
 
-    @DisplayName("Тест, что метод setCuirass в классе Knight сохраняет полученный Cuirass в поле класса")
+    @DisplayName("Тест, что метод setCuirass в классе Knight сохраняет полученный Cuirass в инвентарь")
     @Test
-    void testSetCuirassSavesCuirassToField() {
+    void testSetCuirassSavesCuirassToInventory() {
         String methodName = "setCuirass";
         Meta valueMeta = MetaContext.getMeta(CuirassMeta.class);
-        String message = getSetterAssertMessage(methodName, valueMeta.getClassName(), getMeta().getClassName());
-        testSetArmor(valueMeta, methodName, "cuirass", message);
+        testSetArmor(valueMeta, methodName, "cuirass");
     }
 
-    @DisplayName("Тест, что метод setGloves в классе Knight сохраняет полученный Gloves в поле класса")
+    @DisplayName("Тест, что метод setGloves в классе Knight сохраняет полученный Gloves в инвентарь")
     @Test
-    void testSetGlovesSavesGlovesToField() {
+    void testSetGlovesSavesGlovesToInventory() {
         String methodName = "setGloves";
         Meta valueMeta = MetaContext.getMeta(GlovesMeta.class);
-        String message = getSetterAssertMessage(methodName, valueMeta.getClassName(), getMeta().getClassName());
-        testSetArmor(valueMeta, methodName, "gloves", message);
+        testSetArmor(valueMeta, methodName, "gloves");
     }
 
-    @DisplayName("Тест, что метод setBoots в классе Knight сохраняет полученный Boots в поле класса")
+    @DisplayName("Тест, что метод setBoots в классе Knight сохраняет полученный Boots в инвентарь")
     @Test
-    void testSetBootsSavesBootsToField() {
+    void testSetBootsSavesBootsToInventory() {
         String methodName = "setBoots";
         Meta valueMeta = MetaContext.getMeta(BootsMeta.class);
-        String message = getSetterAssertMessage(methodName, valueMeta.getClassName(), getMeta().getClassName());
-        testSetArmor(valueMeta, methodName, "boots", message);
+        testSetArmor(valueMeta, methodName, "boots");
     }
 
-    @DisplayName("Тест, что метод setShield в классе Knight сохраняет полученный Shield в поле класса")
+    @DisplayName("Тест, что метод setShield в классе Knight сохраняет полученный Shield в инвентарь")
     @Test
-    void testSetShieldSavesShieldToField() {
+    void testSetShieldSavesShieldToInventory() {
         String methodName = "setShield";
         Meta valueMeta = MetaContext.getMeta(ShieldMeta.class);
-        String message = getSetterAssertMessage(methodName, valueMeta.getClassName(), getMeta().getClassName());
-        testSetArmor(valueMeta, methodName, "shield", message);
+        testSetArmor(valueMeta, methodName, "shield");
     }
 
     @DisplayName("Тест, что метод setLeftRing в классе Knight сохраняет полученный StrengthRing в поле класса")
@@ -263,72 +259,6 @@ class KnightTest extends CharacterTest {
         testTakeOffDecreasesCharacteristic("takeOffNecklace", "setNecklace", "strength", StrengthNecklaceMeta.class);
     }
 
-    @DisplayName("Тест, что метод getName в классе Knight возвращает имя персонажа")
-    @Test
-    void testGetName() {
-        testGetter("getName", "setName", "test", CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getStrength в классе Knight возвращает силу персонажа")
-    @Test
-    void testGetStrength() {
-        testGetter("getStrength", "setStrength", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getAgility в классе Knight возвращает ловкость персонажа")
-    @Test
-    void testGetAgility() {
-        testGetter("getAgility", "setAgility", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getIntelligence в классе Knight возвращает интеллект персонажа")
-    @Test
-    void testGetIntelligence() {
-        testGetter("getIntelligence", "setIntelligence", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getHp в классе Knight возвращает здоровье персонажа")
-    @Test
-    void testGetHp() {
-        testGetter("getHp", "setHp", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getMana в классе Knight возвращает ману персонажа")
-    @Test
-    void testGetMana() {
-        testGetter("getMana", "setMana", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getStamina в классе Knight возвращает выносливость персонажа")
-    @Test
-    void testGetStamina() {
-        testGetter("getStamina", "setStamina", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getLevel в классе Knight возвращает уровень персонажа")
-    @Test
-    void testGetLevel() {
-        testGetter("getLevel", "setLevel", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getExperience в классе Knight возвращает опыт персонажа")
-    @Test
-    void testGetExperience() {
-        testGetter("getExperience", "setExperience", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getPhysicalDefence в классе Knight возвращает физическую защиту персонажа")
-    @Test
-    void testGetPhysicalDefence() {
-        testGetter("getPhysicalDefence", "setPhysicalDefence", 8, CONSTRUCTOR_PARAM);
-    }
-
-    @DisplayName("Тест, что метод getMagicDefence в классе Knight возвращает магическую защиту персонажа")
-    @Test
-    void testGetMagicDefence() {
-        testGetter("getMagicDefence", "setMagicDefence", 8, CONSTRUCTOR_PARAM);
-    }
-
     @DisplayName("Тест, что метод getHelmet в классе Knight возвращает шлем персонажа")
     @Test
     void testGetHelmet() {
@@ -446,6 +376,21 @@ class KnightTest extends CharacterTest {
         });
     }
 
+    @DisplayName("Тест, что метод setProfile в классе Wizard сохраняет профиль персонажа в поле класса")
+    @Test
+    void testSetProfile() {
+        testSetterWithMetaParam(ProfileMeta.class, new Object[]{}, "setProfile", "profile", CONSTRUCTOR_PARAM);
+    }
+
+    @DisplayName("Тест, что метод getProfile в классе Wizard возвращает профиль персонажа")
+    @Test
+    void testGetProfile() {
+        Safer.runSafe(() -> {
+            Object param = MetaContext.getMeta(ProfileMeta.class).instantiateObjectWithConstructor();
+            testGetter("getProfile", "setProfile", param, CONSTRUCTOR_PARAM);
+        });
+    }
+
     @DisplayName("Тест, что метод addGold в классе Knight добавляет переданное количество золота к текущему")
     @Test
     void testAddGold() {
@@ -498,6 +443,8 @@ class KnightTest extends CharacterTest {
         Safer.runSafe(() -> {
             Object knight = getMeta().instantiateObjectWithConstructor(CONSTRUCTOR_PARAM);
             setFieldForObjectAndGet(knight, "setSkill", RageMeta.class, "test", 10, 1);
+            Object profile = getProfile(knight);
+            setValue(profile, "setStrength", 7);
 
             BiConsumer<Object, Object[]> castAssert = (obj, params) -> Safer.runSafe(() -> {
                 int expectedHp = 85;
@@ -508,9 +455,9 @@ class KnightTest extends CharacterTest {
                 String hpFieldName = "hp";
                 String manaFieldName = "mana";
                 String strengthFieldName = "strength";
-                Object actualHp = getFieldValue(knight, hpFieldName);
-                Object actualMana = getFieldValue(knight, manaFieldName);
-                Object actualStrength = getFieldValue(knight, strengthFieldName);
+                Object actualHp = getFieldValue(profile, hpFieldName);
+                Object actualMana = getFieldValue(profile, manaFieldName);
+                Object actualStrength = getFieldValue(profile, strengthFieldName);
                 String hpMessage = getFieldValueAssert(className, methodName, hpFieldName, expectedHp, actualHp);
                 String manaMessage = getFieldValueAssert(className, methodName, manaFieldName, expectedMana, actualMana);
                 String strengthMessage = getFieldValueAssert(className, methodName, strengthFieldName, expectedStrength, actualStrength);
@@ -550,7 +497,8 @@ class KnightTest extends CharacterTest {
             BiConsumer<Object, Object[]> drinkAssert = (obj, params) -> Safer.runSafe(() -> {
                 String fieldName = "hp";
                 int expectedHp = 100 + pointsToRecover;
-                Object actualHp = getFieldValue(obj, fieldName);
+                Object profile = getProfile(obj);
+                Object actualHp = getFieldValue(profile, fieldName);
                 String message = getFieldValueAssert(getMeta().getClassName(), methodName, fieldName, expectedHp, actualHp);
                 assertEquals(expectedHp, actualHp, message);
             });
@@ -578,7 +526,8 @@ class KnightTest extends CharacterTest {
 
                 int expectedGold = 80;
                 String goldFieldName = "gold";
-                Object actualGold = getFieldValue(obj, goldFieldName);
+                Object profile = getProfile(obj);
+                Object actualGold = getFieldValue(profile, goldFieldName);
                 String goldMessage = getFieldValueAssert(getMeta().getClassName(), methodName, goldFieldName, expectedGold, actualGold);
                 assertEquals(expectedGold, actualGold, goldMessage);
             });
@@ -589,9 +538,15 @@ class KnightTest extends CharacterTest {
         });
     }
 
+    @DisplayName("Тест, что метод eat в классе Knight добавляет здоровье в количестве очков восстановления яблока")
+    @Test
+    void testEatMethod() {
+        testEat();
+    }
+
     private void testCalculate(String methodName, String fieldName, int expectedDef) {
         Safer.runSafe(() -> {
-            Object knight = getMeta().instantiateObjectWithConstructor("test");
+            Object knight = getMeta().instantiateObjectWithConstructor(CONSTRUCTOR_PARAM);
             setFieldForObjectAndGet(knight, "setHelmet", HelmetMeta.class, "test", 5, 6);
             setFieldForObjectAndGet(knight, "setCuirass", CuirassMeta.class, "test", 5, 6);
             setFieldForObjectAndGet(knight, "setGloves", GlovesMeta.class, "test", 5, 6);
@@ -599,7 +554,9 @@ class KnightTest extends CharacterTest {
             setFieldForObjectAndGet(knight, "setShield", ShieldMeta.class, "test", 5, 6);
 
             BiConsumer<Object, Object[]> calculateAssert = (obj, params) -> Safer.runSafe(() -> {
-                Object actualDef = getFieldValue(obj, fieldName);
+                String profileFieldName = "profile";
+                Object profile = getFieldValue(obj, profileFieldName);
+                Object actualDef = getFieldValue(profile, fieldName);
                 String message = getFieldValueAssert(getMeta().getClassName(), methodName, fieldName, expectedDef, actualDef);
                 assertEquals(expectedDef, actualDef, message);
             });
@@ -614,7 +571,8 @@ class KnightTest extends CharacterTest {
             int added = 10;
 
             BiConsumer<Object, Object[]> addAssert = (obj, params) -> Safer.runSafe(() -> {
-                int actualValue = (int) getFieldValue(knight, fieldName);
+                Object profile = getProfile(knight);
+                int actualValue = (int) getFieldValue(profile, fieldName);
                 int expectedValue = defaultValue + added;
                 String message = getFieldValueAssert(getMeta().getClassName(), methodName, fieldName, expectedValue, actualValue);
                 assertEquals(expectedValue, actualValue, message);

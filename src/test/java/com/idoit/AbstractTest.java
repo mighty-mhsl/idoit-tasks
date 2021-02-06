@@ -115,6 +115,15 @@ public abstract class AbstractTest {
         });
     }
 
+    protected void testSetter(Object value, String methodName, String fieldName, Object... constructorParams) {
+        Safer.runSafe(() -> {
+            Object obj = getMeta().instantiateObjectWithConstructor(constructorParams);
+            String assertMessage = getSetterAssertMessage(methodName, value.getClass().getName(), getMeta().getClassName());
+            BiConsumer<Object, Object[]> setterAssert = getSetterAssert(fieldName, assertMessage);
+            testClassMethod(setterAssert, obj, methodName, value);
+        });
+    }
+
     protected String getSetterAssertMessage(String methodName, String valueType, String callerType) {
         return MessageUtil.formatAssertMessage(
                 String.format(
@@ -127,7 +136,7 @@ public abstract class AbstractTest {
     }
 
     protected Object setFieldForObjectAndGet(Object obj, String setterName, Class<? extends Meta> paramMeta,
-                                           Object... paramConstructorArgs) throws Exception {
+                                             Object... paramConstructorArgs) throws Exception {
         Meta meta = MetaContext.getMeta(paramMeta);
         Object param = meta.instantiateObjectWithConstructor(paramConstructorArgs);
         setValue(obj, setterName, param);
@@ -159,9 +168,9 @@ public abstract class AbstractTest {
         );
     }
 
-    private void setValue(Object obj, String setterName, Object value) throws Exception {
+    protected void setValue(Object obj, String setterName, Object value) throws Exception {
         try {
-            Method setter = obj.getClass().getDeclaredMethod(setterName, meta.getClassFromMeta());
+            Method setter = obj.getClass().getDeclaredMethod(setterName, value.getClass());
             setter.invoke(obj, value);
         } catch (NoSuchMethodException | SecurityException e) {
             String fieldName = getFieldNameFromSetter(setterName);
@@ -172,7 +181,7 @@ public abstract class AbstractTest {
 
     private String getFieldNameFromSetter(String setterName) {
         String fieldName = setterName.replaceFirst("set", "");
-        return fieldName.substring(0,1).toLowerCase() + fieldName.substring(1);
+        return fieldName.substring(0, 1).toLowerCase() + fieldName.substring(1);
     }
 
     private String getGetterAssertMessage(Class<?> clazz, String getterName, Object expectedValue, Object actualValue) {

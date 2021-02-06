@@ -56,7 +56,9 @@ class RageTest extends AbstractTest {
             BiConsumer<Object, Object[]> rageAssert = (obj, params) -> {
                 Object target = params[0];
                 Safer.runSafe(() -> {
-                    Object targetHpValue = getFieldValue(target, "hp");
+                    String profileFieldName = "profile";
+                    Object profile = getFieldValue(target, profileFieldName);
+                    Object targetHpValue = getFieldValue(profile, "hp");
                     int expectedHp = 85;
                     String message = MessageUtil.formatAssertMessage(
                             String.format("После вызова метода apply, переданная цель должен иметь %d хп", expectedHp),
@@ -64,7 +66,7 @@ class RageTest extends AbstractTest {
                     );
                     assertEquals(expectedHp, targetHpValue, message);
 
-                    Object targetStrengthValue = getFieldValue(target, "strength");
+                    Object targetStrengthValue = getFieldValue(profile, "strength");
                     int expectedStrength = 14;
                     message = MessageUtil.formatAssertMessage(
                             String.format("После вызова метода apply, переданная цель должен иметь %d силы", expectedStrength),

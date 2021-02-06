@@ -22,7 +22,8 @@ abstract class EnemyTest extends AbstractCharacterTest {
                 Object knight = params[0];
                 Safer.runSafe(() -> {
                     int expectedHp = 100 - damage;
-                    Object actualHp = getFieldValue(knight, "hp");
+                    Object profile = getFieldValue(knight, "profile");
+                    Object actualHp = getFieldValue(profile, "hp");
                     String message = getHitAssertMessage(getMeta().getClassName(), expectedHp, actualHp);
                     assertEquals(expectedHp, actualHp, message);
                 });

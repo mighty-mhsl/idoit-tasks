@@ -44,13 +44,15 @@ public abstract class Meta {
 
     protected void addConstructorWithFieldsParams(List<String> fieldNames) {
         List<Map.Entry<String, Class<?>>> constructor = new ArrayList<>();
-        fieldNames.forEach(fieldName -> {
-            fields.entrySet().stream()
-                    .filter(field -> field.getKey().equals(fieldName))
-                    .findFirst()
-                    .ifPresent(constructor::add);
-        });
+        fieldNames.forEach(fieldName -> fields.entrySet().stream()
+                .filter(field -> field.getKey().equals(fieldName))
+                .findFirst()
+                .ifPresent(constructor::add));
         constructors.add(constructor);
+    }
+
+    protected void addConstructorWithParams(Map<String, Class<?>> params) {
+        constructors.add(new ArrayList<>(params.entrySet()));
     }
 
     public List<String> getFieldsByConstructorParamTypes(List<Class<?>> paramTypes) {

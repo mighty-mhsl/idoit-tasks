@@ -56,8 +56,9 @@ abstract class SellerTest extends AbstractTest {
         BiConsumer<Object, Object[]> fixAssert = (obj, params) -> {
             Object character = params[0];
             Safer.runSafe(() -> {
+                Object profile = getProfile(character);
                 String fieldName = "gold";
-                Object durability = getFieldValue(character, fieldName);
+                Object durability = getFieldValue(profile, fieldName);
                 int expectedDurability = 80;
                 String message = getFieldValueAssert(character.getClass().getName(), methodName, fieldName, expectedDurability, durability);
                 assertEquals(expectedDurability, durability, message);
@@ -82,6 +83,11 @@ abstract class SellerTest extends AbstractTest {
 
             testClassMethod(acceptAssert, seller, methodName, item);
         });
+    }
+
+    private Object getProfile(Object obj) throws NoSuchFieldException, IllegalAccessException {
+        String profileFieldName = "profile";
+        return getFieldValue(obj, profileFieldName);
     }
 
     private void testWeaponFix(Class<? extends CharacterMeta> ownerType, Class<? extends WeaponMeta> weaponType,

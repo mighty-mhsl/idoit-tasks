@@ -32,8 +32,6 @@ public class KnightMeta extends CharacterMeta {
         fields.put("belt", Meta.getClassFromMeta(new StrengthBeltMeta()));
         fields.put("necklace", Meta.getClassFromMeta(new StrengthNecklaceMeta()));
         fields.put("skill", Class.forName("com.idoit.skill.Rage")); //circular dependency :(
-        fields.put("physicalDefence", int.class);
-        fields.put("magicDefence", int.class);
     }
 
     private void initSetters() throws ClassNotFoundException {
@@ -42,11 +40,10 @@ public class KnightMeta extends CharacterMeta {
         addMethod(void.class, "setRightRing", Meta.getClassFromMeta(new StrengthRingMeta()));
         addMethod(void.class, "setBelt", Meta.getClassFromMeta(new StrengthBeltMeta()));
         addMethod(void.class, "setNecklace", Meta.getClassFromMeta(new StrengthNecklaceMeta()));
+        addMethod(void.class, "setSkill", Class.forName("com.idoit.skill.Rage")); //circular dependency :(
     }
 
     private void initGetters() throws ClassNotFoundException {
-        addMethod(int.class, "getPhysicalDefence");
-        addMethod(int.class, "getMagicDefence");
         addMethod(Meta.getClassFromMeta(new SwordMeta()), "getSword");
         addMethod(Meta.getClassFromMeta(new StrengthRingMeta()), "getLeftRing");
         addMethod(Meta.getClassFromMeta(new StrengthRingMeta()), "getRightRing");

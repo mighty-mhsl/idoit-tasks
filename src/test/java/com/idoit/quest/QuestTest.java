@@ -59,10 +59,11 @@ class QuestTest extends AbstractTest {
             BiConsumer<Object, Object[]> completeAssert = (obj, params) -> {
                 Object knight = params[0];
                 Safer.runSafe(() -> {
+                    Object profile = getFieldValue(knight, "profile");
                     String goldField = "gold";
                     String expField = "experience";
-                    int goldValue = (int) getFieldValue(knight, goldField);
-                    int expValue = (int) getFieldValue(knight, expField);
+                    int goldValue = (int) getFieldValue(profile, goldField);
+                    int expValue = (int) getFieldValue(profile, expField);
                     String goldMessage = getCompleteAssertMessage(goldField, goldReward, goldValue);
                     String expMessage = getCompleteAssertMessage(expField, expReward, expValue);
                     assertEquals(100 + goldReward, goldValue, goldMessage);
