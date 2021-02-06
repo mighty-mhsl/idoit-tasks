@@ -9,4 +9,16 @@ public class BijouterieSeller {
         name = n;
         level = l;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getGold() {
+        return gold;
+    }
 }

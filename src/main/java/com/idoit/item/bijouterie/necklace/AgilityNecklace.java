@@ -8,4 +8,12 @@ public class AgilityNecklace {
         name = n;
         pointsToAdd = pTA;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPointsToAdd() {
+        return pointsToAdd;
+    }
 }

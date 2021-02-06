@@ -21,4 +21,24 @@ public class Quest {
         knight.addExperience(expReward);
         knight.addGold(goldReward);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getExpReward() {
+        return expReward;
+    }
+
+    public int getGoldReward() {
+        return goldReward;
+    }
+
+    public int getMinLevel() {
+        return minLevel;
+    }
 }

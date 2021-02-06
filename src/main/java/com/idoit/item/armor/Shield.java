@@ -16,4 +16,24 @@ public class Shield {
     public void setDurability(int durability) {
         this.durability = durability;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPhysicalDefence() {
+        return physicalDefence;
+    }
+
+    public int getMagicDefence() {
+        return magicDefence;
+    }
+
+    public int getDurability() {
+        return durability;
+    }
+
+    public String getType() {
+        return type;
+    }
 }
