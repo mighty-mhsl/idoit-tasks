@@ -1,10 +1,14 @@
 package com.idoit.character;
 
+import com.idoit.battlefield.Point;
 import com.idoit.item.armor.Boots;
 import com.idoit.item.armor.Cuirass;
 import com.idoit.item.armor.Gloves;
 import com.idoit.item.armor.Helmet;
 import com.idoit.item.armor.Shield;
+import com.idoit.item.bijouterie.belt.AgilityBelt;
+import com.idoit.item.bijouterie.necklace.AgilityNecklace;
+import com.idoit.item.bijouterie.ring.AgilityRing;
 import com.idoit.item.weapon.Bow;
 
 public class Archer {
@@ -23,8 +27,63 @@ public class Archer {
     public Gloves gloves;
     public Boots boots;
     public Shield shield;
+    public AgilityRing leftRing;
+    public AgilityRing rightRing;
+    public AgilityBelt belt;
+    public AgilityNecklace necklace;
+    public Point point = new Point(0, 0);
 
     public Archer(String n) {
         name = n;
+    }
+
+    public void hit(Knight enemy) {
+        enemy.hp = enemy.hp - 10;
+        bow.durability = bow.durability - 1;
+        System.out.println(name + " нанес 10 урона " + enemy.name + ". Теперь у " + enemy.name + " " + enemy.hp + " хп.");
+    }
+
+    public void go(int x, int y) {
+        point.setXY(x, y);
+    }
+
+    public void setBow(Bow bow) {
+        this.bow = bow;
+    }
+
+    public void setHelmet(Helmet helmet) {
+        this.helmet = helmet;
+    }
+
+    public void setCuirass(Cuirass cuirass) {
+        this.cuirass = cuirass;
+    }
+
+    public void setGloves(Gloves gloves) {
+        this.gloves = gloves;
+    }
+
+    public void setBoots(Boots boots) {
+        this.boots = boots;
+    }
+
+    public void setShield(Shield shield) {
+        this.shield = shield;
+    }
+
+    public void setLeftRing(AgilityRing leftRing) {
+        this.leftRing = leftRing;
+    }
+
+    public void setRightRing(AgilityRing rightRing) {
+        this.rightRing = rightRing;
+    }
+
+    public void setBelt(AgilityBelt belt) {
+        this.belt = belt;
+    }
+
+    public void setNecklace(AgilityNecklace necklace) {
+        this.necklace = necklace;
     }
 }
