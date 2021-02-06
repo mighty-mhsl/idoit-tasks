@@ -1,6 +1,9 @@
 package com.idoit.meta;
 
+import com.idoit.TestUtil;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +18,7 @@ public abstract class Meta {
     protected String className;
     protected Map<String, Class<?>> fields = new HashMap<>();
     private Set<List<Map.Entry<String, Class<?>>>> constructors = new HashSet<>();
+    private Set<Method> methods = new HashSet<>();
 
     public static Class<?> getClassFromMeta(Meta meta) throws ClassNotFoundException {
         return Class.forName(meta.getFullClassName());
@@ -22,6 +26,15 @@ public abstract class Meta {
 
     public Class<?> getClassFromMeta() throws ClassNotFoundException {
         return Class.forName(getFullClassName());
+    }
+
+    public Object instantiateObjectWithConstructor(Object... params) throws Exception {
+        Class<?>[] paramTypes = TestUtil.getTypesForParams(params);
+        return getClassFromMeta().getConstructor(paramTypes).newInstance(params);
+    }
+
+    public java.lang.reflect.Method getMethodFromMeta(String name, Class<?>... paramTypes) throws ClassNotFoundException, NoSuchMethodException {
+        return getClassFromMeta().getDeclaredMethod(name, paramTypes);
     }
 
     protected void addConstructorWithFieldsParams(List<String> fieldNames) {
@@ -45,6 +58,10 @@ public abstract class Meta {
                 .orElse(null);
     }
 
+    protected void addMethod(Class<?> returnType, String name, Class<?>... paramTypes) {
+        methods.add(new Method(returnType, name, Arrays.asList(paramTypes)));
+    }
+
     public String getFullClassName() {
         return packageName + "." + className;
     }
@@ -63,5 +80,33 @@ public abstract class Meta {
 
     public Set<List<Map.Entry<String, Class<?>>>> getConstructors() {
         return constructors;
+    }
+
+    public Set<Method> getMethods() {
+        return methods;
+    }
+
+    public static class Method {
+        private Class<?> returnType;
+        private String name;
+        private List<Class<?>> paramTypes;
+
+        private Method(Class<?> returnType, String name, List<Class<?>> paramTypes) {
+            this.returnType = returnType;
+            this.name = name;
+            this.paramTypes = paramTypes;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public List<Class<?>> getParamTypes() {
+            return paramTypes;
+        }
+
+        public Class<?> getReturnType() {
+            return returnType;
+        }
     }
 }

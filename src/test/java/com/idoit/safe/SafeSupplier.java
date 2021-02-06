@@ -1,4 +1,4 @@
-package com.idoit;
+package com.idoit.safe;
 
 @FunctionalInterface
 public interface SafeSupplier<T> {

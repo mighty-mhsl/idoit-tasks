@@ -26,6 +26,10 @@ public class Knight {
 
     public Knight(String n) {
         name = n;
-        System.out.println("Создание нового рыцаря");
+    }
+
+    public void hit(Knight enemy) {
+        enemy.hp = enemy.hp - 10;
+        System.out.println(name + " нанес 10 урона " + enemy.name + ". Теперь у " + enemy.name + " " + enemy.hp + " хп.");
     }
 }

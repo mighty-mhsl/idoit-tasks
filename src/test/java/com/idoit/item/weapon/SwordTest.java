@@ -1,17 +1,16 @@
 package com.idoit.item.weapon;
 
-import com.idoit.AbstractTest;
 import com.idoit.meta.item.weapon.SwordMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Тесты логики в классе Sword")
-class SwordTest extends AbstractTest {
+class SwordTest extends WeaponTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new SwordMeta());
+	void setUp() {
+        setMeta(SwordMeta.class);
     }
 
     @DisplayName("Тест, что класс Sword находится в пакете com.idoit.item.weapon")
@@ -30,6 +29,18 @@ class SwordTest extends AbstractTest {
     @Test
     void testSwordHasConstructorWithNameAndDamageParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 5});
+        testConstructorSetsValueToFields("test", 5);
+    }
+
+    @DisplayName("Тест, что в классе Sword есть все необходимые методы")
+    @Test
+    void testSwordHasAllMethods() {
+        testClassHasAllMethods();
+    }
+
+    @DisplayName("Тест, что метод setDurability в классе Sword сохраняет переданный x в поле класса")
+    @Test
+    void testSetDurabilitySavesDurabilityToField() {
+        testSetDurability();
     }
 }

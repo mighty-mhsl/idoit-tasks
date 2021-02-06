@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class StaminaPotionTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new StaminaPotionMeta());
+	void setUp() {
+        setMeta(StaminaPotionMeta.class);
     }
 
     @DisplayName("Тест, что класс StaminaPotion находится в пакете com.idoit.item.common.potion")
@@ -30,6 +30,6 @@ class StaminaPotionTest extends AbstractTest {
     @Test
     void testStaminaPotionHasConstructorWithNameAndPointsParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 3});
+        testConstructorSetsValueToFields("test", 3);
     }
 }

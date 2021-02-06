@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class LibrarianTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new LibrarianMeta());
+	void setUp() {
+        setMeta(LibrarianMeta.class);
     }
 
     @DisplayName("Тест, что класс Librarian находится в пакете com.idoit.character.npc")
@@ -30,6 +30,6 @@ class LibrarianTest extends AbstractTest {
     @Test
     void testLibrarianHasConstructorWithNameAndBothDefenceParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 3});
+        testConstructorSetsValueToFields("test", 3);
     }
 }

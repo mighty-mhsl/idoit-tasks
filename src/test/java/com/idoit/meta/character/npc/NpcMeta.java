@@ -4,7 +4,7 @@ import com.idoit.meta.Meta;
 
 import java.util.Arrays;
 
-abstract class NpcMeta extends Meta {
+public abstract class NpcMeta extends Meta {
     NpcMeta() {
         packageName = BASE_PACKAGE + ".character.npc";
         initFields();

@@ -1,36 +1,26 @@
 package com.idoit;
 
 import com.idoit.meta.Meta;
+import com.idoit.meta.MetaContext;
+import com.idoit.safe.Safer;
 import org.reflections8.Reflections;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
-import java.util.stream.Collectors;
+import java.util.function.BiConsumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public abstract class AbstractTest {
-    private static final Map<Class<?>, Class<?>> BOXED_UNBOXED_CLASSES = new HashMap<>();
-
-    static {
-        BOXED_UNBOXED_CLASSES.put(Integer.class, int.class);
-        BOXED_UNBOXED_CLASSES.put(Short.class, short.class);
-        BOXED_UNBOXED_CLASSES.put(Byte.class, byte.class);
-        BOXED_UNBOXED_CLASSES.put(Long.class, long.class);
-        BOXED_UNBOXED_CLASSES.put(Character.class, char.class);
-        BOXED_UNBOXED_CLASSES.put(Boolean.class, boolean.class);
-        BOXED_UNBOXED_CLASSES.put(Double.class, double.class);
-        BOXED_UNBOXED_CLASSES.put(Float.class, float.class);
-    }
 
     private Meta meta;
 
@@ -38,16 +28,8 @@ public abstract class AbstractTest {
         return meta;
     }
 
-    public void setMeta(Meta meta) {
-        this.meta = meta;
-    }
-
-    protected void setMetaSafe(SafeSupplier<Meta> supplier) {
-        try {
-            setMeta(supplier.supply());
-        } catch (ClassNotFoundException e) {
-            fail("Не найдены все требуемые классы для данного теста.", e);
-        }
+    public void setMeta(Class<? extends Meta> clazz) {
+        this.meta = MetaContext.getMeta(clazz);
     }
 
     protected void testClassIsInPackage() {
@@ -64,17 +46,17 @@ public abstract class AbstractTest {
         getClassOrFail().ifPresent(this::testClassHasConstructors);
     }
 
-    protected void testConstructorSetsValueToFields(Object[] constructorParams) {
+    protected void testConstructorSetsValueToFields(Object... constructorParams) {
         try {
-            Class<?>[] paramTypes = getTypesForConstructorParams(constructorParams);
+            Class<?>[] paramTypes = TestUtil.getTypesForParams(constructorParams);
+            Object object = meta.instantiateObjectWithConstructor(constructorParams);
             List<String> fieldNames = meta.getFieldsByConstructorParamTypes(Arrays.asList(paramTypes));
-            Object object = meta.getClassFromMeta().getConstructor(paramTypes).newInstance(constructorParams);
             String expectedMessageFormat = "В классе %s полю %s в конструкторе должно выставляться значение параметра";
             String actualMessageFormat = "В классе %s полю %s в конструкторе не выставляется значение параметра";
             String message;
             for (int i = 0; i < fieldNames.size(); i++) {
-                Field nameField = object.getClass().getField(fieldNames.get(i));
-                Object actualValue = nameField.get(object);
+                Field field = object.getClass().getField(fieldNames.get(i));
+                Object actualValue = field.get(object);
                 message = MessageUtil.formatAssertMessage(
                         String.format(expectedMessageFormat, meta.getClassName(), fieldNames.get(i)),
                         String.format(actualMessageFormat, meta.getClassName(), fieldNames.get(i))
@@ -87,11 +69,76 @@ public abstract class AbstractTest {
         }
     }
 
-    private Class<?>[] getTypesForConstructorParams(Object[] constructorParams) {
-        return Arrays.stream(constructorParams)
-                .map(param -> BOXED_UNBOXED_CLASSES.getOrDefault(param.getClass(), param.getClass()))
-                .collect(Collectors.toList())
-                .toArray(new Class<?>[constructorParams.length]);
+    protected void testClassHasAllMethods() {
+        meta.getMethods().forEach(this::testClassHasMethod);
+    }
+
+    protected void testClassMethod(BiConsumer<Object, Object[]> whatShouldHappen, Object caller, String methodName, Object... params) {
+        Safer.runSafe(() -> {
+            Class<?>[] paramTypes = TestUtil.getTypesForParams(params);
+            Method method = meta.getMethodFromMeta(methodName, paramTypes);
+            method.invoke(caller, params);
+            whatShouldHappen.accept(caller, params);
+        });
+    }
+
+    protected Object getFieldValue(Object instance, String fieldName) throws NoSuchFieldException, IllegalAccessException {
+        Field targetHpField = instance.getClass().getField(fieldName);
+        return targetHpField.get(instance);
+    }
+
+    protected void testSetter(Object value, String methodName, String fieldName, String assertMessage, Object... constructorParams) {
+        Safer.runSafe(() -> {
+            Object obj = getMeta().instantiateObjectWithConstructor(constructorParams);
+            BiConsumer<Object, Object[]> setterAssert = getSetterAssert(fieldName, assertMessage);
+            testClassMethod(setterAssert, obj, methodName, value);
+        });
+    }
+
+    protected String getSetterAssertMessage(String methodName, String valueType, String callerType) {
+        return MessageUtil.formatAssertMessage(
+                String.format(
+                        "После вызова метода %s, переданный %s должен записаться в поле %s, у которого вызывается метод",
+                        methodName, valueType, callerType
+                ),
+                String.format("После вызова метода %s, переданный %s не записался в поле %s, у которого вызывается метод",
+                        methodName, valueType, callerType)
+        );
+    }
+
+    private BiConsumer<Object, Object[]> getSetterAssert(String fieldName, String assertMessage) {
+        return (obj, params) -> {
+            Object param = params[0];
+            Safer.runSafe(() -> {
+                Object fieldValue = getFieldValue(obj, fieldName);
+                assertEquals(param, fieldValue, assertMessage);
+            });
+        };
+    }
+
+    private void testClassHasMethod(Meta.Method method) {
+        StringJoiner paramsJoiner = new StringJoiner(", ");
+        method.getParamTypes().forEach(param -> paramsJoiner.add(param.getName()));
+        try {
+            Method actualMethod = meta.getClassFromMeta()
+                    .getDeclaredMethod(method.getName(), method.getParamTypes().toArray(new Class<?>[0]));
+            String message = getMethodReturnTypeMessage(method, actualMethod, paramsJoiner.toString());
+            assertEquals(method.getReturnType(), actualMethod.getReturnType(), message);
+        } catch (ClassNotFoundException e) {
+            fail(String.format("Класс %s не найден в пакете %s", meta.getClassName(), meta.getPackageName()));
+        } catch (NoSuchMethodException e) {
+            fail(String.format("Метод %s(%s) не найден в классе %s", method.getName(), paramsJoiner.toString(),
+                    meta.getClassName()));
+        }
+    }
+
+    private String getMethodReturnTypeMessage(Meta.Method method, Method actualMethod, String methodParams) {
+        return MessageUtil.formatAssertMessage(
+                String.format("Метод %s(%s) в классе %s должен возвращать %s", method.getName(),
+                        methodParams, meta.getClassName(), method.getReturnType().getName()),
+                String.format("Метод %s(%s) в классе %s возвращает %s", method.getName(),
+                        methodParams, meta.getClassName(), actualMethod.getReturnType().getName())
+        );
     }
 
     private Optional<Class<?>> getClassOrFail() {

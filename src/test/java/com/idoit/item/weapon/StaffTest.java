@@ -1,17 +1,16 @@
 package com.idoit.item.weapon;
 
-import com.idoit.AbstractTest;
 import com.idoit.meta.item.weapon.StaffMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Тесты логики в классе Staff")
-class StaffTest extends AbstractTest {
+class StaffTest extends WeaponTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new StaffMeta());
+	void setUp() {
+        setMeta(StaffMeta.class);
     }
 
     @DisplayName("Тест, что класс Staff находится в пакете com.idoit.item.weapon")
@@ -30,6 +29,18 @@ class StaffTest extends AbstractTest {
     @Test
     void testStaffHasConstructorWithNameAndDamageParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 5});
+        testConstructorSetsValueToFields("test", 5);
+    }
+
+    @DisplayName("Тест, что в классе Staff есть все необходимые методы")
+    @Test
+    void testStaffHasAllMethods() {
+        testClassHasAllMethods();
+    }
+
+    @DisplayName("Тест, что метод setDurability в классе Staff сохраняет переданный x в поле класса")
+    @Test
+    void testSetDurabilitySavesDurabilityToField() {
+        testSetDurability();
     }
 }

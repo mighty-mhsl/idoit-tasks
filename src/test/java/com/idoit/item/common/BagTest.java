@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class BagTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new BagMeta());
+	void setUp() {
+        setMeta(BagMeta.class);
     }
 
     @DisplayName("Тест, что класс Bag находится в пакете com.idoit.item.common")
@@ -30,6 +30,6 @@ class BagTest extends AbstractTest {
     @Test
     void testBagHasConstructorWithNameAndPointsParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test"});
+        testConstructorSetsValueToFields("test");
     }
 }

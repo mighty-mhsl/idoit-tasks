@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class IntelligenceNecklaceTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new IntelligenceNecklaceMeta());
+	void setUp() {
+        setMeta(IntelligenceNecklaceMeta.class);
     }
 
     @DisplayName("Тест, что класс IntelligenceNecklace находится в пакете com.idoit.item.bijouterie.necklace")
@@ -30,6 +30,6 @@ class IntelligenceNecklaceTest extends AbstractTest {
     @Test
     void testIntelligenceNecklaceHasConstructorWithNameAndPointsParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 3});
+        testConstructorSetsValueToFields("test", 3);
     }
 }

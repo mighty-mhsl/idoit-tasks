@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class HpPotionTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new HpPotionMeta());
+	void setUp() {
+        setMeta(HpPotionMeta.class);
     }
 
     @DisplayName("Тест, что класс HpPotion находится в пакете com.idoit.item.common.potion")
@@ -30,6 +30,6 @@ class HpPotionTest extends AbstractTest {
     @Test
     void testHpPotionHasConstructorWithNameAndPointsParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 3});
+        testConstructorSetsValueToFields("test", 3);
     }
 }

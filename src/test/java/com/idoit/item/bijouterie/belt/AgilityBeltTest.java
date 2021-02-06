@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class AgilityBeltTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new AgilityBeltMeta());
+	void setUp() {
+        setMeta(AgilityBeltMeta.class);
     }
 
     @DisplayName("Тест, что класс AgilityBelt находится в пакете com.idoit.item.bijouterie.belt")
@@ -30,6 +30,6 @@ class AgilityBeltTest extends AbstractTest {
     @Test
     void testAgilityBeltHasConstructorWithNameAndPointsParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 3});
+        testConstructorSetsValueToFields("test", 3);
     }
 }

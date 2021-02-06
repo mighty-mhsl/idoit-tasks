@@ -1,7 +1,9 @@
 package com.idoit;
 
 import com.idoit.meta.Meta;
+import com.idoit.meta.MetaContext;
 import com.idoit.meta.character.ArcherMeta;
+import com.idoit.meta.character.KnightMeta;
 import com.idoit.meta.character.WizardMeta;
 import com.idoit.meta.character.npc.BlacksmithMeta;
 import com.idoit.meta.item.armor.HelmetMeta;
@@ -10,15 +12,20 @@ import com.idoit.meta.item.common.potion.HpPotionMeta;
 import com.idoit.meta.item.weapon.BowMeta;
 import com.idoit.meta.item.weapon.StaffMeta;
 import com.idoit.meta.item.weapon.SwordMeta;
+import com.idoit.safe.Safer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
+import org.mockito.stubbing.Answer;
 import org.reflections8.Reflections;
 
-import java.util.Objects;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -28,55 +35,103 @@ class AppTest {
     @DisplayName("Тест, что объект Wizard создается в методе main")
     @Test
     void testWizardIsCreatedInMain() {
-        testObjectIsCreatedInMain(Objects.requireNonNull(TestUtil.supplyMetaSafe(WizardMeta::new)));
+        testObjectIsCreatedInMain(MetaContext.getMeta(WizardMeta.class));
     }
 
     @DisplayName("Тест, что объект Archer создается в методе main")
     @Test
     void testArcherIsCreatedInMain() {
-        testObjectIsCreatedInMain(Objects.requireNonNull(TestUtil.supplyMetaSafe(ArcherMeta::new)));
+        testObjectIsCreatedInMain(MetaContext.getMeta(ArcherMeta.class));
     }
 
     @DisplayName("Тест, что объект Sword создается в методе main")
     @Test
     void testSwordIsCreatedInMain() {
-        testObjectIsCreatedInMain(new SwordMeta());
+        testObjectIsCreatedInMain(MetaContext.getMeta(SwordMeta.class));
     }
 
     @DisplayName("Тест, что объект Staff создается в методе main")
     @Test
     void testStaffIsCreatedInMain() {
-        testObjectIsCreatedInMain(new StaffMeta());
+        testObjectIsCreatedInMain(MetaContext.getMeta(StaffMeta.class));
     }
 
     @DisplayName("Тест, что объект Bow создается в методе main")
     @Test
     void testBowIsCreatedInMain() {
-        testObjectIsCreatedInMain(new BowMeta());
+        testObjectIsCreatedInMain(MetaContext.getMeta(BowMeta.class));
     }
 
     @DisplayName("Тест, что объект Blacksmith создается в методе main")
     @Test
     void testBlacksmithIsCreatedInMain() {
-        testObjectIsCreatedInMain(new BlacksmithMeta());
+        testObjectIsCreatedInMain(MetaContext.getMeta(BlacksmithMeta.class));
     }
 
     @DisplayName("Тест, что объект Helmet создается в методе main")
     @Test
     void testHelmetIsCreatedInMain() {
-        testObjectIsCreatedInMain(new HelmetMeta());
+        testObjectIsCreatedInMain(MetaContext.getMeta(HelmetMeta.class));
     }
 
     @DisplayName("Тест, что объект HpPotion создается в методе main")
     @Test
     void testHpPotionIsCreatedInMain() {
-        testObjectIsCreatedInMain(new HpPotionMeta());
+        testObjectIsCreatedInMain(MetaContext.getMeta(HpPotionMeta.class));
     }
 
     @DisplayName("Тест, что объект StrengthRing создается в методе main")
     @Test
     void testStrengthRingIsCreatedInMain() {
-        testObjectIsCreatedInMain(new StrengthRingMeta());
+        testObjectIsCreatedInMain(MetaContext.getMeta(StrengthRingMeta.class));
+    }
+
+    @DisplayName("Тест, что рыцари получают мечи")
+    @Test
+    void testKnightsGotSwords() {
+        testSetter(2, KnightMeta.class, SwordMeta.class, "setSword");
+    }
+
+    @DisplayName("Тест, что маг получает посох")
+    @Test
+    void testWizardGotStaff() {
+        testSetter(1, WizardMeta.class, StaffMeta.class, "setStaff");
+    }
+
+    @DisplayName("Тест, что лучник получает лук")
+    @Test
+    void testArcherGotBow() {
+       testSetter(1, ArcherMeta.class, BowMeta.class, "setBow");
+    }
+
+    private void testSetter(int expectedCalls, Class<? extends Meta> caller, Class<? extends Meta> param, String methodName) {
+        Safer.runClassSafe(() -> {
+            Meta meta = MetaContext.getMeta(caller);
+            Class<?> paramType = Meta.getClassFromMeta(MetaContext.getMeta(param));
+            testMethodCalls(expectedCalls, meta, methodName, paramType);
+        });
+    }
+
+    private void testMethodCalls(int expectedCalls, Meta meta, String methodName, Class<?>... paramTypes) {
+        Safer.runSafe(() -> {
+            Class<?> clazz = Meta.getClassFromMeta(meta);
+            Method weaponSetter = meta.getMethodFromMeta(methodName, paramTypes);
+            List<Method> calls = new ArrayList<>();
+            Answer<Object> answer = (invocation) -> {
+                if (invocation.getMethod().equals(weaponSetter)) {
+                    calls.add(invocation.getMethod());
+                }
+                return null;
+            };
+            try (MockedConstruction construction = Mockito.mockConstructionWithAnswer(clazz, answer)) {
+                App.main(new String[]{});
+                String message = MessageUtil.formatAssertMessage(
+                        String.format("В классе %s метод %s вызывается %d раз", clazz.getName(), methodName, expectedCalls),
+                        String.format("В классе %s метод %s вызывается %d раз", clazz.getName(), methodName, calls.size())
+                );
+                assertEquals(expectedCalls, calls.size(), message);
+            }
+        });
     }
 
     /*@DisplayName("В методе main должно выводиться на экран: 100 100 7 7 0 0 0")
@@ -98,8 +153,8 @@ class AppTest {
         Reflections reflections = TestUtil.getBaseReflections(meta.getPackageName());
         Optional<Class<?>> objectClassOptional = getClassFromPackage(reflections, meta);
         if (objectClassOptional.isPresent()) {
-            Class<?> archerClass = objectClassOptional.get();
-            checkObjectConstruction(archerClass, meta.getClassName());
+            Class<?> clazz = objectClassOptional.get();
+            checkObjectConstruction(clazz, meta.getClassName());
         } else {
             fail(String.format("Класс %s не найден в пакете %s", meta.getClassName(), meta.getPackageName()));
         }

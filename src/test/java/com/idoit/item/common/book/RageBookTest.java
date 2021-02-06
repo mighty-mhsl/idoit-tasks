@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class RageBookTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMetaSafe(RageBookMeta::new);
+	void setUp() {
+        setMeta(RageBookMeta.class);
     }
 
     @DisplayName("Тест, что класс RageBook находится в пакете com.idoit.item.common.book")
@@ -30,6 +30,6 @@ class RageBookTest extends AbstractTest {
     @Test
     void testRageBookHasConstructorWithNameAndLevelParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 5});
+        testConstructorSetsValueToFields("test", 5);
     }
 }

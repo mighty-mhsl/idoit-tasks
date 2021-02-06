@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class WineTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new WineMeta());
+	void setUp() {
+        setMeta(WineMeta.class);
     }
 
     @DisplayName("Тест, что класс Wine находится в пакете com.idoit.item.common.food")

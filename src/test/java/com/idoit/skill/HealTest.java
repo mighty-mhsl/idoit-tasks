@@ -1,17 +1,25 @@
 package com.idoit.skill;
 
 import com.idoit.AbstractTest;
+import com.idoit.MessageUtil;
+import com.idoit.meta.MetaContext;
+import com.idoit.meta.character.KnightMeta;
 import com.idoit.meta.skill.HealMeta;
+import com.idoit.safe.Safer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.function.BiConsumer;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Тесты логики в классе Heal")
 class HealTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new HealMeta());
+	void setUp() {
+        setMeta(HealMeta.class);
     }
 
     @DisplayName("Тест, что класс Heal находится в пакете com.idoit.skill")
@@ -30,6 +38,36 @@ class HealTest extends AbstractTest {
     @Test
     void testHealHasConstructorWithNameAndManaAndMinLevelParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 20, 5});
+        testConstructorSetsValueToFields("test", 20, 5);
+    }
+
+    @DisplayName("Тест, что в классе Heal есть все необходимые методы")
+    @Test
+    void testHealHasAllMethods() {
+        testClassHasAllMethods();
+    }
+
+    @DisplayName("Тест, что метод apply в классе Heal увеличивает хп цели на 10")
+    @Test
+    void testApplyIncreasesPatientsHp() {
+        Safer.runSafe(() -> {
+            Object heal = getMeta().instantiateObjectWithConstructor("test", 5, 5);
+
+            BiConsumer<Object, Object[]> healAssert = (obj, params) -> {
+                Object patient = params[0];
+                Safer.runSafe(() -> {
+                    Object patientHpValue = getFieldValue(patient, "hp");
+                    int expectedHp = 110;
+                    String message = MessageUtil.formatAssertMessage(
+                            String.format("После вызова метода apply, переданная цель должен иметь %d хп", expectedHp),
+                            String.format("После вызова метода apply, переданная цель имеет %d хп", patientHpValue)
+                    );
+                    assertEquals(expectedHp, patientHpValue, message);
+                });
+            };
+
+            Object patient = MetaContext.getMeta(KnightMeta.class).instantiateObjectWithConstructor("Eugene");
+            testClassMethod(healAssert, heal, "apply", patient);
+        });
     }
 }

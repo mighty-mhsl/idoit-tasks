@@ -2,8 +2,8 @@ package com.idoit.meta.item.common;
 
 import com.idoit.meta.Meta;
 
-abstract class CommonMeta extends Meta {
-    CommonMeta() {
+public abstract class CommonMeta extends Meta {
+    public CommonMeta() {
         packageName = BASE_PACKAGE + ".item.common";
     }
 }

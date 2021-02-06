@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class BeefTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new BeefMeta());
+	void setUp() {
+        setMeta(BeefMeta.class);
     }
 
     @DisplayName("Тест, что класс Beef находится в пакете com.idoit.item.common.food")

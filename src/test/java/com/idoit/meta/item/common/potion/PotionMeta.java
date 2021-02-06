@@ -4,8 +4,8 @@ import com.idoit.meta.Meta;
 
 import java.util.Arrays;
 
-abstract class PotionMeta extends Meta {
-    PotionMeta() {
+public abstract class PotionMeta extends Meta {
+    public PotionMeta() {
         packageName = BASE_PACKAGE + ".item.common.potion";
         initFields();
         addConstructorWithFieldsParams(Arrays.asList("name", "pointsToRecover"));

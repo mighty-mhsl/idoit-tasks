@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class AppleTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new AppleMeta());
+	void setUp() {
+        setMeta(AppleMeta.class);
     }
 
     @DisplayName("Тест, что класс Apple находится в пакете com.idoit.item.common.food")

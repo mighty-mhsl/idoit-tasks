@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class StrengthRingTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new StrengthRingMeta());
+	void setUp() {
+        setMeta(StrengthRingMeta.class);
     }
 
     @DisplayName("Тест, что класс StrengthRing находится в пакете com.idoit.item.bijouterie.ring")
@@ -30,6 +30,6 @@ class StrengthRingTest extends AbstractTest {
     @Test
     void testStrengthRingHasConstructorWithNameAndPointsParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 3});
+        testConstructorSetsValueToFields("test", 3);
     }
 }

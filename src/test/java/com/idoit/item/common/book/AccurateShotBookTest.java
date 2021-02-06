@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class AccurateShotBookTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMetaSafe(AccurateShotBookMeta::new);
+	void setUp() {
+        setMeta(AccurateShotBookMeta.class);
     }
 
     @DisplayName("Тест, что класс AccurateShotBook находится в пакете com.idoit.item.common.book")
@@ -30,6 +30,6 @@ class AccurateShotBookTest extends AbstractTest {
     @Test
     void testAccurateShotBookHasConstructorWithNameAndLevelParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 5});
+        testConstructorSetsValueToFields("test", 5);
     }
 }

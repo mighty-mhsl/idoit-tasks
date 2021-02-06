@@ -4,8 +4,8 @@ import com.idoit.meta.Meta;
 
 import java.util.Arrays;
 
-abstract class BookMeta extends Meta {
-    BookMeta() {
+public abstract class BookMeta extends Meta {
+    public BookMeta() {
         packageName = BASE_PACKAGE + ".item.common.book";
         initFields();
         addConstructorWithFieldsParams(Arrays.asList("name", "minLevel"));

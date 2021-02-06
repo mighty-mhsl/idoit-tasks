@@ -4,8 +4,8 @@ import com.idoit.meta.Meta;
 
 import java.util.Arrays;
 
-abstract class SkillMeta extends Meta {
-    SkillMeta() {
+public abstract class SkillMeta extends Meta {
+    public SkillMeta() {
         packageName = BASE_PACKAGE + ".skill";
         initFields();
         addConstructorWithFieldsParams(Arrays.asList("name", "spendsMana", "minLevel"));

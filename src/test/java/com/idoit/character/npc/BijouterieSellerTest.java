@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class BijouterieSellerTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new BijouterieSellerMeta());
+	void setUp() {
+        setMeta(BijouterieSellerMeta.class);
     }
 
     @DisplayName("Тест, что класс BijouterieSeller находится в пакете com.idoit.character.npc")
@@ -30,6 +30,6 @@ class BijouterieSellerTest extends AbstractTest {
     @Test
     void testBijouterieSellerHasConstructorWithNameAndBothDefenceParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 3});
+        testConstructorSetsValueToFields("test", 3);
     }
 }

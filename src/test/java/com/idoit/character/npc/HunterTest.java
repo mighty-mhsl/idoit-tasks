@@ -1,17 +1,17 @@
 package com.idoit.character.npc;
 
-import com.idoit.AbstractTest;
 import com.idoit.meta.character.npc.HunterMeta;
+import com.idoit.meta.item.weapon.BowMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Тесты логики в классе Hunter")
-class HunterTest extends AbstractTest {
+class HunterTest extends NpcTest {
 
     @BeforeEach
-    void setUp() {
-        setMeta(new HunterMeta());
+	void setUp() {
+        setMeta(HunterMeta.class);
     }
 
     @DisplayName("Тест, что класс Hunter находится в пакете com.idoit.character.npc")
@@ -30,6 +30,18 @@ class HunterTest extends AbstractTest {
     @Test
     void testHunterHasConstructorWithNameAndBothDefenceParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 3});
+        testConstructorSetsValueToFields("test", 3);
+    }
+
+    @DisplayName("Тест, что в классе Hunter есть все необходимые методы")
+    @Test
+    void testHunterHasAllMethods() {
+        testClassHasAllMethods();
+    }
+
+    @DisplayName("Тест, что метод fix в классе Hunter восстанавливает прочность луков до 100")
+    @Test
+    void testFixIncreasesSwordDurability() {
+        testFix(BowMeta.class, (bowMeta) -> bowMeta.instantiateObjectWithConstructor("bow", 10));
     }
 }

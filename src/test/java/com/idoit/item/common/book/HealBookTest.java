@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class HealBookTest extends AbstractTest {
 
     @BeforeEach
-    void setUp() {
-        setMetaSafe(HealBookMeta::new);
+	void setUp() {
+        setMeta(HealBookMeta.class);
     }
 
     @DisplayName("Тест, что класс HealBook находится в пакете com.idoit.item.common.book")
@@ -30,6 +30,6 @@ class HealBookTest extends AbstractTest {
     @Test
     void testHealBookHasConstructorWithNameAndLevelParams() {
         testClassHasConstructors();
-        testConstructorSetsValueToFields(new Object[]{"test", 5});
+        testConstructorSetsValueToFields("test", 5);
     }
 }
