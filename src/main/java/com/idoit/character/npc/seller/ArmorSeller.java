@@ -5,7 +5,6 @@ import com.idoit.item.armor.Cuirass;
 import com.idoit.item.armor.Gloves;
 import com.idoit.item.armor.Helmet;
 import com.idoit.item.armor.Shield;
-import com.idoit.item.special.InitialStone;
 
 public class ArmorSeller {
     public String name;
@@ -35,21 +34,5 @@ public class ArmorSeller {
 
     public void fix(Shield shield) {
         shield.setDurability(100);
-    }
-
-    public void accept(InitialStone stone) {
-        level++; //то же, что level = level + 1;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getGold() {
-        return gold;
     }
 }

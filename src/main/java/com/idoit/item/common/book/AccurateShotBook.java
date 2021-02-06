@@ -11,16 +11,4 @@ public class AccurateShotBook {
         name = n;
         minLevel = mL;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getMinLevel() {
-        return minLevel;
-    }
-
-    public AccurateShot getSkill() {
-        return skill;
-    }
 }

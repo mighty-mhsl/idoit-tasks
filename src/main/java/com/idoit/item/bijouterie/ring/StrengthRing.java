@@ -8,12 +8,4 @@ public class StrengthRing {
         name = n;
         pointsToAdd = pTA;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getPointsToAdd() {
-        return pointsToAdd;
-    }
 }

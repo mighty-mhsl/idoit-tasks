@@ -19,20 +19,4 @@ public class AccurateShot {
         knight.hp = knight.hp - archer.bow.damage * 2;
         archer.mana = archer.mana - spendsMana;
     }
-
-    public int getSpendsMana() {
-        return spendsMana;
-    }
-
-    public int getMinLevel() {
-        return minLevel;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getCharacterClass() {
-        return characterClass;
-    }
 }

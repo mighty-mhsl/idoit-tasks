@@ -15,16 +15,4 @@ public class Hunter {
     public void fix(Bow bow) {
         bow.setDurability(100);
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getGold() {
-        return gold;
-    }
 }

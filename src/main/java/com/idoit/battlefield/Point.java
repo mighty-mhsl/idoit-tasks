@@ -21,12 +21,4 @@ public class Point {
         setX(x);
         setY(y);
     }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
 }

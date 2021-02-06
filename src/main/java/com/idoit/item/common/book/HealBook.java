@@ -11,16 +11,4 @@ public class HealBook {
         name = n;
         minLevel = mL;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getMinLevel() {
-        return minLevel;
-    }
-
-    public Heal getSkill() {
-        return skill;
-    }
 }

@@ -2,7 +2,6 @@ package com.idoit.character;
 
 import com.idoit.battlefield.Point;
 import com.idoit.character.npc.NPC;
-import com.idoit.character.npc.seller.Blacksmith;
 import com.idoit.item.armor.Boots;
 import com.idoit.item.armor.Cuirass;
 import com.idoit.item.armor.Gloves;
@@ -11,7 +10,6 @@ import com.idoit.item.armor.Shield;
 import com.idoit.item.bijouterie.belt.StrengthBelt;
 import com.idoit.item.bijouterie.necklace.StrengthNecklace;
 import com.idoit.item.bijouterie.ring.StrengthRing;
-import com.idoit.item.common.potion.HpPotion;
 import com.idoit.item.weapon.Sword;
 import com.idoit.quest.Quest;
 import com.idoit.skill.Rage;
@@ -66,10 +64,6 @@ public class Knight {
         npc.giveQuest(this);
     }
 
-    public void talkTo(Blacksmith blacksmith) {
-        blacksmith.fix(this, sword);
-    }
-
     public void addGold(int gold) {
         this.gold = this.gold + gold;
     }
@@ -78,22 +72,12 @@ public class Knight {
         this.experience = this.experience + exp;
     }
 
-    public void drinkHpPotion(HpPotion potion) {
-        hp += potion.getPointsToRecover();
-    }
-
     public void calculatePhysicalDefence() {
         physicalDefence = physicalDefence + helmet.physicalDefence + cuirass.physicalDefence + gloves.physicalDefence + boots.physicalDefence + shield.physicalDefence;
     }
 
-    public void calculateMagicDefence() {
+    private void calculateMagicDefence() {
         magicDefence = magicDefence + helmet.magicDefence + cuirass.magicDefence + gloves.magicDefence + boots.magicDefence + shield.magicDefence;
-    }
-
-    private double calculateDistance(Point point) {
-        int xDif = point.getX() - this.point.getX();
-        int yDif = point.getY() - this.point.getY();
-        return Math.sqrt(xDif * xDif + yDif * yDif);
     }
 
     public void setSword(Sword sword) {
@@ -121,154 +105,22 @@ public class Knight {
     }
 
     public void setLeftRing(StrengthRing leftRing) {
-        strength = strength + leftRing.getPointsToAdd();
         this.leftRing = leftRing;
     }
 
     public void setRightRing(StrengthRing rightRing) {
-        strength = strength + rightRing.getPointsToAdd();
         this.rightRing = rightRing;
     }
 
     public void setBelt(StrengthBelt belt) {
-        strength = strength + belt.getPointsToAdd();
         this.belt = belt;
     }
 
     public void setNecklace(StrengthNecklace necklace) {
-        strength = strength + necklace.getPointsToAdd();
         this.necklace = necklace;
-    }
-
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
-
-    public void takeOffLeftRing() {
-        strength -= leftRing.getPointsToAdd(); // то же, что strength = strength - leftRing.getPointsToAdd();
-        leftRing = null;
-    }
-
-    public void takeOffRightRing() {
-        strength -= rightRing.getPointsToAdd();
-        rightRing = null;
-    }
-
-    public void takeOffBelt() {
-        strength -= belt.getPointsToAdd();
-        belt = null;
-    }
-
-    public void takeOffNecklace() {
-        strength -= necklace.getPointsToAdd();
-        necklace = null;
     }
 
     public void setActiveQuest(Quest activeQuest) {
         this.activeQuest = activeQuest;
-    }
-
-    public void setSkill(Rage skill) {
-        this.skill = skill;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getStrength() {
-        return strength;
-    }
-
-    public int getAgility() {
-        return agility;
-    }
-
-    public int getIntelligence() {
-        return intelligence;
-    }
-
-    public int getHp() {
-        return hp;
-    }
-
-    public int getMana() {
-        return mana;
-    }
-
-    public int getStamina() {
-        return stamina;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public int getGold() {
-        return gold;
-    }
-
-    public int getPhysicalDefence() {
-        return physicalDefence;
-    }
-
-    public int getMagicDefence() {
-        return magicDefence;
-    }
-
-    public Sword getSword() {
-        return sword;
-    }
-
-    public Helmet getHelmet() {
-        return helmet;
-    }
-
-    public Cuirass getCuirass() {
-        return cuirass;
-    }
-
-    public Gloves getGloves() {
-        return gloves;
-    }
-
-    public Boots getBoots() {
-        return boots;
-    }
-
-    public Shield getShield() {
-        return shield;
-    }
-
-    public StrengthRing getLeftRing() {
-        return leftRing;
-    }
-
-    public StrengthRing getRightRing() {
-        return rightRing;
-    }
-
-    public StrengthBelt getBelt() {
-        return belt;
-    }
-
-    public StrengthNecklace getNecklace() {
-        return necklace;
-    }
-
-    public Point getPoint() {
-        return point;
-    }
-
-    public Quest getActiveQuest() {
-        return activeQuest;
-    }
-
-    public Rage getSkill() {
-        return skill;
     }
 }

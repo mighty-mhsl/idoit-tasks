@@ -20,16 +20,4 @@ public class NPC {
     public void setQuest(Quest quest) {
         this.quest = quest;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public Quest getQuest() {
-        return quest;
-    }
 }

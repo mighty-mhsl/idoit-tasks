@@ -6,9 +6,9 @@ import com.idoit.item.armor.Cuirass;
 import com.idoit.item.armor.Gloves;
 import com.idoit.item.armor.Helmet;
 import com.idoit.item.armor.Shield;
-import com.idoit.item.bijouterie.belt.IntelligenceBelt;
-import com.idoit.item.bijouterie.necklace.IntelligenceNecklace;
-import com.idoit.item.bijouterie.ring.IntelligenceRing;
+import com.idoit.item.bijouterie.belt.StrengthBelt;
+import com.idoit.item.bijouterie.necklace.StrengthNecklace;
+import com.idoit.item.bijouterie.ring.StrengthRing;
 import com.idoit.item.weapon.Staff;
 import com.idoit.quest.Quest;
 import com.idoit.skill.Heal;
@@ -30,10 +30,10 @@ public class Wizard {
     public Gloves gloves;
     public Boots boots;
     public Shield shield;
-    public IntelligenceRing leftRing;
-    public IntelligenceRing rightRing;
-    public IntelligenceBelt belt;
-    public IntelligenceNecklace necklace;
+    public StrengthRing leftRing;
+    public StrengthRing rightRing;
+    public StrengthBelt belt;
+    public StrengthNecklace necklace;
     public Point point = new Point(0, 0);
     public Quest activeQuest;
     public Heal skill;
@@ -81,147 +81,23 @@ public class Wizard {
         this.shield = shield;
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
-
-    public void setLeftRing(IntelligenceRing leftRing) {
-        intelligence += leftRing.getPointsToAdd(); // то же, что intelligence  = intelligence + leftRing.getPointsToAdd();
+    public void setLeftRing(StrengthRing leftRing) {
         this.leftRing = leftRing;
     }
 
-    public void setRightRing(IntelligenceRing rightRing) {
-        intelligence += rightRing.getPointsToAdd();
+    public void setRightRing(StrengthRing rightRing) {
         this.rightRing = rightRing;
     }
 
-    public void setBelt(IntelligenceBelt belt) {
-        intelligence += belt.getPointsToAdd();
+    public void setBelt(StrengthBelt belt) {
         this.belt = belt;
     }
 
-    public void setNecklace(IntelligenceNecklace necklace) {
-        intelligence += necklace.getPointsToAdd();
+    public void setNecklace(StrengthNecklace necklace) {
         this.necklace = necklace;
-    }
-
-    public void takeOffLeftRing() {
-        intelligence -= leftRing.getPointsToAdd(); // то же, что intelligence = intelligence - leftRing.getPointsToAdd();
-        leftRing = null;
-    }
-
-    public void takeOffRightRing() {
-        intelligence -= rightRing.getPointsToAdd();
-        rightRing = null;
-    }
-
-    public void takeOffBelt() {
-        intelligence -= belt.getPointsToAdd();
-        belt = null;
-    }
-
-    public void takeOffNecklace() {
-        intelligence -= necklace.getPointsToAdd();
-        necklace = null;
     }
 
     public void setActiveQuest(Quest activeQuest) {
         this.activeQuest = activeQuest;
-    }
-
-    public void setSkill(Heal skill) {
-        this.skill = skill;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getHp() {
-        return hp;
-    }
-
-    public int getMana() {
-        return mana;
-    }
-
-    public int getStamina() {
-        return stamina;
-    }
-
-    public int getIntelligence() {
-        return intelligence;
-    }
-
-    public int getStrength() {
-        return strength;
-    }
-
-    public int getAgility() {
-        return agility;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public int getGold() {
-        return gold;
-    }
-
-    public Staff getStaff() {
-        return staff;
-    }
-
-    public Helmet getHelmet() {
-        return helmet;
-    }
-
-    public Cuirass getCuirass() {
-        return cuirass;
-    }
-
-    public Gloves getGloves() {
-        return gloves;
-    }
-
-    public Boots getBoots() {
-        return boots;
-    }
-
-    public Shield getShield() {
-        return shield;
-    }
-
-    public IntelligenceRing getLeftRing() {
-        return leftRing;
-    }
-
-    public IntelligenceRing getRightRing() {
-        return rightRing;
-    }
-
-    public IntelligenceBelt getBelt() {
-        return belt;
-    }
-
-    public IntelligenceNecklace getNecklace() {
-        return necklace;
-    }
-
-    public Point getPoint() {
-        return point;
-    }
-
-    public Quest getActiveQuest() {
-        return activeQuest;
-    }
-
-    public Heal getSkill() {
-        return skill;
     }
 }

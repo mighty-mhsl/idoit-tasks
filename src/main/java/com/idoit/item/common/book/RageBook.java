@@ -11,16 +11,4 @@ public class RageBook {
         name = n;
         minLevel = mL;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getMinLevel() {
-        return minLevel;
-    }
-
-    public Rage getSkill() {
-        return skill;
-    }
 }
