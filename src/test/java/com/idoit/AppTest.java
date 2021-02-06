@@ -23,7 +23,7 @@ class AppTest {
         bo.flush();
         String actualLines = bo.toString().trim();
 
-        String expectedLines = "I do it!\r\n" + LocalDateTime.now().getYear();
+        String expectedLines = "I do it! " + LocalDateTime.now().getYear();
         String message = MessageUtil.formatAssertMessage(expectedLines, actualLines);
         assertEquals(expectedLines, actualLines, message);
     }
