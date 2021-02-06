@@ -16,9 +16,11 @@ public class Heal {
     }
 
     public void apply(Wizard wizard, Knight knight) {
-        knight.hp = knight.hp + 10;
-        wizard.mana = wizard.mana - spendsMana;
-        System.out.println(knight.name + "was healed and now has " + knight.hp + " hp");
+        int updatedHp = knight.getProfile().getHp() + 10;
+        knight.getProfile().setHp(updatedHp);
+        int updatedMana = wizard.getProfile().getMana() - spendsMana;
+        wizard.getProfile().setMana(updatedMana);
+        System.out.println(knight.getProfile().getName() + "was healed and now has " + knight.getProfile().getHp() + " hp");
     }
 
     public int getSpendsMana() {

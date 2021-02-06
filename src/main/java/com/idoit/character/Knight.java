@@ -11,30 +11,16 @@ import com.idoit.item.armor.Shield;
 import com.idoit.item.bijouterie.belt.StrengthBelt;
 import com.idoit.item.bijouterie.necklace.StrengthNecklace;
 import com.idoit.item.bijouterie.ring.StrengthRing;
+import com.idoit.item.common.food.Apple;
 import com.idoit.item.common.potion.HpPotion;
 import com.idoit.item.weapon.Sword;
+import com.idoit.profile.Profile;
 import com.idoit.quest.Quest;
 import com.idoit.skill.Rage;
 
 public class Knight {
-    public String name;
-    public int strength = 7;
-    public int agility;
-    public int intelligence;
-    public int hp = 100;
-    public int mana = 100;
-    public int stamina = 100;
-    public int level = 1;
-    public int experience = 0;
-    public int gold = 100;
-    public int physicalDefence;
-    public int magicDefence;
+    public Profile profile = new Profile();
     public Sword sword;
-    public Helmet helmet;
-    public Cuirass cuirass;
-    public Gloves gloves;
-    public Boots boots;
-    public Shield shield;
     public StrengthRing leftRing;
     public StrengthRing rightRing;
     public StrengthBelt belt;
@@ -43,15 +29,17 @@ public class Knight {
     public Quest activeQuest;
     public Rage skill;
 
-    public Knight(String n) {
-        name = n;
+    public Knight(String name) {
+        profile.setName(name);
     }
 
     public void hit(Knight enemy) {
-        enemy.hp = enemy.hp - 10;
+        int updatedHp = enemy.getProfile().getHp() - 10;
+        enemy.getProfile().setHp(updatedHp);
         sword.durability = sword.durability - 1;
-        stamina = stamina - 10;
-        System.out.println(name + " нанес 10 урона " + enemy.name + ". Теперь у " + enemy.name + " " + enemy.hp + " хп.");
+        profile.setStamina(profile.getStamina() - 10);
+        System.out.println(profile.getName() + " нанес 10 урона " + enemy.getProfile().getName() +
+                ". Теперь у " + enemy.getProfile().getName() + " " + enemy.getProfile().getHp() + " хп.");
     }
 
     public void castSkill() {
@@ -71,23 +59,39 @@ public class Knight {
     }
 
     public void addGold(int gold) {
-        this.gold = this.gold + gold;
+        profile.setGold(profile.getGold() + gold);
     }
 
     public void addExperience(int exp) {
-        this.experience = this.experience + exp;
+        profile.setExperience(profile.getExperience() + exp);
     }
 
     public void drinkHpPotion(HpPotion potion) {
-        hp += potion.getPointsToRecover();
+        profile.setHp(profile.getHp() + potion.getPointsToRecover());
+    }
+
+    public void eat(Apple apple) {
+        profile.setHp(profile.getHp() + apple.getPointsToRecover());
     }
 
     public void calculatePhysicalDefence() {
-        physicalDefence = physicalDefence + helmet.physicalDefence + cuirass.physicalDefence + gloves.physicalDefence + boots.physicalDefence + shield.physicalDefence;
+        int updatedPhyDefence = profile.getPhysicalDefence() +
+                profile.getInventory().getHelmet().getPhysicalDefence() +
+                profile.getInventory().getCuirass().getPhysicalDefence() +
+                profile.getInventory().getGloves().getPhysicalDefence() +
+                profile.getInventory().getBoots().getPhysicalDefence() +
+                profile.getInventory().getShield().getPhysicalDefence();
+        profile.setPhysicalDefence(updatedPhyDefence);
     }
 
     private void calculateMagicDefence() {
-        magicDefence = magicDefence + helmet.magicDefence + cuirass.magicDefence + gloves.magicDefence + boots.magicDefence + shield.magicDefence;
+        int updatedMagicDefence = profile.getMagicDefence() +
+                profile.getInventory().getHelmet().getMagicDefence() +
+                profile.getInventory().getCuirass().getMagicDefence() +
+                profile.getInventory().getGloves().getMagicDefence() +
+                profile.getInventory().getBoots().getMagicDefence() +
+                profile.getInventory().getShield().getMagicDefence();
+        profile.setMagicDefence(updatedMagicDefence);
     }
 
     private double calculateDistance(Point point) {
@@ -101,66 +105,62 @@ public class Knight {
     }
 
     public void setHelmet(Helmet helmet) {
-        this.helmet = helmet;
+        profile.getInventory().setHelmet(helmet);
     }
 
     public void setCuirass(Cuirass cuirass) {
-        this.cuirass = cuirass;
+        profile.getInventory().setCuirass(cuirass);
     }
 
     public void setGloves(Gloves gloves) {
-        this.gloves = gloves;
+        profile.getInventory().setGloves(gloves);
     }
 
     public void setBoots(Boots boots) {
-        this.boots = boots;
+        profile.getInventory().setBoots(boots);
     }
 
     public void setShield(Shield shield) {
-        this.shield = shield;
+        profile.getInventory().setShield(shield);
     }
 
     public void setLeftRing(StrengthRing leftRing) {
-        strength = strength + leftRing.getPointsToAdd();
+        profile.setStrength(profile.getStrength() + leftRing.getPointsToAdd());
         this.leftRing = leftRing;
     }
 
     public void setRightRing(StrengthRing rightRing) {
-        strength = strength + rightRing.getPointsToAdd();
+        profile.setStrength(profile.getStrength() + rightRing.getPointsToAdd());
         this.rightRing = rightRing;
     }
 
     public void setBelt(StrengthBelt belt) {
-        strength = strength + belt.getPointsToAdd();
+        profile.setStrength(profile.getStrength() + belt.getPointsToAdd());
         this.belt = belt;
     }
 
     public void setNecklace(StrengthNecklace necklace) {
-        strength = strength + necklace.getPointsToAdd();
+        profile.setStrength(profile.getStrength() + necklace.getPointsToAdd());
         this.necklace = necklace;
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
-
     public void takeOffLeftRing() {
-        strength -= leftRing.getPointsToAdd(); // то же, что strength = strength - leftRing.getPointsToAdd();
+        profile.setStrength(profile.getStrength() - leftRing.getPointsToAdd());
         leftRing = null;
     }
 
     public void takeOffRightRing() {
-        strength -= rightRing.getPointsToAdd();
+        profile.setStrength(profile.getStrength() - rightRing.getPointsToAdd());
         rightRing = null;
     }
 
     public void takeOffBelt() {
-        strength -= belt.getPointsToAdd();
+        profile.setStrength(profile.getStrength() - belt.getPointsToAdd());
         belt = null;
     }
 
     public void takeOffNecklace() {
-        strength -= necklace.getPointsToAdd();
+        profile.setStrength(profile.getStrength() - necklace.getPointsToAdd());
         necklace = null;
     }
 
@@ -168,76 +168,28 @@ public class Knight {
         this.activeQuest = activeQuest;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getStrength() {
-        return strength;
-    }
-
-    public int getAgility() {
-        return agility;
-    }
-
-    public int getIntelligence() {
-        return intelligence;
-    }
-
-    public int getHp() {
-        return hp;
-    }
-
-    public int getMana() {
-        return mana;
-    }
-
-    public int getStamina() {
-        return stamina;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public int getGold() {
-        return gold;
-    }
-
-    public int getPhysicalDefence() {
-        return physicalDefence;
-    }
-
-    public int getMagicDefence() {
-        return magicDefence;
-    }
-
     public Sword getSword() {
         return sword;
     }
 
     public Helmet getHelmet() {
-        return helmet;
+        return profile.getInventory().getHelmet();
     }
 
     public Cuirass getCuirass() {
-        return cuirass;
+        return profile.getInventory().getCuirass();
     }
 
     public Gloves getGloves() {
-        return gloves;
+        return profile.getInventory().getGloves();
     }
 
     public Boots getBoots() {
-        return boots;
+        return profile.getInventory().getBoots();
     }
 
     public Shield getShield() {
-        return shield;
+        return profile.getInventory().getShield();
     }
 
     public StrengthRing getLeftRing() {
@@ -266,5 +218,17 @@ public class Knight {
 
     public Rage getSkill() {
         return skill;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public void setSkill(Rage skill) {
+        this.skill = skill;
     }
 }

@@ -22,12 +22,14 @@ public class Blacksmith {
 
     public void fix(Knight knight, Sword sword) {
         sword.setDurability(100);
-        knight.setGold(knight.getGold() - 20);
+        int updatedGold = knight.getProfile().getGold() - 20;
+        knight.getProfile().setGold(updatedGold);
     }
 
     public void fix(Wizard wizard, Staff staff) {
         staff.setDurability(100);
-        wizard.setGold(wizard.getGold() - 20);
+        int updatedGold = wizard.getProfile().getGold() - 20;
+        wizard.getProfile().setGold(updatedGold);
     }
 
     public void accept(IgniteHammer hammer) {

@@ -16,8 +16,10 @@ public class AccurateShot {
     }
 
     public void apply(Archer archer, Knight knight) {
-        knight.hp = knight.hp - archer.bow.damage * 2;
-        archer.mana = archer.mana - spendsMana;
+        int updatedHp = knight.getProfile().getHp() - archer.getBow().getDamage() * 2;
+        int updatedMana = archer.getProfile().getMana() - spendsMana;
+        knight.getProfile().setHp(updatedHp);
+        archer.getProfile().setMana(updatedMana);
     }
 
     public int getSpendsMana() {

@@ -18,7 +18,8 @@ public class Skeleton {
     }
 
     public void hit(Knight knight) {
-        knight.hp = knight.hp - damage;
+        int updatedHp = knight.getProfile().getHp() - damage;
+        knight.getProfile().setHp(updatedHp);
     }
 
     public void go(int x, int y) {

@@ -15,9 +15,12 @@ public class Rage {
     }
 
     public void apply(Knight knight) {
-        knight.strength = knight.strength * 2;
-        knight.hp = knight.hp - 15;
-        knight.mana = knight.mana - spendsMana;
+        int updatedStrength = knight.getProfile().getStrength() * 2;
+        int updateHp = knight.getProfile().getHp() - 15;
+        int updatedMana = knight.getProfile().getMana() - spendsMana;
+        knight.getProfile().setStrength(updatedStrength);
+        knight.getProfile().setHp(updateHp);
+        knight.getProfile().setMana(updatedMana);
     }
 
     public int getSpendsMana() {
