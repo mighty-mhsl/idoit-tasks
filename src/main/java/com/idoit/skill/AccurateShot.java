@@ -5,4 +5,10 @@ public class AccurateShot {
     public int minLevel;
     public String name;
     public String characterClass;
+
+    public AccurateShot(String n, int sM, int mL) {
+        name = n;
+        spendsMana = sM;
+        minLevel = mL;
+    }
 }

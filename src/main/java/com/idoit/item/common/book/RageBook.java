@@ -6,4 +6,9 @@ public class RageBook {
     public String name;
     public int minLevel;
     public Rage skill;
+
+    public RageBook(String n, int mL) {
+        name = n;
+        minLevel = mL;
+    }
 }

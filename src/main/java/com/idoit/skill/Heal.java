@@ -5,4 +5,10 @@ public class Heal {
     public int minLevel;
     public String name;
     public String characterClass;
+
+    public Heal(String n, int sM, int mL) {
+        name = n;
+        spendsMana = sM;
+        minLevel = mL;
+    }
 }

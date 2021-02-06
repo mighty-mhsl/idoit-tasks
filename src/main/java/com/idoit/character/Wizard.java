@@ -23,4 +23,8 @@ public class Wizard {
     public Gloves gloves;
     public Boots boots;
     public Shield shield;
+
+    public Wizard(String n) {
+        name = n;
+    }
 }
