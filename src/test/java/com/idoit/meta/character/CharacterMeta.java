@@ -18,19 +18,21 @@ public abstract class CharacterMeta extends Meta {
         packageName = BASE_PACKAGE + ".character";
         initFields();
         addConstructorWithFieldsParams(Collections.singletonList("name"));
-        addMethod(void.class, "hit", Class.forName(packageName + ".Knight")); //can't pass character meta to itself
+        addMethod(void.class, "hit", Class.forName(packageName + ".Knight")); //can't pass character meta to itself :(
         addMethod(void.class, "go", int.class, int.class);
         addMethod(void.class, "setHelmet", Meta.getClassFromMeta(new HelmetMeta()));
         addMethod(void.class, "setCuirass", Meta.getClassFromMeta(new CuirassMeta()));
         addMethod(void.class, "setGloves", Meta.getClassFromMeta(new GlovesMeta()));
         addMethod(void.class, "setBoots", Meta.getClassFromMeta(new BootsMeta()));
         addMethod(void.class, "setShield", Meta.getClassFromMeta(new ShieldMeta()));
+        addMethod(void.class, "setActiveQuest", Class.forName("com.idoit.quest.Quest")); //circular dependency in meta context :(
     }
 
     private void initFields() throws ClassNotFoundException {
         fields.put("name", String.class);
         fields.put("hp", int.class);
         fields.put("mana", int.class);
+        fields.put("stamina", int.class);
         fields.put("strength", int.class);
         fields.put("intelligence", int.class);
         fields.put("agility", int.class);
@@ -47,5 +49,6 @@ public abstract class CharacterMeta extends Meta {
         fields.put("belt", Meta.getClassFromMeta(new StrengthBeltMeta()));
         fields.put("necklace", Meta.getClassFromMeta(new StrengthNecklaceMeta()));
         fields.put("point", Meta.getClassFromMeta(new PointMeta()));
+        fields.put("activeQuest", Class.forName("com.idoit.quest.Quest")); //circular dependency in meta context :(
     }
 }

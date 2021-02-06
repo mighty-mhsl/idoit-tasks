@@ -1,7 +1,7 @@
-package com.idoit.character.npc;
+package com.idoit.character.npc.seller;
 
 import com.idoit.meta.Meta;
-import com.idoit.meta.character.npc.ArmorSellerMeta;
+import com.idoit.meta.character.npc.seller.ArmorSellerMeta;
 import com.idoit.meta.item.armor.BootsMeta;
 import com.idoit.meta.item.armor.CuirassMeta;
 import com.idoit.meta.item.armor.GlovesMeta;
@@ -13,14 +13,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Тесты логики в классе ArmorSeller")
-class ArmorSellerTest extends NpcTest {
+class ArmorSellerTest extends SellerTest {
 
     @BeforeEach
 	void setUp() {
         setMeta(ArmorSellerMeta.class);
     }
 
-    @DisplayName("Тест, что класс ArmorSeller находится в пакете com.idoit.character.npc")
+    @DisplayName("Тест, что класс ArmorSeller находится в пакете com.idoit.character.npc.seller")
     @Test
     void testArmorSellerIsInNpcPackage() {
         testClassIsInPackage();

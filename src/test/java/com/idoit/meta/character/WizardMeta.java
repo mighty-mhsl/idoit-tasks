@@ -15,6 +15,8 @@ public class WizardMeta extends CharacterMeta {
         addMethod(void.class, "setRightRing", Meta.getClassFromMeta(new IntelligenceRingMeta()));
         addMethod(void.class, "setBelt", Meta.getClassFromMeta(new IntelligenceBeltMeta()));
         addMethod(void.class, "setNecklace", Meta.getClassFromMeta(new IntelligenceNecklaceMeta()));
+        addMethod(void.class, "setSkill", Class.forName("com.idoit.skill.Heal")); //circular dependency :(
+        addMethod(void.class, "castSkill", Class.forName(packageName + ".Knight")); //can't pass character meta to itself :(
     }
 
     private void initFields() throws ClassNotFoundException {
@@ -23,5 +25,6 @@ public class WizardMeta extends CharacterMeta {
         fields.put("rightRing", Meta.getClassFromMeta(new IntelligenceRingMeta()));
         fields.put("belt", Meta.getClassFromMeta(new IntelligenceBeltMeta()));
         fields.put("necklace", Meta.getClassFromMeta(new IntelligenceNecklaceMeta()));
+        fields.put("skill", Class.forName("com.idoit.skill.Heal")); //circular dependency :(
     }
 }

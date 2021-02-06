@@ -5,7 +5,7 @@ import com.idoit.meta.MetaContext;
 import com.idoit.meta.character.ArcherMeta;
 import com.idoit.meta.character.KnightMeta;
 import com.idoit.meta.character.WizardMeta;
-import com.idoit.meta.character.npc.BlacksmithMeta;
+import com.idoit.meta.character.npc.seller.BlacksmithMeta;
 import com.idoit.meta.item.armor.HelmetMeta;
 import com.idoit.meta.item.bijouterie.ring.StrengthRingMeta;
 import com.idoit.meta.item.common.potion.HpPotionMeta;

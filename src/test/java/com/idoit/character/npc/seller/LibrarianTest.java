@@ -1,7 +1,7 @@
-package com.idoit.character.npc;
+package com.idoit.character.npc.seller;
 
 import com.idoit.AbstractTest;
-import com.idoit.meta.character.npc.LibrarianMeta;
+import com.idoit.meta.character.npc.seller.LibrarianMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ class LibrarianTest extends AbstractTest {
         setMeta(LibrarianMeta.class);
     }
 
-    @DisplayName("Тест, что класс Librarian находится в пакете com.idoit.character.npc")
+    @DisplayName("Тест, что класс Librarian находится в пакете com.idoit.character.npc.seller")
     @Test
     void testLibrarianIsInNpcPackage() {
         testClassIsInPackage();

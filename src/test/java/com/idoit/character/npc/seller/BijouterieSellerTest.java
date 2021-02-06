@@ -1,7 +1,7 @@
-package com.idoit.character.npc;
+package com.idoit.character.npc.seller;
 
 import com.idoit.AbstractTest;
-import com.idoit.meta.character.npc.BijouterieSellerMeta;
+import com.idoit.meta.character.npc.seller.BijouterieSellerMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ class BijouterieSellerTest extends AbstractTest {
         setMeta(BijouterieSellerMeta.class);
     }
 
-    @DisplayName("Тест, что класс BijouterieSeller находится в пакете com.idoit.character.npc")
+    @DisplayName("Тест, что класс BijouterieSeller находится в пакете com.idoit.character.npc.seller")
     @Test
     void testBijouterieSellerIsInNpcPackage() {
         testClassIsInPackage();

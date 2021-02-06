@@ -1,6 +1,5 @@
 package com.idoit.character;
 
-import com.idoit.AbstractTest;
 import com.idoit.MessageUtil;
 import com.idoit.meta.Meta;
 import com.idoit.meta.MetaContext;
@@ -12,9 +11,9 @@ import java.util.function.BiConsumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-abstract class CharacterTest extends AbstractTest {
+abstract class CharacterTest extends AbstractCharacterTest {
 
-    private static final String CONSTRUCTOR_PARAM = "Max";
+    static final String CONSTRUCTOR_PARAM = "Max";
 
     void testHitDamagesEnemy(Meta weaponMeta, String weaponSetterName) {
         Safer.runSafe(() -> {
@@ -52,7 +51,29 @@ abstract class CharacterTest extends AbstractTest {
             };
             testHit(hitter, weaponMeta, weaponSetterName, hitAssert);
         });
+    }
 
+    void testHitDecreasesStamina(Meta weaponMeta, String weaponSetterName) {
+        Safer.runSafe(() -> {
+            Object hitter = getMeta().instantiateObjectWithConstructor(CONSTRUCTOR_PARAM);
+            BiConsumer<Object, Object[]> hitAssert = (obj, params) -> Safer.runSafe(() -> {
+                Object actualStamina = getFieldValue(obj, "stamina");
+                int expectedStamina = 90;
+                String message = MessageUtil.formatAssertMessage(
+                        String.format("После вызова метода hit персонаж должен иметь %d выносливости", expectedStamina),
+                        String.format("После вызова метода hit персонаж имеет %d выносливости", actualStamina)
+                );
+                assertEquals(expectedStamina, actualStamina, message);
+            });
+            testHit(hitter, weaponMeta, weaponSetterName, hitAssert);
+        });
+    }
+
+    String getFieldValueAssert(String className, String methodName, String fieldName, Object expectedValue, Object actualValue) {
+        return MessageUtil.formatAssertMessage(
+                String.format("После вызова метода %s в классе %s поле %s должно иметь значение %s", methodName, className, fieldName, expectedValue),
+                String.format("После вызова метода %s в классе %s поле %s имеет значение %s", methodName, className, fieldName, actualValue)
+        );
     }
 
     private void testHit(Object hitter, Meta weaponMeta, String weaponSetterName, BiConsumer<Object, Object[]> assertConsumer) throws Exception {
@@ -60,33 +81,6 @@ abstract class CharacterTest extends AbstractTest {
         weaponSetter.invoke(hitter, weaponMeta.instantiateObjectWithConstructor("test", 5));
         Object enemy = MetaContext.getMeta(KnightMeta.class).instantiateObjectWithConstructor("Eugene");
         testClassMethod(assertConsumer, hitter, "hit", enemy);
-    }
-
-    void testGo() {
-        Safer.runSafe(() -> {
-            Object whoGoes = getMeta().instantiateObjectWithConstructor(CONSTRUCTOR_PARAM);
-
-            BiConsumer<Object, Object[]> goAssert = (obj, params) -> {
-                Object x = params[0];
-                Object y = params[1];
-                Safer.runSafe(() -> {
-                    Object point = getFieldValue(whoGoes, "point");
-                    Object actualX = getFieldValue(point, "x");
-                    Object actualY = getFieldValue(point, "y");
-                    assertEquals(x, actualX, getGoAssertMessage("x", x, actualX));
-                    assertEquals(x, actualX, getGoAssertMessage("y", y, actualY));
-                });
-            };
-
-            testClassMethod(goAssert, whoGoes, "go", 1, 2);
-        });
-    }
-
-    private String getGoAssertMessage(String fieldName, Object expectedValue, Object actualValue) {
-        return MessageUtil.formatAssertMessage(
-                String.format("После вызова метода go персонаж должен иметь координату по %s: %d", fieldName, expectedValue),
-                String.format("После вызова метода go персонаж имеет координату по %s: %d", fieldName, actualValue)
-        );
     }
 
     void testSetWeapon(Meta weaponMeta, String methodName, String fieldName, String assertMessage) {

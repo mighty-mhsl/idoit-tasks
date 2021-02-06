@@ -1,6 +1,6 @@
-package com.idoit.character.npc;
+package com.idoit.character.npc.seller;
 
-import com.idoit.meta.character.npc.BlacksmithMeta;
+import com.idoit.meta.character.npc.seller.BlacksmithMeta;
 import com.idoit.meta.item.weapon.StaffMeta;
 import com.idoit.meta.item.weapon.SwordMeta;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,14 +8,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Тесты логики в классе Blacksmith")
-class BlacksmithTest extends NpcTest {
+class BlacksmithTest extends SellerTest {
 
     @BeforeEach
 	void setUp() {
         setMeta(BlacksmithMeta.class);
     }
 
-    @DisplayName("Тест, что класс Blacksmith находится в пакете com.idoit.character.npc")
+    @DisplayName("Тест, что класс Blacksmith находится в пакете com.idoit.character.npc.seller")
     @Test
     void testBlacksmithIsInNpcPackage() {
         testClassIsInPackage();

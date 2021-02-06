@@ -24,6 +24,11 @@ public abstract class Meta {
         return Class.forName(meta.getFullClassName());
     }
 
+    public static Object instantiateObjectFromMeta(Class<? extends Meta> metaClass, Object... params) throws Exception {
+        Meta meta = MetaContext.getMeta(metaClass);
+        return meta.instantiateObjectWithConstructor(params);
+    }
+
     public Class<?> getClassFromMeta() throws ClassNotFoundException {
         return Class.forName(getFullClassName());
     }

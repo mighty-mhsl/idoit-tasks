@@ -6,9 +6,9 @@ import com.idoit.item.armor.Cuirass;
 import com.idoit.item.armor.Gloves;
 import com.idoit.item.armor.Helmet;
 import com.idoit.item.armor.Shield;
-import com.idoit.item.bijouterie.belt.IntelligenceBelt;
-import com.idoit.item.bijouterie.necklace.IntelligenceNecklace;
-import com.idoit.item.bijouterie.ring.IntelligenceRing;
+import com.idoit.item.bijouterie.belt.StrengthBelt;
+import com.idoit.item.bijouterie.necklace.StrengthNecklace;
+import com.idoit.item.bijouterie.ring.StrengthRing;
 import com.idoit.item.weapon.Staff;
 
 public class Wizard {
@@ -27,10 +27,10 @@ public class Wizard {
     public Gloves gloves;
     public Boots boots;
     public Shield shield;
-    public IntelligenceRing leftRing;
-    public IntelligenceRing rightRing;
-    public IntelligenceBelt belt;
-    public IntelligenceNecklace necklace;
+    public StrengthRing leftRing;
+    public StrengthRing rightRing;
+    public StrengthBelt belt;
+    public StrengthNecklace necklace;
     public Point point = new Point(0, 0);
 
     public Wizard(String n) {
@@ -71,19 +71,19 @@ public class Wizard {
         this.shield = shield;
     }
 
-    public void setLeftRing(IntelligenceRing leftRing) {
+    public void setLeftRing(StrengthRing leftRing) {
         this.leftRing = leftRing;
     }
 
-    public void setRightRing(IntelligenceRing rightRing) {
+    public void setRightRing(StrengthRing rightRing) {
         this.rightRing = rightRing;
     }
 
-    public void setBelt(IntelligenceBelt belt) {
+    public void setBelt(StrengthBelt belt) {
         this.belt = belt;
     }
 
-    public void setNecklace(IntelligenceNecklace necklace) {
+    public void setNecklace(StrengthNecklace necklace) {
         this.necklace = necklace;
     }
 }

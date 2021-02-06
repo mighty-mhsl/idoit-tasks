@@ -6,9 +6,9 @@ import com.idoit.item.armor.Cuirass;
 import com.idoit.item.armor.Gloves;
 import com.idoit.item.armor.Helmet;
 import com.idoit.item.armor.Shield;
-import com.idoit.item.bijouterie.belt.AgilityBelt;
-import com.idoit.item.bijouterie.necklace.AgilityNecklace;
-import com.idoit.item.bijouterie.ring.AgilityRing;
+import com.idoit.item.bijouterie.belt.StrengthBelt;
+import com.idoit.item.bijouterie.necklace.StrengthNecklace;
+import com.idoit.item.bijouterie.ring.StrengthRing;
 import com.idoit.item.weapon.Bow;
 
 public class Archer {
@@ -27,10 +27,10 @@ public class Archer {
     public Gloves gloves;
     public Boots boots;
     public Shield shield;
-    public AgilityRing leftRing;
-    public AgilityRing rightRing;
-    public AgilityBelt belt;
-    public AgilityNecklace necklace;
+    public StrengthRing leftRing;
+    public StrengthRing rightRing;
+    public StrengthBelt belt;
+    public StrengthNecklace necklace;
     public Point point = new Point(0, 0);
 
     public Archer(String n) {
@@ -71,19 +71,19 @@ public class Archer {
         this.shield = shield;
     }
 
-    public void setLeftRing(AgilityRing leftRing) {
+    public void setLeftRing(StrengthRing leftRing) {
         this.leftRing = leftRing;
     }
 
-    public void setRightRing(AgilityRing rightRing) {
+    public void setRightRing(StrengthRing rightRing) {
         this.rightRing = rightRing;
     }
 
-    public void setBelt(AgilityBelt belt) {
+    public void setBelt(StrengthBelt belt) {
         this.belt = belt;
     }
 
-    public void setNecklace(AgilityNecklace necklace) {
+    public void setNecklace(StrengthNecklace necklace) {
         this.necklace = necklace;
     }
 }

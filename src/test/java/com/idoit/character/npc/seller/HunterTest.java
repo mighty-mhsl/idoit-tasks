@@ -1,20 +1,20 @@
-package com.idoit.character.npc;
+package com.idoit.character.npc.seller;
 
-import com.idoit.meta.character.npc.HunterMeta;
+import com.idoit.meta.character.npc.seller.HunterMeta;
 import com.idoit.meta.item.weapon.BowMeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Тесты логики в классе Hunter")
-class HunterTest extends NpcTest {
+class HunterTest extends SellerTest {
 
     @BeforeEach
 	void setUp() {
         setMeta(HunterMeta.class);
     }
 
-    @DisplayName("Тест, что класс Hunter находится в пакете com.idoit.character.npc")
+    @DisplayName("Тест, что класс Hunter находится в пакете com.idoit.character.npc.seller")
     @Test
     void testHunterIsInNpcPackage() {
         testClassIsInPackage();

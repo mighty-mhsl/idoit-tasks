@@ -3,6 +3,7 @@ package com.idoit.character;
 import com.idoit.meta.Meta;
 import com.idoit.meta.MetaContext;
 import com.idoit.meta.character.ArcherMeta;
+import com.idoit.meta.character.KnightMeta;
 import com.idoit.meta.item.armor.BootsMeta;
 import com.idoit.meta.item.armor.CuirassMeta;
 import com.idoit.meta.item.armor.GlovesMeta;
@@ -12,9 +13,16 @@ import com.idoit.meta.item.bijouterie.belt.AgilityBeltMeta;
 import com.idoit.meta.item.bijouterie.necklace.AgilityNecklaceMeta;
 import com.idoit.meta.item.bijouterie.ring.AgilityRingMeta;
 import com.idoit.meta.item.weapon.BowMeta;
+import com.idoit.meta.quest.QuestMeta;
+import com.idoit.meta.skill.AccurateShotMeta;
+import com.idoit.safe.Safer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.function.BiConsumer;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Тесты логики в классе Archer")
 class ArcherTest extends CharacterTest {
@@ -63,10 +71,17 @@ class ArcherTest extends CharacterTest {
         testHitDamagesWeapon(bowMeta, "setBow", "bow");
     }
 
+    @DisplayName("Тест, что метод hit в классе Archer уменьшает выносливость персонажа на 10")
+    @Test
+    void testHitDecreasesStamina() {
+        Meta bowMeta = MetaContext.getMeta(BowMeta.class);
+        testHitDecreasesStamina(bowMeta, "setBow");
+    }
+
     @DisplayName("Тест, что метод go в классе Archer меняет координаты точки персонажа")
     @Test
     void testGoChangesPointCoordinates() {
-        testGo();
+        testGo(CONSTRUCTOR_PARAM);
     }
 
     @DisplayName("Тест, что метод setBow в классе Archer сохраняет переданный Bow в поле класса")
@@ -157,5 +172,50 @@ class ArcherTest extends CharacterTest {
         Meta valueMeta = MetaContext.getMeta(AgilityNecklaceMeta.class);
         String message = getSetterAssertMessage(methodName, valueMeta.getClassName(), getMeta().getClassName());
         testSetBijouterie(valueMeta, methodName, "necklace", message);
+    }
+
+    @DisplayName("Тест, что метод setActiveQuest в классе Archer сохраняет переданный Quest в поле класса")
+    @Test
+    void testSetActiveQuestSavesQuestToField() {
+        Object[] questConstructor = new Object[] {"test1", "test2", 1, 2, 3};
+        testSetterWithMetaParam(QuestMeta.class, questConstructor, "setActiveQuest", "activeQuest", "test");
+    }
+
+    @DisplayName("Тест, что метод setSkill в классе Archer сохраняет переданный AccurateShot в поле класса")
+    @Test
+    void testSetSkillSavesSkillToField() {
+        Object[] shotConstructor = new Object[]{"test", 1, 1};
+        testSetterWithMetaParam(AccurateShotMeta.class, shotConstructor, "setSkill", "skill", "test");
+    }
+
+    @DisplayName("Тесто, что метод castSkill в классе Archer наносит двойной урон переданному Knight")
+    @Test
+    void testCastSkill() {
+        Safer.runSafe(() -> {
+            String methodName = "castSkill";
+            Object archer = getMeta().instantiateObjectWithConstructor(CONSTRUCTOR_PARAM);
+            setFieldForObjectAndGet(archer, "setBow", BowMeta.class, "test", 10);
+            setFieldForObjectAndGet(archer, "setSkill", AccurateShotMeta.class, "test", 15, 1);
+
+            BiConsumer<Object, Object[]> castAssert = (obj, param) -> {
+                Object knight = param[0];
+                Safer.runSafe(() -> {
+                    String className = getMeta().getClassName();
+                    int expectedHp = 80;
+                    int expectedMana = 85;
+                    String hpFieldName = "hp";
+                    String manaFieldName = "mana";
+                    Object actualHp = getFieldValue(knight, hpFieldName);
+                    Object actualMana = getFieldValue(archer, manaFieldName);
+                    String hpMessage = getFieldValueAssert(className, methodName, hpFieldName, expectedHp, actualHp);
+                    String manaMessage = getFieldValueAssert(className, methodName, manaFieldName, expectedMana, actualMana);
+                    assertEquals(expectedHp, actualHp, hpMessage);
+                    assertEquals(expectedMana, actualMana, manaMessage);
+                });
+            };
+
+            Object knight = Meta.instantiateObjectFromMeta(KnightMeta.class, CONSTRUCTOR_PARAM);
+            testClassMethod(castAssert, archer, methodName, knight);
+        });
     }
 }
