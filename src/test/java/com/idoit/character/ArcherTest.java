@@ -512,7 +512,7 @@ class ArcherTest extends CharacterTest {
     void testGetPoint() {
         int expectedX = 0;
         int expectedY = 0;
-        archer.getPointMeta().getLook();
+        archer.getPointMeta().getLook().getX();
         PointMeta point = archer.getPoint();
         int actualX = point.getLook().getX();
         int actualY = point.getLook().getY();
