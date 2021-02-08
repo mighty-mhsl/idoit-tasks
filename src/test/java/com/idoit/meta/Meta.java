@@ -216,7 +216,7 @@ public abstract class Meta {
     }
 
     protected Object[] defaultConstructorParams = {};
-    private Object originalInstance;
+    public Object originalInstance;
 
     public void refresh() {
         originalInstance = null;
@@ -228,6 +228,8 @@ public abstract class Meta {
     }
 
     public abstract class Look {
+
+        protected Object saved;
 
         public void setFieldWithoutOriginalCall(String fieldName, Meta value) {
             try {
@@ -255,7 +257,7 @@ public abstract class Meta {
         protected Meta getMetaFromOriginal(Meta dependency, Object original) {
             Meta meta = dependency != null && dependency.originalInstance == original ? dependency : null;
             if (meta == null) {
-                throw new NullPointerException("HERE! " + dependency.originalInstance + " " + original);
+                throw new NullPointerException("HERE! " + dependency.originalInstance + " " + original + " " + saved);
             }
             return meta;
         }

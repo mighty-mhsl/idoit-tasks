@@ -44,6 +44,7 @@ public abstract class CharacterMeta extends Meta {
 
         CharacterLook(String name) {
             point = (PointMeta) syncField(PointMeta.class, "point");
+            saved = point.originalInstance;
         }
 
         public void hit(KnightMeta enemy) {
