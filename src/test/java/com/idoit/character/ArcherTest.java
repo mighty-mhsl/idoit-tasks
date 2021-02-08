@@ -486,6 +486,10 @@ class ArcherTest extends CharacterTest {
     @DisplayName("Тест, что метод getBoots в классе Archer возвращает сапоги персонажа")
     @Test
     void testGetBoots() {
+        ProfileMeta profile = (ProfileMeta) MetaContext.getMeta(ProfileMeta.class);
+        InventoryMeta inventory = (InventoryMeta) MetaContext.getMeta(InventoryMeta.class);
+        profile.getLook().setInventory(inventory);
+        archer.setProfile(profile);
         BootsMeta expectedValue = (BootsMeta) MetaContext.getMeta(BootsMeta.class);
         archer.setBoots(expectedValue);
         BootsMeta actualValue = archer.getBoots();
