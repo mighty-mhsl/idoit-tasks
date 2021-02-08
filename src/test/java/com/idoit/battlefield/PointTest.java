@@ -18,7 +18,7 @@ class PointTest extends AbstractTest {
         setMeta(PointMeta.class);
         PointMeta meta = (PointMeta) getMeta();
         point = meta.getLook();
-//        getMeta().refresh();
+        getMeta().refresh();
     }
 
     @DisplayName("Тест, что класс Point находится в пакете com.idoit.battlefield")
