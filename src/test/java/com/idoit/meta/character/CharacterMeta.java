@@ -39,7 +39,7 @@ public abstract class CharacterMeta extends Meta {
 
     public class CharacterLook extends Look {
         private ProfileMeta profile;
-        protected PointMeta point;
+        private PointMeta point;
         private QuestMeta activeQuest;
 
         CharacterLook(String name) {

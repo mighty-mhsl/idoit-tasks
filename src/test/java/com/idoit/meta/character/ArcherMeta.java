@@ -1,6 +1,5 @@
 package com.idoit.meta.character;
 
-import com.idoit.meta.battlefield.PointMeta;
 import com.idoit.meta.item.bijouterie.belt.AgilityBeltMeta;
 import com.idoit.meta.item.bijouterie.necklace.AgilityNecklaceMeta;
 import com.idoit.meta.item.bijouterie.ring.AgilityRingMeta;
@@ -34,7 +33,6 @@ public class ArcherMeta extends CharacterMeta {
 
         ArcherLook(String name) {
             super(name);
-            point = (PointMeta) syncField(PointMeta.class, "point");
         }
 
         public void castSkill(KnightMeta knight) {
