@@ -243,10 +243,10 @@ public abstract class Meta {
             }
         }
 
-        protected PointMeta syncField(Class<? extends Meta> metaClass, String fieldName) {
-//            Meta meta = MetaContext.getMeta(metaClass);
-            PointMeta meta = new PointMeta();
+        protected Meta syncField(Class<? extends Meta> metaClass, String fieldName) {
+            Meta meta = null;
             try {
+                meta = metaClass.getConstructor().newInstance(); //it's bad to share state when syncing default fields. On pipelines MetaContext.get(clazz) failed
                 createOriginalInstanceIfNeeded();
                 Field field = originalInstance.getClass().getField(fieldName);
                 meta.originalInstance = field.get(originalInstance);
@@ -257,11 +257,7 @@ public abstract class Meta {
         }
 
         protected Meta getMetaFromOriginal(Meta dependency, Object original) {
-            Meta meta = dependency != null && dependency.originalInstance == original ? dependency : null;
-            if (meta == null) {
-                throw new NullPointerException("HERE! " + dependency.originalInstance + " " + original + " " + saved);
-            }
-            return meta;
+            return dependency != null && dependency.originalInstance == original ? dependency : null;
         }
 
         protected Object invokeOriginal(Object... params) {
