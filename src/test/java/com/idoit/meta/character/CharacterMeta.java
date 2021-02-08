@@ -39,7 +39,7 @@ public abstract class CharacterMeta extends Meta {
 
     public class CharacterLook extends Look {
         private ProfileMeta profile;
-        private PointMeta point;
+        protected PointMeta point;
         private QuestMeta activeQuest;
 
         CharacterLook(String name) {
@@ -80,7 +80,6 @@ public abstract class CharacterMeta extends Meta {
 
         public PointMeta getPoint() {
             Object originalPoint = invokeOriginal();
-            point.getLook();
             return (PointMeta) getMetaFromOriginal(point, originalPoint);
         }
 
