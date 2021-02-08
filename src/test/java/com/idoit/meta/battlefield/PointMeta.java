@@ -6,6 +6,8 @@ import java.util.Arrays;
 
 public class PointMeta extends Meta {
 
+    private PointLook look;
+
     public PointMeta() {
         defaultConstructorParams = new Object[] {1, 2};
     }
@@ -17,7 +19,10 @@ public class PointMeta extends Meta {
 
     @Override
     public PointLook getLook() {
-        return new PointLook(1, 2);
+        if (look == null) {
+            look = new PointLook(1, 2);
+        }
+        return look;
     }
 
     @Override

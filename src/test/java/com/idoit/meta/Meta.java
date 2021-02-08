@@ -256,9 +256,9 @@ public abstract class Meta {
 
         protected Meta getMetaFromOriginal(Meta dependency, Object original) {
             Meta meta = dependency != null && dependency.originalInstance == original ? dependency : null;
-            if (meta == null) {
+            /*if (meta == null) {
                 throw new NullPointerException("HERE! " + dependency.originalInstance + " " + original + " " + saved);
-            }
+            }*/
             return meta;
         }
 
