@@ -253,10 +253,11 @@ public abstract class Meta {
         }
 
         protected Meta getMetaFromOriginal(Meta dependency, Object original) {
-            if (dependency.originalInstance == null) {
-                throw new NullPointerException("HERE!");
+            Meta meta = dependency != null && dependency.originalInstance == original ? dependency : null;
+            if (meta == null) {
+                throw new NullPointerException("HERE! " + dependency.originalInstance + " " + original);
             }
-            return dependency != null && dependency.originalInstance == original ? dependency : null;
+            return meta;
         }
 
         protected Object invokeOriginal(Object... params) {
