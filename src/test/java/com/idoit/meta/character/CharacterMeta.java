@@ -78,12 +78,9 @@ public abstract class CharacterMeta extends Meta {
             this.activeQuest = activeQuest;
         }
 
-        public PointMeta getPointMeta() {
-            return point;
-        }
-
         public PointMeta getPoint() {
             Object originalPoint = invokeOriginal();
+            point.getLook();
             return (PointMeta) getMetaFromOriginal(point, originalPoint);
         }
 
