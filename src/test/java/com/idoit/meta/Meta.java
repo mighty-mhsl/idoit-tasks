@@ -1,6 +1,7 @@
 package com.idoit.meta;
 
 import com.idoit.TestUtil;
+import com.idoit.meta.battlefield.PointMeta;
 import com.idoit.safe.SafeConsumer;
 
 import java.lang.reflect.Field;
@@ -242,8 +243,9 @@ public abstract class Meta {
             }
         }
 
-        protected Meta syncField(Class<? extends Meta> metaClass, String fieldName) {
-            Meta meta = MetaContext.getMeta(metaClass);
+        protected PointMeta syncField(Class<? extends Meta> metaClass, String fieldName) {
+//            Meta meta = MetaContext.getMeta(metaClass);
+            PointMeta meta = new PointMeta();
             try {
                 createOriginalInstanceIfNeeded();
                 Field field = originalInstance.getClass().getField(fieldName);
@@ -256,9 +258,9 @@ public abstract class Meta {
 
         protected Meta getMetaFromOriginal(Meta dependency, Object original) {
             Meta meta = dependency != null && dependency.originalInstance == original ? dependency : null;
-            /*if (meta == null) {
+            if (meta == null) {
                 throw new NullPointerException("HERE! " + dependency.originalInstance + " " + original + " " + saved);
-            }*/
+            }
             return meta;
         }
 
