@@ -19,6 +19,7 @@ public class Rouge {
 
     public void hit(Knight knight) {
         knight.hp = knight.hp - damage;
+        knight.hpIsCritical = knight.hp <= knight.criticalHp; //обновляем значение, если достигнут критический уровень hp
     }
 
     public void go(int x, int y) {

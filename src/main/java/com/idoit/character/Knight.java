@@ -51,12 +51,6 @@ public class Knight {
     }
 
     public void hit(Knight enemy) {
-        /* когда появится класс хода, нужно будет эту проверку перетащить в самое начало хода, а не только перед ударом,
-         * это будет логичнее, чтобы игрок мог решить, хочет он получать бонус или это слишком рисковано
-         * В задаче или следующей лекции эта проверка будет меняться (добавим метод c зависимостью от hpIsCritical)*/
-        if (this.hp <= this.criticalHp) {
-            hpIsCritical = true;
-        }
         enemy.hp = enemy.hp - 10;
         sword.durability = sword.durability - 1;
         stamina = stamina - 10;
