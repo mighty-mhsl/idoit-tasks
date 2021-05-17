@@ -42,12 +42,21 @@ public class Knight {
     public Point point = new Point(0, 0);
     public Quest activeQuest;
     public Rage skill;
+    public boolean isAlive = true; // состояние - жив или мертв. В будущем добавим взаимосвязь с hp
+    public boolean hpIsCritical; // зависит от criticalHp - будет метод, в котором изменяются определнные параметры, если достигнут критический уровень
+    public int criticalHp = 10; //в будущем, когда пройдем final, нужно будет поменять это на final поле;
 
     public Knight(String n) {
         name = n;
     }
 
     public void hit(Knight enemy) {
+        /* когда появится класс хода, нужно будет эту проверку перетащить в самое начало хода, а не только перед ударом,
+         * это будет логичнее, чтобы игрок мог решить, хочет он получать бонус или это слишком рисковано
+         * В задаче или следующей лекции эта проверка будет меняться (добавим метод c зависимостью от hpIsCritical)*/
+        if (this.hp <= this.criticalHp) {
+            hpIsCritical = true;
+        }
         enemy.hp = enemy.hp - 10;
         sword.durability = sword.durability - 1;
         stamina = stamina - 10;
@@ -266,5 +275,29 @@ public class Knight {
 
     public Rage getSkill() {
         return skill;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
+
+    public boolean isHpIsCritical() {
+        return hpIsCritical;
+    }
+
+    public void setHpIsCritical(boolean hpIsCritical) {
+        this.hpIsCritical = hpIsCritical;
+    }
+
+    public int getCriticalHp() {
+        return criticalHp;
+    }
+
+    public void setCriticalHp(int criticalHp) {
+        this.criticalHp = criticalHp;
     }
 }
