@@ -270,28 +270,4 @@ public class Knight {
     public Rage getSkill() {
         return skill;
     }
-
-    public boolean isAlive() {
-        return isAlive;
-    }
-
-    public void setAlive(boolean alive) {
-        isAlive = alive;
-    }
-
-    public boolean isHpIsCritical() {
-        return hpIsCritical;
-    }
-
-    public void setHpIsCritical(boolean hpIsCritical) {
-        this.hpIsCritical = hpIsCritical;
-    }
-
-    public int getCriticalHp() {
-        return criticalHp;
-    }
-
-    public void setCriticalHp(int criticalHp) {
-        this.criticalHp = criticalHp;
-    }
 }
