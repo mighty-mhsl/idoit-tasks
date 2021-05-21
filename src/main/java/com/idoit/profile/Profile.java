@@ -6,6 +6,7 @@ public class Profile {
     public int agility;
     public int intelligence;
     public int hp = 100;
+    public int criticalHp = 10;
     public int mana = 100;
     public int stamina = 100;
     public int level = 1;
@@ -13,6 +14,8 @@ public class Profile {
     public int gold = 100;
     public int physicalDefence;
     public int magicDefence;
+    public boolean isAlive = true;
+    public boolean hpIsCritical;
     public Inventory inventory = new Inventory();
 
     public String getName() {
