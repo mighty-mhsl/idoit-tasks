@@ -14,9 +14,39 @@ public class Profile {
     public int gold = 100;
     public int physicalDefence;
     public int magicDefence;
-    public boolean isAlive = true;
-    public boolean hpIsCritical;
+    public boolean alive = true;
+    public boolean hpCritical;
     public Inventory inventory = new Inventory();
+
+    public void setCriticalParameters() {
+        strength = strength + 5;
+        magicDefence = 0;
+        physicalDefence = physicalDefence - 5;
+    }
+
+    public int getCriticalHp() {
+        return criticalHp;
+    }
+
+    public void setCriticalHp(int criticalHp) {
+        this.criticalHp = criticalHp;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public boolean isHpCritical() {
+        return hpCritical;
+    }
+
+    public void setHpCritical(boolean hpCritical) {
+        this.hpCritical = hpCritical;
+    }
 
     public String getName() {
         return name;

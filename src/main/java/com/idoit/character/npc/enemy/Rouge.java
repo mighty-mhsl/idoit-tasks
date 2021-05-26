@@ -11,6 +11,7 @@ public class Rouge {
     public int goldReward;
     public int damage;
     public Point point = new Point(0, 0);
+    public boolean alive = true;
 
     public Rouge(int level, int damage) {
         this.level = level;
@@ -20,7 +21,8 @@ public class Rouge {
     public void hit(Knight knight) {
         int updatedHp = knight.getProfile().getHp() - damage;
         knight.getProfile().setHp(updatedHp);
-        knight.getProfile().hpIsCritical = knight.getProfile().hp <= knight.getProfile().criticalHp;
+        knight.getProfile().setHpCritical(knight.getProfile().getHp() <= knight.getProfile().getCriticalHp());
+        knight.getProfile().setAlive(knight.getProfile().getHp() > 0);
     }
 
     public void go(int x, int y) {
@@ -53,5 +55,17 @@ public class Rouge {
 
     public Point getPoint() {
         return point;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 }

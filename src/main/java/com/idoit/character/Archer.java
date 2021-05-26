@@ -1,6 +1,7 @@
 package com.idoit.character;
 
 import com.idoit.battlefield.Point;
+import com.idoit.character.npc.enemy.Skeleton;
 import com.idoit.item.armor.Boots;
 import com.idoit.item.armor.Cuirass;
 import com.idoit.item.armor.Gloves;
@@ -31,12 +32,24 @@ public class Archer {
     }
 
     public void hit(Knight enemy) {
-        int updatedHp = enemy.getProfile().getHp() - 10;
+        int updatedHp = enemy.getProfile().getHp() - getProfile().getStrength();
         enemy.getProfile().setHp(updatedHp);
+        enemy.getProfile().setAlive(enemy.getProfile().getHp() > 0);
         bow.durability = bow.durability - 1;
         profile.setStamina(profile.getStamina() - 10);
-        System.out.println(profile.getName() + " нанес 10 урона " + enemy.getProfile().getName() +
-                ". Теперь у " + enemy.getProfile().getName() + " " + enemy.getProfile().getHp() + " хп.");
+        System.out.println(profile.getName() + " нанес " + getProfile().getStrength() + " урона " +
+                enemy.getProfile().getName() + ". Теперь у " + enemy.getProfile().getName() + " " +
+                enemy.getProfile().getHp() + " хп.");
+    }
+
+    public void hitSkeleton(Skeleton skeleton) {
+        int updatedHp = skeleton.getHp() - getProfile().getStrength();
+        skeleton.setHp(updatedHp);
+        skeleton.setAlive(skeleton.getHp() > 0);
+        bow.durability = bow.durability - 1;
+        profile.setStamina(profile.getStamina() - 10);
+        System.out.println(profile.getName() + " нанес " + getProfile().getStrength() + " урона " +
+                skeleton.getName() + ". Теперь у " + skeleton.getName() + " " + skeleton.getHp() + " хп.");
     }
 
     public void castSkill(Knight enemy) {

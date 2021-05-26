@@ -11,6 +11,7 @@ public class Skeleton {
     public int goldReward;
     public int damage;
     public Point point = new Point(0, 0);
+    public boolean alive = true;
 
     public Skeleton(int level, int damage) {
         this.level = level;
@@ -20,6 +21,8 @@ public class Skeleton {
     public void hit(Knight knight) {
         int updatedHp = knight.getProfile().getHp() - damage;
         knight.getProfile().setHp(updatedHp);
+        knight.getProfile().setHpCritical(knight.getProfile().getHp() <= knight.getProfile().getCriticalHp());
+        knight.getProfile().setAlive(knight.getProfile().getHp() > 0);
     }
 
     public void go(int x, int y) {
@@ -52,5 +55,17 @@ public class Skeleton {
 
     public Point getPoint() {
         return point;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 }

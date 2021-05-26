@@ -31,12 +31,14 @@ public class Wizard {
     }
 
     public void hit(Knight enemy) {
-        int updatedHp = enemy.getProfile().getHp() - 10;
+        int updatedHp = enemy.getProfile().getHp() - getProfile().getStrength();
         enemy.getProfile().setHp(updatedHp);
+        enemy.getProfile().setAlive(enemy.getProfile().getHp() > 0);
         staff.durability = staff.durability - 1;
         profile.setStamina(profile.getStamina() - 10);
-        System.out.println(profile.getName() + " нанес 10 урона " + enemy.getProfile().getName() +
-                ". Теперь у " + enemy.getProfile().getName() + " " + enemy.getProfile().getHp() + " хп.");
+        System.out.println(profile.getName() + " нанес " + getProfile().getStrength() + " урона " +
+                enemy.getProfile().getName() + ". Теперь у " + enemy.getProfile().getName() + " " +
+                enemy.getProfile().getHp() + " хп.");
     }
 
     public void castSkill(Knight knight) {
