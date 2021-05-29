@@ -35,7 +35,7 @@ public class Knight {
     }
 
     public void hit(Knight enemy) {
-        int updatedHp = enemy.getProfile().getHp() - getProfile().getStrength();
+        int updatedHp = enemy.getProfile().getHp() - profile.getStrength();
         enemy.getProfile().setHp(updatedHp);
         enemy.getProfile().setAlive(enemy.getProfile().getHp() > 0);
         sword.durability = sword.durability - 1;
@@ -45,8 +45,8 @@ public class Knight {
                 enemy.getProfile().getHp() + " хп.");
     }
 
-    public void hitRouge(Rouge rouge) {
-        int updatedHp = rouge.getHp() - getProfile().getStrength();
+    public void hit(Rouge rouge) {
+        int updatedHp = rouge.getHp() - profile.getStrength();
         rouge.setHp(updatedHp);
         rouge.setAlive(rouge.getHp() > 0);
         sword.durability = sword.durability - 1;

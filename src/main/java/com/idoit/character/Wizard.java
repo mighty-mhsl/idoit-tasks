@@ -31,7 +31,7 @@ public class Wizard {
     }
 
     public void hit(Knight enemy) {
-        int updatedHp = enemy.getProfile().getHp() - getProfile().getStrength();
+        int updatedHp = enemy.getProfile().getHp() - profile.getStrength();
         enemy.getProfile().setHp(updatedHp);
         enemy.getProfile().setAlive(enemy.getProfile().getHp() > 0);
         staff.durability = staff.durability - 1;

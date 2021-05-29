@@ -32,7 +32,7 @@ public class Archer {
     }
 
     public void hit(Knight enemy) {
-        int updatedHp = enemy.getProfile().getHp() - getProfile().getStrength();
+        int updatedHp = enemy.getProfile().getHp() - profile.getStrength();
         enemy.getProfile().setHp(updatedHp);
         enemy.getProfile().setAlive(enemy.getProfile().getHp() > 0);
         bow.durability = bow.durability - 1;
@@ -42,8 +42,8 @@ public class Archer {
                 enemy.getProfile().getHp() + " хп.");
     }
 
-    public void hitSkeleton(Skeleton skeleton) {
-        int updatedHp = skeleton.getHp() - getProfile().getStrength();
+    public void hit(Skeleton skeleton) {
+        int updatedHp = skeleton.getHp() - profile.getStrength();
         skeleton.setHp(updatedHp);
         skeleton.setAlive(skeleton.getHp() > 0);
         bow.durability = bow.durability - 1;
