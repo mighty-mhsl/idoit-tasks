@@ -22,7 +22,9 @@ public class Rouge {
         int updatedHp = knight.getProfile().getHp() - damage;
         knight.getProfile().setHp(updatedHp);
         knight.getProfile().setHpCritical(knight.getProfile().getHp() <= knight.getProfile().getCriticalHp());
-        knight.getProfile().setAlive(knight.getProfile().getHp() > 0);
+        if (knight.getProfile().getHp() <= 0) {
+            knight.getProfile().setAlive(false);
+        }
     }
 
     public void go(int x, int y) {
