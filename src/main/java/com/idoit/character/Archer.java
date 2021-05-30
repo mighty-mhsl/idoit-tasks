@@ -37,7 +37,7 @@ public class Archer {
         enemy.getProfile().setAlive(enemy.getProfile().getHp() > 0);
         bow.durability = bow.durability - 1;
         profile.setStamina(profile.getStamina() - 10);
-        System.out.println(profile.getName() + " нанес " + getProfile().getStrength() + " урона " +
+        System.out.println(profile.getName() + " нанес " + profile.getStrength() + " урона " +
                 enemy.getProfile().getName() + ". Теперь у " + enemy.getProfile().getName() + " " +
                 enemy.getProfile().getHp() + " хп.");
     }
@@ -48,7 +48,7 @@ public class Archer {
         skeleton.setAlive(skeleton.getHp() > 0);
         bow.durability = bow.durability - 1;
         profile.setStamina(profile.getStamina() - 10);
-        System.out.println(profile.getName() + " нанес " + getProfile().getStrength() + " урона " +
+        System.out.println(profile.getName() + " нанес " + profile.getStrength() + " урона " +
                 skeleton.getName() + ". Теперь у " + skeleton.getName() + " " + skeleton.getHp() + " хп.");
     }
 

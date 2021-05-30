@@ -2,6 +2,7 @@ package com.idoit.character.npc.enemy.boss;
 
 import com.idoit.battlefield.Point;
 import com.idoit.character.Knight;
+import com.idoit.profile.Profile;
 
 public class AncientSkeleton {
     public String name;
@@ -18,10 +19,11 @@ public class AncientSkeleton {
     }
 
     public void hit(Knight knight) {
-        int updatedHp = knight.getProfile().getHp() - damage;
-        knight.getProfile().setHp(updatedHp);
-        knight.getProfile().setHpCritical(knight.getProfile().getHp() <= knight.getProfile().getCriticalHp());
-        knight.getProfile().setAlive(knight.getProfile().getHp() > 0);
+        Profile knightProfile = knight.getProfile();
+        int updatedHp = knightProfile.getHp() - damage;
+        knightProfile.setHp(updatedHp);
+        knightProfile.setHpCritical(knightProfile.getHp() <= knightProfile.getCriticalHp());
+        knightProfile.setAlive(knightProfile.getHp() > 0);
     }
 
     public void go(int x, int y) {

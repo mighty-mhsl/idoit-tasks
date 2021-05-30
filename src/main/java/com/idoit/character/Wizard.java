@@ -36,7 +36,7 @@ public class Wizard {
         enemy.getProfile().setAlive(enemy.getProfile().getHp() > 0);
         staff.durability = staff.durability - 1;
         profile.setStamina(profile.getStamina() - 10);
-        System.out.println(profile.getName() + " нанес " + getProfile().getStrength() + " урона " +
+        System.out.println(profile.getName() + " нанес " + profile.getStrength() + " урона " +
                 enemy.getProfile().getName() + ". Теперь у " + enemy.getProfile().getName() + " " +
                 enemy.getProfile().getHp() + " хп.");
     }

@@ -40,7 +40,7 @@ public class Knight {
         enemy.getProfile().setAlive(enemy.getProfile().getHp() > 0);
         sword.durability = sword.durability - 1;
         profile.setStamina(profile.getStamina() - 10);
-        System.out.println(profile.getName() + " нанес " + getProfile().getStrength() + " урона " +
+        System.out.println(profile.getName() + " нанес " + profile.getStrength() + " урона " +
                 enemy.getProfile().getName() + ". Теперь у " + enemy.getProfile().getName() + " " +
                 enemy.getProfile().getHp() + " хп.");
     }
@@ -51,7 +51,7 @@ public class Knight {
         rouge.setAlive(rouge.getHp() > 0);
         sword.durability = sword.durability - 1;
         profile.setStamina(profile.getStamina() - 10);
-        System.out.println(profile.getName() + " нанес " + getProfile().getStrength() + " урона " +
+        System.out.println(profile.getName() + " нанес " + profile.getStrength() + " урона " +
                 rouge.getName() + ". Теперь у " + rouge.getName() + " " + rouge.getHp() + " хп.");
     }
 
