@@ -35,14 +35,15 @@ public class Knight {
     }
 
     public void hit(Knight enemy) {
-        int updatedHp = enemy.getProfile().getHp() - profile.getStrength();
-        enemy.getProfile().setHp(updatedHp);
-        enemy.getProfile().setAlive(enemy.getProfile().getHp() > 0);
+        Profile enemyProfile = enemy.getProfile();
+        int updatedHp = enemyProfile.getHp() - profile.getStrength();
+        enemyProfile.setHp(updatedHp);
+        enemyProfile.setAlive(enemyProfile.getHp() > 0);
         sword.durability = sword.durability - 1;
         profile.setStamina(profile.getStamina() - 10);
         System.out.println(profile.getName() + " нанес " + profile.getStrength() + " урона " +
-                enemy.getProfile().getName() + ". Теперь у " + enemy.getProfile().getName() + " " +
-                enemy.getProfile().getHp() + " хп.");
+                enemyProfile.getName() + ". Теперь у " + enemyProfile.getName() + " " +
+                enemyProfile.getHp() + " хп.");
     }
 
     public void hit(Rouge rouge) {
