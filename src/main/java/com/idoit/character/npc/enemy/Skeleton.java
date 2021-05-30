@@ -23,7 +23,8 @@ public class Skeleton {
         Profile knightProfile = knight.getProfile();
         int updatedHp = knightProfile.getHp() - damage;
         knightProfile.setHp(updatedHp);
-        knightProfile.setHpCritical(knightProfile.getHp() <= knightProfile.getCriticalHp());
+        boolean hpCritical = knightProfile.getHp() <= knightProfile.getCriticalHp();
+        knightProfile.setHpCritical(hpCritical);
         knightProfile.setAlive(knightProfile.getHp() > 0);
     }
 
