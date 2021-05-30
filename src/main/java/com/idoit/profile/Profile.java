@@ -14,8 +14,8 @@ public class Profile {
     public int gold = 100;
     public int physicalDefence;
     public int magicDefence;
-    public boolean isAlive = true;
-    public boolean hpIsCritical;
+    public boolean alive = true;
+    public boolean hpCritical;
     public Inventory inventory = new Inventory();
 
     public String getName() {
