@@ -2,6 +2,7 @@ package com.idoit.character;
 
 import com.idoit.battlefield.Point;
 import com.idoit.character.npc.NPC;
+import com.idoit.character.npc.enemy.Rouge;
 import com.idoit.character.npc.seller.Blacksmith;
 import com.idoit.item.armor.Boots;
 import com.idoit.item.armor.Cuirass;
@@ -34,12 +35,25 @@ public class Knight {
     }
 
     public void hit(Knight enemy) {
-        int updatedHp = enemy.getProfile().getHp() - 10;
-        enemy.getProfile().setHp(updatedHp);
+        Profile enemyProfile = enemy.getProfile();
+        int updatedHp = enemyProfile.getHp() - profile.getStrength();
+        enemyProfile.setHp(updatedHp);
+        enemyProfile.setAlive(enemyProfile.getHp() > 0);
         sword.durability = sword.durability - 1;
         profile.setStamina(profile.getStamina() - 10);
-        System.out.println(profile.getName() + " нанес 10 урона " + enemy.getProfile().getName() +
-                ". Теперь у " + enemy.getProfile().getName() + " " + enemy.getProfile().getHp() + " хп.");
+        System.out.println(profile.getName() + " нанес " + profile.getStrength() + " урона " +
+                enemyProfile.getName() + ". Теперь у " + enemyProfile.getName() + " " +
+                enemyProfile.getHp() + " хп.");
+    }
+
+    public void hit(Rouge rouge) {
+        int updatedHp = rouge.getHp() - profile.getStrength();
+        rouge.setHp(updatedHp);
+        rouge.setAlive(rouge.getHp() > 0);
+        sword.durability = sword.durability - 1;
+        profile.setStamina(profile.getStamina() - 10);
+        System.out.println(profile.getName() + " нанес " + profile.getStrength() + " урона " +
+                rouge.getName() + ". Теперь у " + rouge.getName() + " " + rouge.getHp() + " хп.");
     }
 
     public void castSkill() {

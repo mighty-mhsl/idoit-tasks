@@ -6,6 +6,7 @@ public class Profile {
     public int agility;
     public int intelligence;
     public int hp = 100;
+    public int criticalHp = 10;
     public int mana = 100;
     public int stamina = 100;
     public int level = 1;
@@ -13,7 +14,39 @@ public class Profile {
     public int gold = 100;
     public int physicalDefence;
     public int magicDefence;
+    public boolean alive = true;
+    public boolean hpCritical;
     public Inventory inventory = new Inventory();
+
+    public void setCriticalParameters() {
+        strength = strength + 5;
+        magicDefence = 0;
+        physicalDefence = physicalDefence - 5;
+    }
+
+    public int getCriticalHp() {
+        return criticalHp;
+    }
+
+    public void setCriticalHp(int criticalHp) {
+        this.criticalHp = criticalHp;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public boolean isHpCritical() {
+        return hpCritical;
+    }
+
+    public void setHpCritical(boolean hpCritical) {
+        this.hpCritical = hpCritical;
+    }
 
     public String getName() {
         return name;

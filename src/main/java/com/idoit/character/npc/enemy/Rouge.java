@@ -2,6 +2,7 @@ package com.idoit.character.npc.enemy;
 
 import com.idoit.battlefield.Point;
 import com.idoit.character.Knight;
+import com.idoit.profile.Profile;
 
 public class Rouge {
     public String name = "Rouge";
@@ -11,6 +12,7 @@ public class Rouge {
     public int goldReward;
     public int damage;
     public Point point = new Point(0, 0);
+    public boolean alive = true;
 
     public Rouge(int level, int damage) {
         this.level = level;
@@ -18,8 +20,12 @@ public class Rouge {
     }
 
     public void hit(Knight knight) {
-        int updatedHp = knight.getProfile().getHp() - damage;
-        knight.getProfile().setHp(updatedHp);
+        Profile knightProfile = knight.getProfile();
+        int updatedHp = knightProfile.getHp() - damage;
+        knightProfile.setHp(updatedHp);
+        boolean hpCritical = knightProfile.getHp() <= knightProfile.getCriticalHp();
+        knightProfile.setHpCritical(hpCritical);
+        knightProfile.setAlive(knightProfile.getHp() > 0);
     }
 
     public void go(int x, int y) {
@@ -52,5 +58,17 @@ public class Rouge {
 
     public Point getPoint() {
         return point;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 }
